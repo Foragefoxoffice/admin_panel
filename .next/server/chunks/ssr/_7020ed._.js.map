@@ -1,0 +1,15 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://D%3A/Mitos/admin/src/app/login/page.jsx/proxy.js"],"sourcesContent":["import { registerClientReference } from \"react-server-dom-turbopack/server.edge\";\nexport default registerClientReference(\n    function() { throw new Error(\"Attempted to call the default export of [project]/src/app/login/page.jsx <module evaluation> from the server, but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\"); },\n    \"[project]/src/app/login/page.jsx <module evaluation>\",\n    \"default\",\n);\n"],"names":[],"mappings":";;;AAAA;;uCACe,CAAA,GAAA,qPAAA,CAAA,0BAAuB,AAAD,EACjC;IAAa,MAAM,IAAI,MAAM;AAA0R,GACvT,wDACA"}},
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 21, "column": 0}, "map": {"version":3,"sources":["file://D%3A/Mitos/admin/src/app/login/page.jsx/proxy.js"],"sourcesContent":["import { registerClientReference } from \"react-server-dom-turbopack/server.edge\";\nexport default registerClientReference(\n    function() { throw new Error(\"Attempted to call the default export of [project]/src/app/login/page.jsx from the server, but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\"); },\n    \"[project]/src/app/login/page.jsx\",\n    \"default\",\n);\n"],"names":[],"mappings":";;;AAAA;;uCACe,CAAA,GAAA,qPAAA,CAAA,0BAAuB,AAAD,EACjC;IAAa,MAAM,IAAI,MAAM;AAAsQ,GACnS,oCACA"}},
+    {"offset": {"line": 29, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 35, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
+    {"offset": {"line": 39, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 45, "column": 0}, "map": {"version":3,"sources":["file://D%3A/Mitos/admin/src/app/page.jsx"],"sourcesContent":["import Image from \"next/image\";\nimport LoginScreen from \"./login/page\";\n\nexport default function Home() {\n  return (\n    <>\n    <LoginScreen/>\n    </>\n  );\n}\n"],"names":[],"mappings":";;;;AAAA;AACA;;;;AAEe,SAAS;IACtB,qBACE;kBACA,cAAA,8OAAC,4HAAA,CAAA,UAAW;;;;;;AAGhB"}},
+    {"offset": {"line": 63, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 74, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":""}},
+    {"offset": {"line": 74, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

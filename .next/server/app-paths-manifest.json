@@ -1,0 +1,7 @@
+{
+  "/admin/types/page": "app/admin/types/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/admin/upload/page": "app/admin/upload/page.js",
+  "/admin/materials/page": "app/admin/materials/page.js"
+}

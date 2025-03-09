@@ -663,11 +663,25 @@ width: 100%;
 .menuicons{
   filter: invert(1);
 }
+.uploadflex {
+  display: grid
+;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-bottom: 20px;
+}
 @media(max-width:600px){
   .questionadd {
     display: grid
 ;
     gap: 20px;
+}
+.uploadflex {
+  display: grid
+;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  padding-bottom: 20px;
 }
 .questionform {
   padding: 0;

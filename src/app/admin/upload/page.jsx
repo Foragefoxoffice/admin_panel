@@ -172,7 +172,7 @@ const CSVImporter = () => {
     control: (provided) => ({
       ...provided,
       borderRadius: "8px",
-      width: "300px",
+      width: "100%",
       border: "1px solid #ccc",
       boxShadow: "none",
       fontWeight: "bold",
@@ -197,15 +197,49 @@ const CSVImporter = () => {
     <div className="p-6 md:p-0 pt-12">
       <h1 className="font-bold mb-6">Questions Upload</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <Select
-            options={topics.map((topic) => ({ value: topic.id, label: topic.name }))}
-            onChange={(selectedOption) => setTopicId(selectedOption?.value ?? null)}
-            placeholder="Select a Topic"
-            isClearable
-            styles={customStyles}
-          />
-        </div>
+        <div className="uploadflex">
+      {/* Subject Selection Dropdown */}
+<Select
+  options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))}
+  onChange={(selectedOption) => {
+    setSubjectId(selectedOption?.value ?? null);
+    setChapterId(null); // Reset chapter when subject changes
+    setTopicId(null); // Reset topic when subject changes
+  }}
+  placeholder="Select a Subject"
+  isClearable
+  styles={customStyles}
+/>
+
+{/* Chapter Selection Dropdown (Filtered by Subject) */}
+<Select
+  options={chapters
+    .filter((chapter) => chapter.subjectId === subjectId) // Show only chapters for selected subject
+    .map((chapter) => ({ value: chapter.id, label: chapter.name }))}
+  onChange={(selectedOption) => {
+    setChapterId(selectedOption?.value ?? null);
+    setTopicId(null); // Reset topic when chapter changes
+  }}
+  placeholder="Select a Chapter"
+  isClearable
+  styles={customStyles}
+  isDisabled={!subjectId} // Disable if no subject is selected
+/>
+
+{/* Topic Selection Dropdown (Filtered by Chapter) */}
+<Select
+  options={topics
+    .filter((topic) => topic.chapterId === chapterId) // Show only topics for selected chapter
+    .map((topic) => ({ value: topic.id, label: topic.name }))}
+  onChange={(selectedOption) => setTopicId(selectedOption?.value ?? null)}
+  placeholder="Select a Topic"
+  isClearable
+  styles={customStyles}
+  isDisabled={!chapterId} // Disable if no chapter is selected
+/>
+
+
+        </div >
         <div className="p-8 md:p-20 my-8 border-dashed border-2 grid gap-3 place-items-center">
           <label className="text-2xl text-center font-bold text-[#B9B9B9]" htmlFor="file">
             Drag & Drop to Upload

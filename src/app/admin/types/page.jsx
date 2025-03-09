@@ -1,12 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { format } from "date-fns";
 import { API_BASE_URL } from "@/utils/config";
 
-// Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 const UploadPage = () => {
@@ -22,28 +21,30 @@ const UploadPage = () => {
   const [filterType, setFilterType] = useState("questionType");
   const [editingItem, setEditingItem] = useState(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [questions, setQuestions] = useState([]); // State for questions
+  const [questions, setQuestions] = useState([]);
 
   // Timeout for message
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {
         setMessage("");
-      }, 5000); // Clear message after 5 seconds
+      }, 5000);
 
-      return () => clearTimeout(timer); // Cleanup the timer on component unmount
+      return () => clearTimeout(timer);
     }
   }, [message]);
 
   const handleHamburgerClick = () => {
-    setIsFilterVisible(!isFilterVisible); // Toggle the filter visibility on hamburger icon click
+    setIsFilterVisible(!isFilterVisible);
   };
 
   const handleFilterClick = (filter) => {
-    setFilterType(filter); // Set the selected filter when clicked
+    setFilterType(filter);
+    setIsFilterVisible(true); // Hide the filter options after selection
   };
 
-  const fetchParentData = async (type) => {
+  // Fetch parent data
+  const fetchParentData = useCallback(async (type) => {
     const endpoint = `${API_BASE_URL}/${type}/`;
     try {
       const response = await fetch(endpoint);
@@ -58,88 +59,89 @@ const UploadPage = () => {
     } catch (error) {
       setMessage(`Error fetching ${type}: ${error.message}`);
     }
-  };
+  }, []);
 
-  const fetchData = async () => {
+  // Function to filter subjects
+  const filterSubjects = useCallback(async () => {
     setLoading(true);
-    const endpoints = {
-      questionType: "question-types",
-      subject: "subjects",
-      portion: "portions",
-      chapter: "chapters",
-      topic: "topics",
-    };
+    try {
+      const response = await fetch(`${API_BASE_URL}/subjects`);
+      if (!response.ok) throw new Error("Failed to fetch subjects");
+      const subjects = await response.json();
 
-    if (endpoints[filterType]) {
-      try {
-        const response = await fetch(
-          `${API_BASE_URL}/${endpoints[filterType]}`
-        );
-        if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
-        const data = await response.json();
+      const parentResponse = await fetch(`${API_BASE_URL}/portions`);
+      if (!parentResponse.ok) throw new Error("Failed to fetch parent data");
+      const parentData = await parentResponse.json();
 
-        console.log("Fetched data:", data);
+      const dataWithParents = subjects.map((subject) => {
+        const parent = parentData.find((p) => p.id === subject.portionId) || {};
+        return { ...subject, parentName: parent.name || "Unknown" };
+      });
 
-        if (filterType === "question") {
-          setQuestions(data); // Set questions data
-        } else {
-          // Fetch parent data for chapters, topics, and subjects
-          if (
-            filterType === "chapter" ||
-            filterType === "topic" ||
-            filterType === "subject"
-          ) {
-            const parentEndpoint =
-              filterType === "chapter"
-                ? "subjects"
-                : filterType === "topic"
-                ? "chapters"
-                : "portions"; // Fetch portions for subjects
-            const parentResponse = await fetch(
-              `${API_BASE_URL}/${parentEndpoint}`
-            );
-            if (!parentResponse.ok)
-              throw new Error(`Failed to fetch parent data`);
-            const parentData = await parentResponse.json();
+      setData(dataWithParents);
+      setFilteredData(dataWithParents);
+    } catch (error) {
+      setMessage(`Error fetching subjects: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-            console.log("Fetched parent data:", parentData);
+  // Fetch data based on filter type
+  const fetchData = useCallback(async () => {
+    if (filterType === "subject") {
+      await filterSubjects();
+    } else {
+      setLoading(true);
+      const endpoints = {
+        questionType: "question-types",
+        portion: "portions",
+        chapter: "chapters",
+        topic: "topics",
+      };
 
-            // Map parent data to the main data
-            const dataWithParents = data.map((item) => {
-              const parent =
-                parentData.find(
-                  (p) =>
-                    p.id === item.parentId ||
-                    p.id === item.subjectId ||
-                    p.id === item.chapterId ||
-                    p.id === item.portionId
-                ) || {};
-              console.log("Matching parent:", parent);
-              return { ...item, parentName: parent.name || "Unknown" }; // Set to 'Unknown' if parent name is not found
-            });
-            setData(dataWithParents);
-            setFilteredData(dataWithParents);
+      if (endpoints[filterType]) {
+        try {
+          const response = await fetch(`${API_BASE_URL}/${endpoints[filterType]}`);
+          if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
+          const data = await response.json();
+
+          if (filterType === "question") {
+            setQuestions(data);
           } else {
-            setData(data);
-            setFilteredData(data);
+            if (filterType === "chapter" || filterType === "topic") {
+              const parentEndpoint = filterType === "chapter" ? "subjects" : "chapters";
+              const parentResponse = await fetch(`${API_BASE_URL}/${parentEndpoint}`);
+              if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
+              const parentData = await parentResponse.json();
+
+              const dataWithParents = data.map((item) => {
+                const parent = parentData.find((p) => p.id === item.parentId) || {};
+                return { ...item, parentName: parent.name || "Unknown" };
+              });
+              setData(dataWithParents);
+              setFilteredData(dataWithParents);
+            } else {
+              setData(data);
+              setFilteredData(data);
+            }
           }
+        } catch (error) {
+          setMessage(`Error fetching data: ${error.message}`);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        setMessage(`Error fetching data: ${error.message}`);
-      } finally {
-        setLoading(false);
       }
     }
-  };
+  }, [filterType, filterSubjects]);
 
   useEffect(() => {
     if (filterType) {
       fetchData();
     }
-  }, [filterType]);
+  }, [filterType, fetchData]);
 
   useEffect(() => {
-    // Reset form fields whenever the filter type changes
     setSelectedType(null);
     setParentId(null);
     setName("");
@@ -156,7 +158,7 @@ const UploadPage = () => {
         )
       );
     } else {
-      setFilteredData(data); // Reset filtered data if no search query
+      setFilteredData(data);
     }
   }, [searchQuery, data]);
 
@@ -166,7 +168,7 @@ const UploadPage = () => {
     setParentOptions([]);
     if (selected?.value === "chapter") await fetchParentData("subjects");
     else if (selected?.value === "topic") await fetchParentData("chapters");
-    else if (selected?.value === "subject") await fetchParentData("portions"); // Fetch portions for subjects
+    else if (selected?.value === "subject") await fetchParentData("portions");
   };
 
   const handleSubmit = async (e) => {
@@ -192,7 +194,7 @@ const UploadPage = () => {
         break;
       case "subject":
         endpoint = `${API_BASE_URL}/subjects/`;
-        payload = { name, parentId: parseInt(parentId.value, 10) }; // Include parentId for subjects
+        payload = { name, parentId: parseInt(parentId.value, 10) };
         break;
       case "portion":
         endpoint = `${API_BASE_URL}/portions/`;
@@ -219,11 +221,7 @@ const UploadPage = () => {
       if (!response.ok)
         throw new Error(`Failed to upload data for ${selectedType?.value}`);
       setMessage("Data uploaded successfully!");
-  
-      // Re-fetch data to reflect the changes
       await fetchData();
-  
-      // Reset form fields
       setSelectedType(null);
       setName("");
       setParentId(null);
@@ -234,7 +232,7 @@ const UploadPage = () => {
       setLoading(false);
     }
   };
-  
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -285,11 +283,7 @@ const UploadPage = () => {
       if (!response.ok)
         throw new Error(`Failed to update data for ${selectedType?.value}`);
       setMessage("Data updated successfully!");
-  
-      // Re-fetch data to reflect the changes
       await fetchData();
-  
-      // Reset form fields
       setEditingItem(null);
       setName("");
       setSelectedType(null);
@@ -325,8 +319,6 @@ const UploadPage = () => {
   };
 
   const handleDelete = async (id, filterType) => {
-    console.log("Type:", filterType);
-  
     const type = {
       questionType: "question-types",
       subject: "subjects",
@@ -334,35 +326,30 @@ const UploadPage = () => {
       chapter: "chapters",
       topic: "topics",
     };
-  
-    const endpointType = type[filterType]; // Ensure filterType exists in the type object
-   
-    console.log("Type:", endpointType);
-    
+
+    const endpointType = type[filterType];
     if (!endpointType) {
-      console.error("Invalid filterType:", filterType);
       setMessage("Invalid item type for deletion.");
       return;
     }
-  
+
     if (confirm("Are you sure you want to delete this item?")) {
       try {
         const endpoint = `${API_BASE_URL}/${endpointType}/${id}`;
         const response = await fetch(endpoint, {
           method: "DELETE",
         });
-  
+
         if (!response.ok) throw new Error(`Failed to delete ${filterType}`);
-  
+
         setMessage("Item deleted successfully!");
         fetchData();
       } catch (error) {
-        console.error("Error deleting item:", error);
         setMessage(`Error deleting item: ${error.message}`);
       }
     }
   };
-  
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -406,10 +393,10 @@ const UploadPage = () => {
 
   return (
     <div className="flex flex-col justify-center p-6 md:p-0">
-       <h1 className=" font-bold mb-6">Create Types</h1>
+      <h1 className="font-bold mb-6">Create Types</h1>
       <form
         onSubmit={editingItem ? handleUpdate : handleSubmit}
-        className="type_form space-y-4  bg-[#35095E]/15 rounded-lg p-6 "
+        className="type_form space-y-4 bg-[#35095E]/15 rounded-lg p-6"
       >
         <Select
           placeholder="Select Type"
@@ -457,7 +444,7 @@ const UploadPage = () => {
             (parentOptions.length > 0 && !parentId)
           }
           style={{ margin: 0 }}
-          className={` ${
+          className={`${
             loading
               ? "bg-gray-400"
               : "bg-gradient-to-t from-[#35095E] to-[#6F13C4] py-4 m-0 rounded-lg text-white"
@@ -469,24 +456,24 @@ const UploadPage = () => {
         {message && <p className="mt-4 text-center">{message}</p>}
       </form>
 
-      <div className="table content ">
-        {/* Search and Filter Section */}
+      <div className="table content">
+        {/* Search and filter section */}
         <div className="mt-8 flex justify-start md:justify-end gap-8 relative">
-          <div className=" w-auto relative">
+          <div className="w-auto relative">
             <input
               type="search"
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-60 md:w-80 py-3  px-10 border border-gray-300 rounded-lg focus:outline-none"
+              className="w-60 md:w-80 py-3 px-10 border border-gray-300 rounded-lg focus:outline-none"
             />
-            <div className="absolute inset-y-0  left-0 flex items-center pl-3">
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3">
               <BiSearch className="text-gray-500 w-5 h-5" />
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex">
             <button onClick={handleHamburgerClick} className="p-2 rounded-lg">
-              <HiMenuAlt3 size={30} /> {/* Hamburger Icon */}
+              <HiMenuAlt3 size={30} />
             </button>
           </div>
           {isFilterVisible && (
@@ -511,52 +498,54 @@ const UploadPage = () => {
           )}
         </div>
 
-        {/* Data Table */}
-        <div className="mt-8  tables">
+        {/* Data table */}
+        <div className="mt-8 tables">
           <table className="w-full table-content table-auto border-collapse">
             <thead>
               <tr>
-                <th className="">ID</th>
-                <th className="">Name</th>
+                <th>ID</th>
+                <th>Name</th>
                 {(filterType === "chapter" ||
                   filterType === "topic" ||
-                  filterType === "subject") && <th className="">Parent</th>}
-                <th className="">Type</th>
+                  filterType === "subject") && <th>Parent</th>}
+                <th>Type</th>
                 <th>CreatedAt</th>
-                <th className="">Actions</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
-                <tr key={index}>
-                  <td className="">{item.id}</td>
-                  <td className="">{item.name}</td>
-                  {(filterType === "chapter" ||
-                    filterType === "topic" ||
-                    filterType === "subject") && (
-                    <td className="">{item.parentName}</td>
-                  )}
-                  <td className="">{filterType}</td>
-                  <td className="">
-                    {format(new Date(item.createdAt), "dd/MM/yyyy")}
-                  </td>
-                  <td className="">
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="bg-gradient-to-t from-[#35095E] to-[#6F13C4] p-2 px-6 mr-3 rounded-lg text-white"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item.id,filterType)}
-                      className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {filteredData.map((item, index) => (
+    <tr key={index}>
+      <td className="">{item.id}</td>
+      <td className="">{item.name}</td>
+      {(filterType === "chapter" ||
+        filterType === "topic" ||
+        filterType === "subject") && (
+        <td className="">{item.parentName}</td>
+      )}
+      <td className="">{filterType}</td>
+      <td className="">
+        {item.createdAt
+          ? format(new Date(item.createdAt), "dd/MM/yyyy")
+          : "N/A"}
+      </td>
+      <td className="">
+        <button
+          onClick={() => handleEdit(item)}
+          className="bg-gradient-to-t from-[#35095E] to-[#6F13C4] p-2 px-6 mr-3 rounded-lg text-white"
+        >
+          Edit
+        </button>
+        <button
+          onClick={() => handleDelete(item.id)}
+          className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
           </table>
         </div>
       </div>
