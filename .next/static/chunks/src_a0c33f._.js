@@ -37,6 +37,7 @@ var _s = __turbopack_refresh__.signature();
 ;
 ;
 ;
+// Dynamically import react-select with SSR disabled
 const Select = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$shared$2f$lib$2f$app$2d$dynamic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])(()=>__turbopack_require__("[project]/node_modules/react-select/dist/react-select.esm.js [app-client] (ecmascript, async loader)")(__turbopack_import__), {
     loadableGenerated: {
         modules: [
@@ -60,137 +61,78 @@ const UploadPage = ()=>{
     const [filterType, setFilterType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("questionType");
     const [editingItem, setEditingItem] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isFilterVisible, setIsFilterVisible] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [questions, setQuestions] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    // Timeout for message
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "UploadPage.useEffect": ()=>{
-            if (message) {
-                const timer = setTimeout({
-                    "UploadPage.useEffect.timer": ()=>{
-                        setMessage("");
-                    }
-                }["UploadPage.useEffect.timer"], 5000);
-                return ({
-                    "UploadPage.useEffect": ()=>clearTimeout(timer)
-                })["UploadPage.useEffect"];
-            }
-        }
-    }["UploadPage.useEffect"], [
-        message
-    ]);
     const handleHamburgerClick = ()=>{
         setIsFilterVisible(!isFilterVisible);
     };
     const handleFilterClick = (filter)=>{
         setFilterType(filter);
-        setIsFilterVisible(true); // Hide the filter options after selection
     };
-    // Fetch parent data
-    const fetchParentData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "UploadPage.useCallback[fetchParentData]": async (type)=>{
-            const endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/${type}/`;
-            try {
-                const response = await fetch(endpoint);
-                if (!response.ok) throw new Error(`Failed to fetch ${type}`);
-                const data = await response.json();
-                setParentOptions(data.map({
-                    "UploadPage.useCallback[fetchParentData]": (item)=>({
-                            value: item.id.toString(),
-                            label: item.name
-                        })
-                }["UploadPage.useCallback[fetchParentData]"]));
-            } catch (error) {
-                setMessage(`Error fetching ${type}: ${error.message}`);
-            }
+    const fetchParentData = async (type)=>{
+        const endpoint = `https://mitoslearning.in/api/${type}/`;
+        try {
+            const response = await fetch(endpoint);
+            if (!response.ok) throw new Error(`Failed to fetch ${type}`);
+            const data = await response.json();
+            setParentOptions(data.map((item)=>({
+                    value: item.id.toString(),
+                    label: item.name
+                })));
+        } catch (error) {
+            setMessage(`Error fetching ${type}: ${error.message}`);
         }
-    }["UploadPage.useCallback[fetchParentData]"], []);
-    // Function to filter subjects
-    const filterSubjects = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "UploadPage.useCallback[filterSubjects]": async ()=>{
-            setLoading(true);
+    };
+    const fetchData = async ()=>{
+        setLoading(true);
+        const endpoints = {
+            questionType: "question-types",
+            subject: "subjects",
+            portion: "portions",
+            chapter: "chapters",
+            topic: "topics"
+        };
+        if (endpoints[filterType]) {
             try {
-                const response = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/subjects`);
-                if (!response.ok) throw new Error("Failed to fetch subjects");
-                const subjects = await response.json();
-                const parentResponse = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/portions`);
-                if (!parentResponse.ok) throw new Error("Failed to fetch parent data");
-                const parentData = await parentResponse.json();
-                const dataWithParents = subjects.map({
-                    "UploadPage.useCallback[filterSubjects].dataWithParents": (subject)=>{
-                        const parent = parentData.find({
-                            "UploadPage.useCallback[filterSubjects].dataWithParents": (p)=>p.id === subject.portionId
-                        }["UploadPage.useCallback[filterSubjects].dataWithParents"]) || {};
+                const response = await fetch(`https://mitoslearning.in/api/${endpoints[filterType]}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
+                const data = await response.json();
+                if ([
+                    "chapter",
+                    "topic",
+                    "subject"
+                ].includes(filterType)) {
+                    const parentEndpoint = filterType === "chapter" ? "subjects" : filterType === "topic" ? "chapters" : "portions";
+                    const parentResponse = await fetch(`https://mitoslearning.in/api/${parentEndpoint}`);
+                    if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
+                    const parentData = await parentResponse.json();
+                    console.log("Item Data:", data);
+                    console.log("Parent Data:", parentData);
+                    const dataWithParents = data.map((item)=>{
+                        let parent;
+                        if (filterType === "chapter") {
+                            parent = parentData.find((p)=>p.id === item.subjectId);
+                        } else if (filterType === "topic") {
+                            parent = parentData.find((p)=>p.id === item.chapterId);
+                        } else if (filterType === "subject") {
+                            parent = parentData.find((p)=>p.id === item.portion.id);
+                        }
                         return {
-                            ...subject,
-                            parentName: parent.name || "Unknown"
+                            ...item,
+                            parentName: parent ? parent.name : "Unknown"
                         };
-                    }
-                }["UploadPage.useCallback[filterSubjects].dataWithParents"]);
-                setData(dataWithParents);
-                setFilteredData(dataWithParents);
+                    });
+                    setData(dataWithParents);
+                    setFilteredData(dataWithParents);
+                } else {
+                    setData(data);
+                    setFilteredData(data);
+                }
             } catch (error) {
-                setMessage(`Error fetching subjects: ${error.message}`);
+                setMessage(`Error fetching data: ${error.message}`);
             } finally{
                 setLoading(false);
             }
         }
-    }["UploadPage.useCallback[filterSubjects]"], []);
-    // Fetch data based on filter type
-    const fetchData = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
-        "UploadPage.useCallback[fetchData]": async ()=>{
-            if (filterType === "subject") {
-                await filterSubjects();
-            } else {
-                setLoading(true);
-                const endpoints = {
-                    questionType: "question-types",
-                    portion: "portions",
-                    chapter: "chapters",
-                    topic: "topics"
-                };
-                if (endpoints[filterType]) {
-                    try {
-                        const response = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/${endpoints[filterType]}`);
-                        if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
-                        const data = await response.json();
-                        if (filterType === "question") {
-                            setQuestions(data);
-                        } else {
-                            if (filterType === "chapter" || filterType === "topic") {
-                                const parentEndpoint = filterType === "chapter" ? "subjects" : "chapters";
-                                const parentResponse = await fetch(`${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/${parentEndpoint}`);
-                                if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
-                                const parentData = await parentResponse.json();
-                                const dataWithParents = data.map({
-                                    "UploadPage.useCallback[fetchData].dataWithParents": (item)=>{
-                                        const parent = parentData.find({
-                                            "UploadPage.useCallback[fetchData].dataWithParents": (p)=>p.id === item.parentId
-                                        }["UploadPage.useCallback[fetchData].dataWithParents"]) || {};
-                                        return {
-                                            ...item,
-                                            parentName: parent.name || "Unknown"
-                                        };
-                                    }
-                                }["UploadPage.useCallback[fetchData].dataWithParents"]);
-                                setData(dataWithParents);
-                                setFilteredData(dataWithParents);
-                            } else {
-                                setData(data);
-                                setFilteredData(data);
-                            }
-                        }
-                    } catch (error) {
-                        setMessage(`Error fetching data: ${error.message}`);
-                    } finally{
-                        setLoading(false);
-                    }
-                }
-            }
-        }
-    }["UploadPage.useCallback[fetchData]"], [
-        filterType,
-        filterSubjects
-    ]);
+    };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "UploadPage.useEffect": ()=>{
             if (filterType) {
@@ -198,8 +140,7 @@ const UploadPage = ()=>{
             }
         }
     }["UploadPage.useEffect"], [
-        filterType,
-        fetchData
+        filterType
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "UploadPage.useEffect": ()=>{
@@ -248,33 +189,33 @@ const UploadPage = ()=>{
         let payload = {};
         switch(selectedType?.value){
             case "questionType":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/question-types/`;
+                endpoint = "https://mitoslearning.in/api/question-types/";
                 payload = {
                     name
                 };
                 break;
             case "subject":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/subjects/`;
+                endpoint = "https://mitoslearning.in/api/subjects/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
                 };
                 break;
             case "portion":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/portions/`;
+                endpoint = "https://mitoslearning.in/api/portions/";
                 payload = {
                     name
                 };
                 break;
             case "chapter":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/chapters/`;
+                endpoint = "https://mitoslearning.in/api/chapters/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
                 };
                 break;
             case "topic":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/topics/`;
+                endpoint = "https://mitoslearning.in/api/topics/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
@@ -294,84 +235,8 @@ const UploadPage = ()=>{
             });
             if (!response.ok) throw new Error(`Failed to upload data for ${selectedType?.value}`);
             setMessage("Data uploaded successfully!");
-            await fetchData();
-            setSelectedType(null);
-            setName("");
-            setParentId(null);
-            setParentOptions([]);
         } catch (error) {
             setMessage(`Error uploading data: ${error.message}`);
-        } finally{
-            setLoading(false);
-        }
-    };
-    const handleUpdate = async (e)=>{
-        e.preventDefault();
-        setMessage("");
-        setLoading(true);
-        if (!parentId && (selectedType?.value === "chapter" || selectedType?.value === "topic" || selectedType?.value === "subject")) {
-            setMessage("Please select a parent!");
-            setLoading(false);
-            return;
-        }
-        let endpoint = "";
-        let payload = {};
-        switch(selectedType?.value){
-            case "questionType":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/question-types/${editingItem.id}`;
-                payload = {
-                    name
-                };
-                break;
-            case "portion":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/portions/${editingItem.id}`;
-                payload = {
-                    name
-                };
-                break;
-            case "subject":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/subjects/${editingItem.id}`;
-                payload = {
-                    name,
-                    parentId: parseInt(parentId.value, 10)
-                };
-                break;
-            case "chapter":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/chapters/${editingItem.id}`;
-                payload = {
-                    name,
-                    parentId: parseInt(parentId.value, 10)
-                };
-                break;
-            case "topic":
-                endpoint = `${__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$config$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["API_BASE_URL"]}/topics/${editingItem.id}`;
-                payload = {
-                    name,
-                    parentId: parseInt(parentId.value, 10)
-                };
-                break;
-            default:
-                setLoading(false);
-                return;
-        }
-        try {
-            const response = await fetch(endpoint, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok) throw new Error(`Failed to update data for ${selectedType?.value}`);
-            setMessage("Data updated successfully!");
-            await fetchData();
-            setEditingItem(null);
-            setName("");
-            setSelectedType(null);
-            setParentId(null);
-            setParentOptions([]);
-        } catch (error) {
-            setMessage(`Error updating data: ${error.message}`);
         } finally{
             setLoading(false);
         }
@@ -413,9 +278,10 @@ const UploadPage = ()=>{
             chapter: "chapters",
             topic: "topics"
         };
+        console.log("Filter Type:", filterType); // Debugging: Log the filterType
         const endpointType = type[filterType];
         if (!endpointType) {
-            setMessage("Invalid item type for deletion.");
+            setMessage(`Invalid item type for deletion: ${filterType}`);
             return;
         }
         if (confirm("Are you sure you want to delete this item?")) {
@@ -430,6 +296,74 @@ const UploadPage = ()=>{
             } catch (error) {
                 setMessage(`Error deleting item: ${error.message}`);
             }
+        }
+    };
+    const handleUpdate = async (e)=>{
+        e.preventDefault();
+        setMessage("");
+        setLoading(true);
+        if (!parentId && (selectedType?.value === "chapter" || selectedType?.value === "topic" || selectedType?.value === "subject")) {
+            setMessage("Please select a parent!");
+            setLoading(false);
+            return;
+        }
+        let endpoint = "";
+        let payload = {};
+        switch(selectedType?.value){
+            case "questionType":
+                endpoint = `https://mitoslearning.in/api/question-types/${editingItem.id}`;
+                payload = {
+                    name
+                };
+                break;
+            case "portion":
+                endpoint = `https://mitoslearning.in/api/portions/${editingItem.id}`;
+                payload = {
+                    name
+                };
+                break;
+            case "subject":
+                endpoint = `https://mitoslearning.in/api/subjects/${editingItem.id}`;
+                payload = {
+                    name,
+                    parentId: parseInt(parentId.value, 10)
+                };
+                break;
+            case "chapter":
+                endpoint = `https://mitoslearning.in/api/chapters/${editingItem.id}`;
+                payload = {
+                    name,
+                    parentId: parseInt(parentId.value, 10)
+                };
+                break;
+            case "topic":
+                endpoint = `https://mitoslearning.in/api/topics/${editingItem.id}`;
+                payload = {
+                    name,
+                    parentId: parseInt(parentId.value, 10)
+                };
+                break;
+            default:
+                setLoading(false);
+                return;
+        }
+        try {
+            const response = await fetch(endpoint, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error(`Failed to update data for ${selectedType?.value}`);
+            setMessage("Data updated successfully!");
+            setEditingItem(null);
+            setName("");
+        } catch (error) {
+            setMessage(`Error updating data: ${error.message}`);
+        } finally{
+            setLoading(false);
+            fetchData();
         }
     };
     const customStyles = {
@@ -473,14 +407,14 @@ const UploadPage = ()=>{
             })
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "flex flex-col justify-center p-6 md:p-0",
+        className: "flex flex-col justify-center ",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                 className: "font-bold mb-6",
                 children: "Create Types"
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/types/page.jsx",
-                lineNumber: 396,
+                lineNumber: 361,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -517,7 +451,7 @@ const UploadPage = ()=>{
                         styles: customStyles
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 401,
+                        lineNumber: 366,
                         columnNumber: 9
                     }, this),
                     (selectedType?.value === "chapter" || selectedType?.value === "subject" || selectedType?.value === "topic") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -529,7 +463,7 @@ const UploadPage = ()=>{
                         styles: customStyles
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 419,
+                        lineNumber: 384,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -541,7 +475,7 @@ const UploadPage = ()=>{
                         required: true
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 429,
+                        lineNumber: 394,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -554,7 +488,7 @@ const UploadPage = ()=>{
                         children: loading ? "Uploading..." : editingItem ? "Update" : "Upload"
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 438,
+                        lineNumber: 403,
                         columnNumber: 9
                     }, this),
                     message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -562,20 +496,20 @@ const UploadPage = ()=>{
                         children: message
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 456,
+                        lineNumber: 421,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/types/page.jsx",
-                lineNumber: 397,
+                lineNumber: 362,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "table content",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "mt-8 flex justify-start md:justify-end gap-8 relative",
+                        className: "mt-8 flex justify-end gap-8 relative",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "w-auto relative",
@@ -585,10 +519,10 @@ const UploadPage = ()=>{
                                         placeholder: "Search...",
                                         value: searchQuery,
                                         onChange: (e)=>setSearchQuery(e.target.value),
-                                        className: "w-60 md:w-80 py-3 px-10 border border-gray-300 rounded-lg focus:outline-none"
+                                        className: "w-80 py-3 px-10 border border-gray-300 rounded-lg focus:outline-none"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 463,
+                                        lineNumber: 427,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -597,18 +531,18 @@ const UploadPage = ()=>{
                                             className: "text-gray-500 w-5 h-5"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/types/page.jsx",
-                                            lineNumber: 471,
+                                            lineNumber: 435,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 470,
+                                        lineNumber: 434,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                lineNumber: 462,
+                                lineNumber: 426,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -620,17 +554,17 @@ const UploadPage = ()=>{
                                         size: 30
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 476,
+                                        lineNumber: 440,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                    lineNumber: 475,
+                                    lineNumber: 439,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                lineNumber: 474,
+                                lineNumber: 438,
                                 columnNumber: 11
                             }, this),
                             isFilterVisible && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -641,7 +575,7 @@ const UploadPage = ()=>{
                                         children: "Question Type"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 481,
+                                        lineNumber: 445,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -649,7 +583,7 @@ const UploadPage = ()=>{
                                         children: "Portion"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 484,
+                                        lineNumber: 448,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -657,7 +591,7 @@ const UploadPage = ()=>{
                                         children: "Subject"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 487,
+                                        lineNumber: 451,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -665,7 +599,7 @@ const UploadPage = ()=>{
                                         children: "Chapter"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 490,
+                                        lineNumber: 454,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -673,27 +607,19 @@ const UploadPage = ()=>{
                                         children: "Topic"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 493,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                        onClick: ()=>handleFilterClick("question"),
-                                        children: "Question"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 494,
+                                        lineNumber: 457,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                lineNumber: 480,
+                                lineNumber: 444,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 461,
+                        lineNumber: 425,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -708,100 +634,94 @@ const UploadPage = ()=>{
                                                 children: "ID"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 506,
+                                                lineNumber: 466,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Name"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 507,
+                                                lineNumber: 467,
                                                 columnNumber: 17
                                             }, this),
                                             (filterType === "chapter" || filterType === "topic" || filterType === "subject") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Parent"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 510,
+                                                lineNumber: 470,
                                                 columnNumber: 48
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Type"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 511,
+                                                lineNumber: 471,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "CreatedAt"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 512,
+                                                lineNumber: 472,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                 children: "Actions"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/types/page.jsx",
-                                                lineNumber: 513,
+                                                lineNumber: 473,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/types/page.jsx",
-                                        lineNumber: 505,
+                                        lineNumber: 465,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                    lineNumber: 504,
+                                    lineNumber: 464,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
                                     children: filteredData.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
                                                     children: item.id
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 519,
-                                                    columnNumber: 7
+                                                    lineNumber: 479,
+                                                    columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
                                                     children: item.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 520,
-                                                    columnNumber: 7
+                                                    lineNumber: 480,
+                                                    columnNumber: 19
                                                 }, this),
                                                 (filterType === "chapter" || filterType === "topic" || filterType === "subject") && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
                                                     children: item.parentName
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 524,
-                                                    columnNumber: 9
+                                                    lineNumber: 484,
+                                                    columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
                                                     children: filterType
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 526,
-                                                    columnNumber: 7
+                                                    lineNumber: 486,
+                                                    columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
-                                                    children: item.createdAt ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(item.createdAt), "dd/MM/yyyy") : "N/A"
+                                                    children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$date$2d$fns$2f$format$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["format"])(new Date(item.createdAt), "dd/MM/yyyy")
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 527,
-                                                    columnNumber: 7
+                                                    lineNumber: 487,
+                                                    columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                    className: "",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                             onClick: ()=>handleEdit(item),
@@ -809,60 +729,60 @@ const UploadPage = ()=>{
                                                             children: "Edit"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/types/page.jsx",
-                                                            lineNumber: 533,
-                                                            columnNumber: 9
+                                                            lineNumber: 491,
+                                                            columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                            onClick: ()=>handleDelete(item.id),
+                                                            onClick: ()=>handleDelete(item.id, filterType),
                                                             className: "bg-[#C5B5CE] text-black p-2 px-6 rounded-md",
                                                             children: "Delete"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/types/page.jsx",
-                                                            lineNumber: 539,
-                                                            columnNumber: 9
+                                                            lineNumber: 497,
+                                                            columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                                    lineNumber: 532,
-                                                    columnNumber: 7
+                                                    lineNumber: 490,
+                                                    columnNumber: 19
                                                 }, this)
                                             ]
                                         }, index, true, {
                                             fileName: "[project]/src/app/admin/types/page.jsx",
-                                            lineNumber: 518,
-                                            columnNumber: 5
+                                            lineNumber: 478,
+                                            columnNumber: 17
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/types/page.jsx",
-                                    lineNumber: 516,
+                                    lineNumber: 476,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/types/page.jsx",
-                            lineNumber: 503,
+                            lineNumber: 463,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/types/page.jsx",
-                        lineNumber: 502,
+                        lineNumber: 462,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/types/page.jsx",
-                lineNumber: 459,
+                lineNumber: 424,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/types/page.jsx",
-        lineNumber: 395,
+        lineNumber: 360,
         columnNumber: 5
     }, this);
 };
-_s(UploadPage, "PtzO/91zP6NiAMSxJq3hzLyDRUc=");
+_s(UploadPage, "GY4gpCENgyYMAZUkmByMsjShIBs=");
 _c1 = UploadPage;
 const __TURBOPACK__default__export__ = UploadPage;
 var _c, _c1;

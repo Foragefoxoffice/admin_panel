@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { format } from "date-fns";
 import { API_BASE_URL } from "@/utils/config";
 
+// Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 const UploadPage = () => {
@@ -21,18 +22,6 @@ const UploadPage = () => {
   const [filterType, setFilterType] = useState("questionType");
   const [editingItem, setEditingItem] = useState(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [questions, setQuestions] = useState([]);
-
-  // Timeout for message
-  useEffect(() => {
-    if (message) {
-      const timer = setTimeout(() => {
-        setMessage("");
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [message]);
 
   const handleHamburgerClick = () => {
     setIsFilterVisible(!isFilterVisible);
@@ -40,12 +29,10 @@ const UploadPage = () => {
 
   const handleFilterClick = (filter) => {
     setFilterType(filter);
-    setIsFilterVisible(true); // Hide the filter options after selection
   };
 
-  // Fetch parent data
-  const fetchParentData = useCallback(async (type) => {
-    const endpoint = `${API_BASE_URL}/${type}/`;
+  const fetchParentData = async (type) => {
+    const endpoint = `https://mitoslearning.in/api/${type}/`;
     try {
       const response = await fetch(endpoint);
       if (!response.ok) throw new Error(`Failed to fetch ${type}`);
@@ -59,87 +46,71 @@ const UploadPage = () => {
     } catch (error) {
       setMessage(`Error fetching ${type}: ${error.message}`);
     }
-  }, []);
+  };
 
-  // Function to filter subjects
-  const filterSubjects = useCallback(async () => {
+  
+
+  const fetchData = async () => {
     setLoading(true);
-    try {
-      const response = await fetch(`${API_BASE_URL}/subjects`);
-      if (!response.ok) throw new Error("Failed to fetch subjects");
-      const subjects = await response.json();
-
-      const parentResponse = await fetch(`${API_BASE_URL}/portions`);
-      if (!parentResponse.ok) throw new Error("Failed to fetch parent data");
-      const parentData = await parentResponse.json();
-
-      const dataWithParents = subjects.map((subject) => {
-        const parent = parentData.find((p) => p.id === subject.portionId) || {};
-        return { ...subject, parentName: parent.name || "Unknown" };
-      });
-
-      setData(dataWithParents);
-      setFilteredData(dataWithParents);
-    } catch (error) {
-      setMessage(`Error fetching subjects: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Fetch data based on filter type
-  const fetchData = useCallback(async () => {
-    if (filterType === "subject") {
-      await filterSubjects();
-    } else {
-      setLoading(true);
-      const endpoints = {
-        questionType: "question-types",
-        portion: "portions",
-        chapter: "chapters",
-        topic: "topics",
-      };
-
-      if (endpoints[filterType]) {
-        try {
-          const response = await fetch(`${API_BASE_URL}/${endpoints[filterType]}`);
-          if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
-          const data = await response.json();
-
-          if (filterType === "question") {
-            setQuestions(data);
-          } else {
-            if (filterType === "chapter" || filterType === "topic") {
-              const parentEndpoint = filterType === "chapter" ? "subjects" : "chapters";
-              const parentResponse = await fetch(`${API_BASE_URL}/${parentEndpoint}`);
-              if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
-              const parentData = await parentResponse.json();
-
-              const dataWithParents = data.map((item) => {
-                const parent = parentData.find((p) => p.id === item.parentId) || {};
-                return { ...item, parentName: parent.name || "Unknown" };
-              });
-              setData(dataWithParents);
-              setFilteredData(dataWithParents);
-            } else {
-              setData(data);
-              setFilteredData(data);
+    const endpoints = {
+      questionType: "question-types",
+      subject: "subjects",
+      portion: "portions",
+      chapter: "chapters",
+      topic: "topics",
+    };
+  
+    if (endpoints[filterType]) {
+      try {
+        const response = await fetch(`https://mitoslearning.in/api/${endpoints[filterType]}`);
+        if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
+        const data = await response.json();
+  
+        if (["chapter", "topic", "subject"].includes(filterType)) {
+          const parentEndpoint =
+            filterType === "chapter" ? "subjects" :
+            filterType === "topic" ? "chapters" :
+            "portions";
+  
+          const parentResponse = await fetch(`https://mitoslearning.in/api/${parentEndpoint}`);
+          if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
+          const parentData = await parentResponse.json();
+  
+          console.log("Item Data:", data);
+          console.log("Parent Data:", parentData);
+  
+          const dataWithParents = data.map((item) => {
+            let parent;
+            if (filterType === "chapter") {
+              parent = parentData.find((p) => p.id === item.subjectId);
+            } else if (filterType === "topic") {
+              parent = parentData.find((p) => p.id === item.chapterId);
+            } else if (filterType === "subject") {
+              parent = parentData.find((p) => p.id === item.portion.id);
             }
-          }
-        } catch (error) {
-          setMessage(`Error fetching data: ${error.message}`);
-        } finally {
-          setLoading(false);
+  
+            return { ...item, parentName: parent ? parent.name : "Unknown" };
+          });
+  
+          setData(dataWithParents);
+          setFilteredData(dataWithParents);
+        } else {
+          setData(data);
+          setFilteredData(data);
         }
+      } catch (error) {
+        setMessage(`Error fetching data: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
     }
-  }, [filterType, filterSubjects]);
-
+  };
+  
   useEffect(() => {
     if (filterType) {
       fetchData();
     }
-  }, [filterType, fetchData]);
+  }, [filterType]);
 
   useEffect(() => {
     setSelectedType(null);
@@ -189,23 +160,23 @@ const UploadPage = () => {
     let payload = {};
     switch (selectedType?.value) {
       case "questionType":
-        endpoint = `${API_BASE_URL}/question-types/`;
+        endpoint = "https://mitoslearning.in/api/question-types/";
         payload = { name };
         break;
       case "subject":
-        endpoint = `${API_BASE_URL}/subjects/`;
+        endpoint = "https://mitoslearning.in/api/subjects/";
         payload = { name, parentId: parseInt(parentId.value, 10) };
         break;
       case "portion":
-        endpoint = `${API_BASE_URL}/portions/`;
+        endpoint = "https://mitoslearning.in/api/portions/";
         payload = { name };
         break;
       case "chapter":
-        endpoint = `${API_BASE_URL}/chapters/`;
+        endpoint = "https://mitoslearning.in/api/chapters/";
         payload = { name, parentId: parseInt(parentId.value, 10) };
         break;
       case "topic":
-        endpoint = `${API_BASE_URL}/topics/`;
+        endpoint = "https://mitoslearning.in/api/topics/";
         payload = { name, parentId: parseInt(parentId.value, 10) };
         break;
       default:
@@ -221,76 +192,8 @@ const UploadPage = () => {
       if (!response.ok)
         throw new Error(`Failed to upload data for ${selectedType?.value}`);
       setMessage("Data uploaded successfully!");
-      await fetchData();
-      setSelectedType(null);
-      setName("");
-      setParentId(null);
-      setParentOptions([]);
     } catch (error) {
       setMessage(`Error uploading data: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setMessage("");
-    setLoading(true);
-    if (
-      !parentId &&
-      (selectedType?.value === "chapter" ||
-        selectedType?.value === "topic" ||
-        selectedType?.value === "subject")
-    ) {
-      setMessage("Please select a parent!");
-      setLoading(false);
-      return;
-    }
-    let endpoint = "";
-    let payload = {};
-    switch (selectedType?.value) {
-      case "questionType":
-        endpoint = `${API_BASE_URL}/question-types/${editingItem.id}`;
-        payload = { name };
-        break;
-      case "portion":
-        endpoint = `${API_BASE_URL}/portions/${editingItem.id}`;
-        payload = { name };
-        break;
-      case "subject":
-        endpoint = `${API_BASE_URL}/subjects/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
-        break;
-      case "chapter":
-        endpoint = `${API_BASE_URL}/chapters/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
-        break;
-      case "topic":
-        endpoint = `${API_BASE_URL}/topics/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
-        break;
-      default:
-        setLoading(false);
-        return;
-    }
-    try {
-      const response = await fetch(endpoint, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!response.ok)
-        throw new Error(`Failed to update data for ${selectedType?.value}`);
-      setMessage("Data updated successfully!");
-      await fetchData();
-      setEditingItem(null);
-      setName("");
-      setSelectedType(null);
-      setParentId(null);
-      setParentOptions([]);
-    } catch (error) {
-      setMessage(`Error updating data: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -326,27 +229,89 @@ const UploadPage = () => {
       chapter: "chapters",
       topic: "topics",
     };
-
+  
+    console.log("Filter Type:", filterType); // Debugging: Log the filterType
+  
     const endpointType = type[filterType];
     if (!endpointType) {
-      setMessage("Invalid item type for deletion.");
+      setMessage(`Invalid item type for deletion: ${filterType}`);
       return;
     }
-
+  
     if (confirm("Are you sure you want to delete this item?")) {
       try {
         const endpoint = `${API_BASE_URL}/${endpointType}/${id}`;
         const response = await fetch(endpoint, {
           method: "DELETE",
         });
-
+  
         if (!response.ok) throw new Error(`Failed to delete ${filterType}`);
-
+  
         setMessage("Item deleted successfully!");
         fetchData();
       } catch (error) {
         setMessage(`Error deleting item: ${error.message}`);
       }
+    }
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setLoading(true);
+    if (
+      !parentId &&
+      (selectedType?.value === "chapter" ||
+        selectedType?.value === "topic" ||
+        selectedType?.value === "subject")
+    ) {
+      setMessage("Please select a parent!");
+      setLoading(false);
+      return;
+    }
+    let endpoint = "";
+    let payload = {};
+    switch (selectedType?.value) {
+      case "questionType":
+        endpoint = `https://mitoslearning.in/api/question-types/${editingItem.id}`;
+        payload = { name };
+        break;
+      case "portion":
+        endpoint = `https://mitoslearning.in/api/portions/${editingItem.id}`;
+        payload = { name };
+        break;
+      case "subject":
+        endpoint = `https://mitoslearning.in/api/subjects/${editingItem.id}`;
+        payload = { name, parentId: parseInt(parentId.value, 10) };
+        break;
+      case "chapter":
+        endpoint = `https://mitoslearning.in/api/chapters/${editingItem.id}`;
+        payload = { name, parentId: parseInt(parentId.value, 10) };
+        break;
+      case "topic":
+        endpoint = `https://mitoslearning.in/api/topics/${editingItem.id}`;
+        payload = { name, parentId: parseInt(parentId.value, 10) };
+        break;
+      default:
+        setLoading(false);
+        return;
+    }
+    try {
+      const response = await fetch(endpoint, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok)
+        throw new Error(`Failed to update data for ${selectedType?.value}`);
+      setMessage("Data updated successfully!");
+      setEditingItem(null);
+      setName("");
+    } catch (error) {
+      setMessage(`Error updating data: ${error.message}`);
+    } finally {
+      setLoading(false);
+      fetchData();
     }
   };
 
@@ -392,7 +357,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center p-6 md:p-0">
+    <div className="flex flex-col justify-center ">
       <h1 className="font-bold mb-6">Create Types</h1>
       <form
         onSubmit={editingItem ? handleUpdate : handleSubmit}
@@ -457,15 +422,14 @@ const UploadPage = () => {
       </form>
 
       <div className="table content">
-        {/* Search and filter section */}
-        <div className="mt-8 flex justify-start md:justify-end gap-8 relative">
+        <div className="mt-8 flex justify-end gap-8 relative">
           <div className="w-auto relative">
             <input
               type="search"
               placeholder="Search..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-60 md:w-80 py-3 px-10 border border-gray-300 rounded-lg focus:outline-none"
+              className="w-80 py-3 px-10 border border-gray-300 rounded-lg focus:outline-none"
             />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
               <BiSearch className="text-gray-500 w-5 h-5" />
@@ -491,14 +455,10 @@ const UploadPage = () => {
                 Chapter
               </button>
               <button onClick={() => handleFilterClick("topic")}>Topic</button>
-              <button onClick={() => handleFilterClick("question")}>
-                Question
-              </button>
             </div>
           )}
         </div>
 
-        {/* Data table */}
         <div className="mt-8 tables">
           <table className="w-full table-content table-auto border-collapse">
             <thead>
@@ -514,38 +474,36 @@ const UploadPage = () => {
               </tr>
             </thead>
             <tbody>
-  {filteredData.map((item, index) => (
-    <tr key={index}>
-      <td className="">{item.id}</td>
-      <td className="">{item.name}</td>
-      {(filterType === "chapter" ||
-        filterType === "topic" ||
-        filterType === "subject") && (
-        <td className="">{item.parentName}</td>
-      )}
-      <td className="">{filterType}</td>
-      <td className="">
-        {item.createdAt
-          ? format(new Date(item.createdAt), "dd/MM/yyyy")
-          : "N/A"}
-      </td>
-      <td className="">
-        <button
-          onClick={() => handleEdit(item)}
-          className="bg-gradient-to-t from-[#35095E] to-[#6F13C4] p-2 px-6 mr-3 rounded-lg text-white"
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => handleDelete(item.id)}
-          className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
+              {filteredData.map((item, index) => (
+                <tr key={index}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  {(filterType === "chapter" ||
+                    filterType === "topic" ||
+                    filterType === "subject") && (
+                    <td>{item.parentName}</td>
+                  )}
+                  <td>{filterType}</td>
+                  <td>
+                    {format(new Date(item.createdAt), "dd/MM/yyyy")}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleEdit(item)}
+                      className="bg-gradient-to-t from-[#35095E] to-[#6F13C4] p-2 px-6 mr-3 rounded-lg text-white"
+                    >
+                      Edit
+                    </button>
+                    <button
+  onClick={() => handleDelete(item.id, filterType)}
+  className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
+>
+  Delete
+</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </div>
