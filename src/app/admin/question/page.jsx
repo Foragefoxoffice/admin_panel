@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { FaPlus } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
+import useAuth from "@/contexts/useAuth";
 
 // Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -34,7 +35,8 @@ export default function QuestionsPage() {
   const [token, setToken] = useState(null);
   const [imageName, setImageName] = useState("Select question Image to Upload");
   const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
-
+  useAuth();
+  
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
@@ -119,6 +121,10 @@ export default function QuestionsPage() {
     fetchTopics();
   }, [selectedChapter, token]);
 
+  useEffect(() => {
+    console.log("Question Length:", question.length);
+  }, [question]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -261,12 +267,14 @@ export default function QuestionsPage() {
               />
             </div>
 
-          <textarea
-            placeholder="Enter Question"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            required
-          />
+            <textarea
+  placeholder="Enter Question"
+  value={question}
+  onChange={(e) => setQuestion(e.target.value)}
+  rows={5}
+  style={{ minHeight: "150px", resize: "vertical" }}
+/>
+
 
           <input
             type="text"

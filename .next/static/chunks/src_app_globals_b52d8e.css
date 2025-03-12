@@ -466,8 +466,8 @@ img, video {
   width: 1.25rem;
 }
 
-.w-60 {
-  width: 15rem;
+.w-80 {
+  width: 20rem;
 }
 
 .w-\[100\%\] {
@@ -494,10 +494,6 @@ img, video {
   width: 100%;
 }
 
-.w-80 {
-  width: 20rem;
-}
-
 .min-w-full {
   min-width: 100%;
 }
@@ -520,6 +516,10 @@ img, video {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.resize {
+  resize: both;
 }
 
 .grid-cols-1 {
@@ -1114,10 +1114,6 @@ textarea {
     display: none;
   }
 
-  .md\:w-80 {
-    width: 20rem;
-  }
-
   .md\:w-\[10\%\] {
     width: 10%;
   }
@@ -1144,10 +1140,6 @@ textarea {
 
   .md\:justify-start {
     justify-content: flex-start;
-  }
-
-  .md\:justify-end {
-    justify-content: flex-end;
   }
 
   .md\:justify-center {

@@ -33,7 +33,8 @@ export default function LoginScreen() {
         }
 
         // Save token and role to local storage
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("role", data.role);
         localStorage.setItem("userId", data.user.id);
         // Navigate to admin dashboard
@@ -67,7 +68,8 @@ export default function LoginScreen() {
         }
 
         // Save token and role to local storage
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
         localStorage.setItem("role", data.role);
         localStorage.setItem("userId", data.user.id);
         // Navigate to admin dashboard

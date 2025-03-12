@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { TestContext } from "@/contexts/TestContext";
 import { API_BASE_URL } from "@/utils/config";
-
+import useAuth from "@/contexts/useAuth";
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function EditQuestionPage() {
@@ -27,6 +27,7 @@ export default function EditQuestionPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
+  useAuth();
 
   useEffect(() => {
     if (typeof window !== "undefined") {

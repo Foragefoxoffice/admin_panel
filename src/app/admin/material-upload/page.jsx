@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { FaPlus } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
-
+import useAuth from "@/contexts/useAuth";
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function UploadPDF() {
@@ -24,7 +24,7 @@ export default function UploadPDF() {
   const [topics, setTopics] = useState([]);
   const [token, setToken] = useState(null);
   const [hintImageName, setHintImageName] = useState("Select PDF to Upload");
-
+  useAuth();
   // Fetch token from localStorage (client-side only)
   useEffect(() => {
     if (typeof window !== "undefined") {

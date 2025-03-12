@@ -27,12 +27,12 @@ export default function RegisterScreen() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (passkey !== correctPasskey) {
       setError("Invalid passkey. Please try again.");
       return;
     }
-
+  
     try {
       const res = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
@@ -41,10 +41,16 @@ export default function RegisterScreen() {
         },
         body: JSON.stringify({ email, password, name, role: "admin" }),
       });
-
+  
       const data = await res.json();
-
+  
       if (res.ok) {
+        // ✅ Store tokens in localStorage
+        localStorage.setItem("token", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("role", data.role);
+        localStorage.setItem("userId", data.user.id);
+        // ✅ Redirect to admin panel
         router.push("/admin/questions");
       } else {
         setError(data.message || "Registration failed. Please try again.");
@@ -53,7 +59,7 @@ export default function RegisterScreen() {
       setError("Something went wrong. Please try again.");
     }
   };
-
+  
   return (
     <GoogleOAuthProvider clientId="501560257854-oor7kgad2o2dk9l2qhv5ekd5ilmt9h0r.apps.googleusercontent.com">
       <div className="container p-10">

@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { API_BASE_URL } from "@/utils/config";
+import useAuth from "@/contexts/useAuth";
 
 export default function PDFViewer() {
   const [pdfs, setPdfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
+  useAuth();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -95,7 +97,7 @@ export default function PDFViewer() {
                   <td className="py-3 px-4">
                     <div className="flex space-x-3">
                       <a
-                        href={`https://mitoslearning.in ${pdf.url}`}
+                        href={`https://mitoslearning.in${pdf.url}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="bg-blue-500 text-white px-4 py-1.5 rounded-lg hover:bg-blue-600 transition"

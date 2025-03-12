@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { FaPlus } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
-
+import useAuth from "@/contexts/useAuth";
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 const CSVImporter = () => {
@@ -21,6 +21,7 @@ const CSVImporter = () => {
   const [portionId, setPortionId] = useState(null);
   const [token, setToken] = useState(null);
   const [fileName, setFileName] = useState("Select Questions to Upload");
+  useAuth();
 
   useEffect(() => {
     if (typeof window !== "undefined") {

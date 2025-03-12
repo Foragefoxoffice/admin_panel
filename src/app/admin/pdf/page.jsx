@@ -3,11 +3,11 @@
 import { useState } from "react";
 import mammoth from "mammoth";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
-
+import useAuth from "@/contexts/useAuth";
 const DocxUpload = () => {
   const [file, setFile] = useState(null);
   const [questions, setQuestions] = useState([]);
-
+  useAuth();
   const extractTextFromDocx = async (file) => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);

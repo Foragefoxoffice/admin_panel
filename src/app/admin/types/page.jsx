@@ -5,7 +5,7 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { format } from "date-fns";
 import { API_BASE_URL } from "@/utils/config";
-
+import useAuth from "@/contexts/useAuth";
 // Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
@@ -22,7 +22,7 @@ const UploadPage = () => {
   const [filterType, setFilterType] = useState("questionType");
   const [editingItem, setEditingItem] = useState(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-
+  useAuth();
   const handleHamburgerClick = () => {
     setIsFilterVisible(!isFilterVisible);
   };
