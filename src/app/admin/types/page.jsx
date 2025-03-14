@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef  } from "react";
 import dynamic from "next/dynamic";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { format } from "date-fns";
 import { API_BASE_URL } from "@/utils/config";
 import useAuth from "@/contexts/useAuth";
-// Dynamically import react-select with SSR disabled
+import DeleteConfirmationPopup from "@/components/DeleteConfirmationModal";
+
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 const UploadPage = () => {
@@ -22,14 +23,44 @@ const UploadPage = () => {
   const [filterType, setFilterType] = useState("questionType");
   const [editingItem, setEditingItem] = useState(null);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [deleteFilterType, setDeleteFilterType] = useState(null);
+
+  // Ref for the filter-option box
+  const filterOptionRef = useRef(null);
+
   useAuth();
+
+  // Handle clicks outside the filter-option box
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        filterOptionRef.current &&
+        !filterOptionRef.current.contains(event.target)
+      ) {
+        setIsFilterVisible(false);
+      }
+    };
+
+    // Attach the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleHamburgerClick = () => {
     setIsFilterVisible(!isFilterVisible);
   };
 
   const handleFilterClick = (filter) => {
     setFilterType(filter);
+    setIsFilterVisible(false); // Hide the filter-option box after selecting a filter
   };
+
 
   const fetchParentData = async (type) => {
     const endpoint = `https://mitoslearning.in/api/${type}/`;
@@ -48,8 +79,6 @@ const UploadPage = () => {
     }
   };
 
-  
-
   const fetchData = async () => {
     setLoading(true);
     const endpoints = {
@@ -59,26 +88,26 @@ const UploadPage = () => {
       chapter: "chapters",
       topic: "topics",
     };
-  
+
     if (endpoints[filterType]) {
       try {
         const response = await fetch(`https://mitoslearning.in/api/${endpoints[filterType]}`);
         if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
         const data = await response.json();
-  
+
         if (["chapter", "topic", "subject"].includes(filterType)) {
           const parentEndpoint =
             filterType === "chapter" ? "subjects" :
             filterType === "topic" ? "chapters" :
             "portions";
-  
+
           const parentResponse = await fetch(`https://mitoslearning.in/api/${parentEndpoint}`);
           if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
           const parentData = await parentResponse.json();
-  
+
           console.log("Item Data:", data);
           console.log("Parent Data:", parentData);
-  
+
           const dataWithParents = data.map((item) => {
             let parent;
             if (filterType === "chapter") {
@@ -88,10 +117,10 @@ const UploadPage = () => {
             } else if (filterType === "subject") {
               parent = parentData.find((p) => p.id === item.portion.id);
             }
-  
+
             return { ...item, parentName: parent ? parent.name : "Unknown" };
           });
-  
+
           setData(dataWithParents);
           setFilteredData(dataWithParents);
         } else {
@@ -105,7 +134,7 @@ const UploadPage = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (filterType) {
       fetchData();
@@ -192,69 +221,21 @@ const UploadPage = () => {
       if (!response.ok)
         throw new Error(`Failed to upload data for ${selectedType?.value}`);
       setMessage("Data uploaded successfully!");
+      
+      // Refetch parent data after successful upload
+      if (selectedType?.value === "chapter") await fetchParentData("subjects");
+      else if (selectedType?.value === "topic") await fetchParentData("chapters");
+      else if (selectedType?.value === "subject") await fetchParentData("portions");
+      
+      // Refetch the main data
+      fetchData();
     } catch (error) {
       setMessage(`Error uploading data: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleEdit = async (item) => {
-    setEditingItem(item);
-    setName(item.name);
-    setSelectedType({
-      value: filterType,
-      label: filterType.charAt(0).toUpperCase() + filterType.slice(1),
-    });
-
-    if (filterType === "subject") {
-      await fetchParentData("portions");
-      setParentId({ value: item.portionId.toString(), label: item.parentName });
-    } else if (filterType === "chapter") {
-      await fetchParentData("subjects");
-      setParentId({ value: item.subjectId.toString(), label: item.parentName });
-    } else if (filterType === "topic") {
-      await fetchParentData("chapters");
-      setParentId({ value: item.chapterId.toString(), label: item.parentName });
-    } else {
-      setParentId(null);
-    }
-  };
-
-  const handleDelete = async (id, filterType) => {
-    const type = {
-      questionType: "question-types",
-      subject: "subjects",
-      portion: "portions",
-      chapter: "chapters",
-      topic: "topics",
-    };
   
-    console.log("Filter Type:", filterType); // Debugging: Log the filterType
-  
-    const endpointType = type[filterType];
-    if (!endpointType) {
-      setMessage(`Invalid item type for deletion: ${filterType}`);
-      return;
-    }
-  
-    if (confirm("Are you sure you want to delete this item?")) {
-      try {
-        const endpoint = `${API_BASE_URL}/${endpointType}/${id}`;
-        const response = await fetch(endpoint, {
-          method: "DELETE",
-        });
-  
-        if (!response.ok) throw new Error(`Failed to delete ${filterType}`);
-  
-        setMessage("Item deleted successfully!");
-        fetchData();
-      } catch (error) {
-        setMessage(`Error deleting item: ${error.message}`);
-      }
-    }
-  };
-
   const handleUpdate = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -307,13 +288,89 @@ const UploadPage = () => {
       setMessage("Data updated successfully!");
       setEditingItem(null);
       setName("");
+      
+      // Refetch parent data after successful update
+      if (selectedType?.value === "chapter") await fetchParentData("subjects");
+      else if (selectedType?.value === "topic") await fetchParentData("chapters");
+      else if (selectedType?.value === "subject") await fetchParentData("portions");
+      
+      // Refetch the main data
+      fetchData();
     } catch (error) {
       setMessage(`Error updating data: ${error.message}`);
     } finally {
       setLoading(false);
-      fetchData();
     }
   };
+
+  const handleEdit = async (item) => {
+    setEditingItem(item);
+    setName(item.name);
+    setSelectedType({
+      value: filterType,
+      label: filterType.charAt(0).toUpperCase() + filterType.slice(1),
+    });
+
+    if (filterType === "subject") {
+      await fetchParentData("portions");
+      setParentId({ value: item.portionId.toString(), label: item.parentName });
+    } else if (filterType === "chapter") {
+      await fetchParentData("subjects");
+      setParentId({ value: item.subjectId.toString(), label: item.parentName });
+    } else if (filterType === "topic") {
+      await fetchParentData("chapters");
+      setParentId({ value: item.chapterId.toString(), label: item.parentName });
+    } else {
+      setParentId(null);
+    }
+  };
+
+  const handleDelete = (id, filterType) => {
+    setItemToDelete(id);
+    setDeleteFilterType(filterType);
+    setShowDeletePopup(true);
+  };
+
+  const confirmDelete = async () => {
+    const type = {
+      questionType: "question-types",
+      subject: "subjects",
+      portion: "portions",
+      chapter: "chapters",
+      topic: "topics",
+    };
+
+    const endpointType = type[deleteFilterType];
+    if (!endpointType) {
+      setMessage(`Invalid item type for deletion: ${deleteFilterType}`);
+      return;
+    }
+
+    try {
+      const endpoint = `${API_BASE_URL}/${endpointType}/${itemToDelete}`;
+      const response = await fetch(endpoint, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error(`Failed to delete ${deleteFilterType}`);
+
+      setMessage("Item deleted successfully!");
+      fetchData();
+    } catch (error) {
+      setMessage(`Error deleting item: ${error.message}`);
+    } finally {
+      setShowDeletePopup(false);
+      setItemToDelete(null);
+      setDeleteFilterType(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeletePopup(false);
+    setItemToDelete(null);
+    setDeleteFilterType(null);
+  };
+
 
   const customStyles = {
     control: (provided) => ({
@@ -357,7 +414,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center ">
+    <div className="flex flex-col justify-center">
       <h1 className="font-bold mb-6">Create Types</h1>
       <form
         onSubmit={editingItem ? handleUpdate : handleSubmit}
@@ -441,23 +498,44 @@ const UploadPage = () => {
             </button>
           </div>
           {isFilterVisible && (
-            <div className="filter-option">
-              <button onClick={() => handleFilterClick("questionType")}>
+            <div
+              ref={filterOptionRef}
+              className="filter-option absolute top-16 right-0  rounded-lg shadow-lg p-4 z-10"
+            >
+              <button
+                onClick={() => handleFilterClick("questionType")}
+                className="block w-full text-left "
+              >
                 Question Type
               </button>
-              <button onClick={() => handleFilterClick("portion")}>
+              <button
+                onClick={() => handleFilterClick("portion")}
+                className="block w-full text-left "
+              >
                 Portion
               </button>
-              <button onClick={() => handleFilterClick("subject")}>
+              <button
+                onClick={() => handleFilterClick("subject")}
+                className="block w-full text-left "
+              >
                 Subject
               </button>
-              <button onClick={() => handleFilterClick("chapter")}>
+              <button
+                onClick={() => handleFilterClick("chapter")}
+                className="block w-full text-left "
+              >
                 Chapter
               </button>
-              <button onClick={() => handleFilterClick("topic")}>Topic</button>
+              <button
+                onClick={() => handleFilterClick("topic")}
+                className="block w-full text-left "
+              >
+                Topic
+              </button>
             </div>
           )}
         </div>
+
 
         <div className="mt-8 tables">
           <table className="w-full table-content table-auto border-collapse">
@@ -476,7 +554,7 @@ const UploadPage = () => {
             <tbody>
               {filteredData.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.id}</td>
+                  <td>{index + 1}</td>
                   <td>{item.name}</td>
                   {(filterType === "chapter" ||
                     filterType === "topic" ||
@@ -495,11 +573,11 @@ const UploadPage = () => {
                       Edit
                     </button>
                     <button
-  onClick={() => handleDelete(item.id, filterType)}
-  className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
->
-  Delete
-</button>
+                      onClick={() => handleDelete(item.id, filterType)}
+                      className="bg-[#C5B5CE] text-black p-2 px-6 rounded-md"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -507,6 +585,13 @@ const UploadPage = () => {
           </table>
         </div>
       </div>
+
+      {showDeletePopup && (
+        <DeleteConfirmationPopup
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
     </div>
   );
 };

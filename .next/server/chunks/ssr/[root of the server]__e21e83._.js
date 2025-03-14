@@ -32,7 +32,7 @@ var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_
 __turbopack_esm__({
     "API_BASE_URL": (()=>API_BASE_URL)
 });
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://mitoslearning.in/api";
 }}),
 "[project]/src/app/login/page.jsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";

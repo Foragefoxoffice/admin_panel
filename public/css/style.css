@@ -621,6 +621,8 @@ input[type="checkbox"] {
   border: 2px solid #6712B7;
   background: #fff;
 }
+
+
 .stf__parent canvas{
   width: 500px !important;
   height: 660px  !important;
@@ -670,6 +672,41 @@ width: 100%;
   gap: 40px;
   padding-bottom: 20px;
 }
+/* Rich text style */
+.richeeditos>div>div:nth-child(2){
+padding: 0 !important;
+}
+.ProseMirror *{
+  color: #35095E;
+}
+.ProseMirror{
+  min-height: 150px;
+  padding: 15px;
+}
+.richoption{
+color: #6712B7;
+background: transparent;
+border: 1px solid #000;
+}
+.richoptionhover{
+  color: #fff;
+  background: #6712B7;
+  border: none;
+  }
+  .ProseMirror ul {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+  
+  .ProseMirror ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  
+  .ProseMirror li {
+    margin-bottom: 4px;
+  }
+  
 @media(max-width:600px){
   .questionadd {
     display: grid

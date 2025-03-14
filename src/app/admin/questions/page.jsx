@@ -31,7 +31,7 @@ export default function QuestionsPage() {
   const [questionsPerPage] = useState(20);
   const router = useRouter();
   useAuth();
-  
+
   const { setTestData } = useContext(TestContext);
 
   // Fetch token from localStorage
@@ -326,53 +326,61 @@ export default function QuestionsPage() {
         <div>
           {currentQuestions.length > 0 ? (
             <ul className="space-y-4">
-              {currentQuestions.map((question) => (
-                <li key={question.id} className="border rounded-lg shadow-sm transition-shadow">
-                  {/* Question Header */}
-                  <div
-                    className="p-4 flex justify-between items-center cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
-                    onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
-                  >
-                    <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
-                    <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
-                  </div>
+              {currentQuestions.map((question, index) => {
+                // Calculate the serial number based on the current page
+                const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
 
-                  {/* Accordion Content */}
-                  {openAccordion === question.id && (
-                    <div className="p-4 bg-white border-t">
-                      <img alt="" src={`https://mitoslearning.in/${question.image}`} />
-                      <div className="space-y-2">
-                        <p><strong>Option A:</strong> <FormulaFormatter text={question.optionA} /></p>
-                        <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
-                        <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
-                        <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
-                        <p className="text-green-600"><strong>Correct Answer:</strong>{question.correctOption}</p>
-                        {question.hint && <p className="text-gray-500"><strong>Hint:</strong> <FormulaFormatter text={question.hint} /></p>}
+                return (
+                  <li key={question.id} className="border rounded-lg shadow-sm transition-shadow">
+                    {/* Question Header */}
+                    <div
+                      className="p-4 flex justify-between items-center cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
+                      onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <span className="text-gray-600 font-bold">{serialNumber}.</span> {/* Serial Number */}
+                        <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
                       </div>
-
-                      <div className="space-y-2">
-                        <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} />
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex justify-end mt-4 space-x-4">
-                        <button
-                          onClick={() => handleUpdate(question.id)}
-                          className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
-                        >
-                          <FaEdit /> <span>Edit</span>
-                        </button>
-                        <button
-                          onClick={() => handleDelete(question.id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
-                        >
-                          <FaTrash /> <span>Delete</span>
-                        </button>
-                      </div>
+                      <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
                     </div>
-                  )}
-                </li>
-              ))}
+
+                    {/* Accordion Content */}
+                    {openAccordion === question.id && (
+                      <div className="p-4 bg-white border-t">
+                        <img alt="" src={`https://mitoslearning.in/${question.image}`} />
+                        <div className="space-y-2">
+                          <p><strong>Option A:</strong> <FormulaFormatter text={question.optionA} /></p>
+                          <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
+                          <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
+                          <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
+                          <p className="text-green-600"><strong>Correct Answer:</strong>{question.correctOption}</p>
+                          {question.hint && <div className=""><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
+                        </div>
+
+                        <div className="space-y-2">
+                          <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} />
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex justify-end mt-4 space-x-4">
+                          <button
+                            onClick={() => handleUpdate(question.id)}
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
+                          >
+                            <FaEdit /> <span>Edit</span>
+                          </button>
+                          <button
+                            onClick={() => handleDelete(question.id)}
+                            className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
+                          >
+                            <FaTrash /> <span>Delete</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-gray-600 text-center">No questions available.</p>

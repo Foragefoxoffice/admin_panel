@@ -44,14 +44,8 @@ export default function RegisterScreen() {
   
       const data = await res.json();
   
-      if (res.ok) {
-        // ✅ Store tokens in localStorage
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        localStorage.setItem("role", data.role);
-        localStorage.setItem("userId", data.user.id);
-        // ✅ Redirect to admin panel
-        router.push("/admin/questions");
+      if (res.ok) { 
+        router.push("/");
       } else {
         setError(data.message || "Registration failed. Please try again.");
       }

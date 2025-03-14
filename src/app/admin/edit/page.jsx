@@ -7,6 +7,9 @@ import { toast } from "react-toastify";
 import { TestContext } from "@/contexts/TestContext";
 import { API_BASE_URL } from "@/utils/config";
 import useAuth from "@/contexts/useAuth";
+import { FaPlus } from "react-icons/fa6";
+import RichTextEditor from "@/components/Tiptap";
+
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function EditQuestionPage() {
@@ -27,6 +30,10 @@ export default function EditQuestionPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
+  const [image, setImage] = useState(null);
+  const [hintImage, setHintImage] = useState(null);
+  const [imageName, setImageName] = useState("Select question Image to Upload");
+  const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
   useAuth();
 
   useEffect(() => {
@@ -38,7 +45,7 @@ export default function EditQuestionPage() {
   useEffect(() => {
     const fetchQuestion = async () => {
       if (!token || !id) return;
-
+  
       setLoading(true);
       try {
         const response = await axios.get(`${API_BASE_URL}/questions/${id}`, {
@@ -50,10 +57,12 @@ export default function EditQuestionPage() {
         setOptionB(data.optionB);
         setOptionC(data.optionC);
         setOptionD(data.optionD);
-        setCorrectOption(data.correctOption);
+        setCorrectOption(data.correctOption); // Ensure this is 'A', 'B', 'C', or 'D'
         setHint(data.hint);
         setSelectedTopic({ value: data.topic.id, label: data.topic.name });
         setSelectedQuestionType({ value: data.questionType.id, label: data.questionType.name });
+        setImageName(data.image ? "Image uploaded" : "Select question Image to Upload");
+        setHintImageName(data.hintImage ? "Hint image uploaded" : "Select Hint Image to Upload");
       } catch (error) {
         setError("Failed to fetch question.");
         toast.error("Failed to fetch question.");
@@ -61,7 +70,7 @@ export default function EditQuestionPage() {
         setLoading(false);
       }
     };
-
+  
     fetchQuestion();
   }, [token, id]);
 
@@ -101,32 +110,39 @@ export default function EditQuestionPage() {
     fetchQuestionTypes();
   }, [token]);
 
+  const handleImageChange = (e, setImageState, setFileName) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageState(file);
+      setFileName(file.name);
+    }
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
-      const response = await axios.put(
-        `${API_BASE_URL}/questions/update/${id}`,
-        {
-          question,
-          optionA,
-          optionB,
-          optionC,
-          optionD,
-          correctOption,
-          hint,
-          topicId: selectedTopic?.value,
-          questionTypeId: selectedQuestionType?.value,
+      const formData = new FormData();
+      formData.append("question", question);
+      formData.append("optionA", optionA);
+      formData.append("optionB", optionB);
+      formData.append("optionC", optionC);
+      formData.append("optionD", optionD);
+      formData.append("correctOption", correctOption);
+      formData.append("hint", hint);
+      formData.append("topicId", selectedTopic?.value);
+      formData.append("questionTypeId", selectedQuestionType?.value);
+      if (image) formData.append("image", image);
+      if (hintImage) formData.append("hintImage", hintImage);
+
+      const response = await axios.put(`${API_BASE_URL}/questions/update/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-  
+      });
+
       if (response.status === 200) {
         toast.success("Question updated successfully!");
         router.push("/admin/questions");
@@ -140,7 +156,7 @@ export default function EditQuestionPage() {
       setLoading(false);
     }
   };
-  
+
   const customStyles = {
     control: (provided) => ({
       ...provided,
@@ -168,20 +184,54 @@ export default function EditQuestionPage() {
     }),
   };
 
+  const correctOptionValue = [
+    { value: "A", label: "Option A" },
+    { value: "B", label: "Option B" },
+    { value: "C", label: "Option C" },
+    { value: "D", label: "Option D" },
+  ].find(opt => opt.value === correctOption);
 
   return (
     <div className="mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Edit Question</h1>
       {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleUpdate} className="space-y-4">
+        <div className="flex gap-8">
+          <div>
+            <label className="block font-bold">Topic:</label>
+            <Select
+              options={topics}
+              value={selectedTopic}
+              onChange={(option) => setSelectedTopic(option)}
+              placeholder="Select Topic"
+              isClearable
+              styles={customStyles}
+            />
+          </div>
+          <div>
+            <label className="block font-bold">Question Type:</label>
+            <Select
+              options={questionTypes}
+              value={selectedQuestionType}
+              onChange={(option) => setSelectedQuestionType(option)}
+              placeholder="Select Question Type"
+              isClearable
+              styles={customStyles}
+            />
+          </div>
+        </div>
         <div>
           <label className="block font-bold">Question:</label>
-          <textarea
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          ></textarea>
+          <div onClick={(e) => {
+  if (e.target.tagName === 'BUTTON') {
+    e.preventDefault();
+  }
+}}>
+  <RichTextEditor
+    value={question}
+    onChange={(html) => setQuestion(html)}
+  />
+</div>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -190,7 +240,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionA}
               onChange={(e) => setOptionA(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full border rounded"
               required
             />
           </div>
@@ -200,7 +250,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionB}
               onChange={(e) => setOptionB(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full border rounded"
               required
             />
           </div>
@@ -210,7 +260,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionC}
               onChange={(e) => setOptionC(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-4 border rounded"
               required
             />
           </div>
@@ -220,59 +270,71 @@ export default function EditQuestionPage() {
               type="text"
               value={optionD}
               onChange={(e) => setOptionD(e.target.value)}
-              className="w-full p-2 border rounded"
+              className="w-full p-4 border rounded"
               required
             />
           </div>
         </div>
         <div>
           <label className="block font-bold">Correct Option:</label>
-         
           <Select
-          options={[
-            { value: "A", label: "Option A" },
-            { value: "B", label: "Option B" },
-            { value: "C", label: "Option C" },
-            { value: "D", label: "Option D" },
-          ]}
-          onChange={(opt) => setCorrectOption(opt?.value)}
-          placeholder="Select Correct Answer"
-          isClearable
-          styles={customStyles}
-        />
+            options={[
+              { value: "A", label: "Option A" },
+              { value: "B", label: "Option B" },
+              { value: "C", label: "Option C" },
+              { value: "D", label: "Option D" },
+            ]}
+            value={correctOptionValue}
+            onChange={(opt) => setCorrectOption(opt?.value)}
+            placeholder="Select Correct Answer"
+            isClearable
+            styles={customStyles}
+          />
         </div>
         <div>
           <label className="block font-bold">Hint (Optional):</label>
-          <input
-            type="text"
-            value={hint}
-            onChange={(e) => setHint(e.target.value)}
-            className="w-full p-2 border rounded"
-          />
+          <div onClick={(e) => {
+  if (e.target.tagName === 'BUTTON') {
+    e.preventDefault();
+  }
+}}>
+  <RichTextEditor
+    value={hint}
+    onChange={(html) => setQuestion(html)}
+  />
+</div>
         </div>
-        <div className="flex gap-8">
-        <div>
-          <label className="block font-bold">Topic:</label>
-          <Select
-            options={topics}
-            value={selectedTopic}
-            onChange={(option) => setSelectedTopic(option)}
-            placeholder="Select Topic"
-            isClearable
-            styles={customStyles}
-          />
-        </div>
-        <div>
-          <label className="block font-bold">Question Type:</label>
-          <Select
-            options={questionTypes}
-            value={selectedQuestionType}
-            onChange={(option) => setSelectedQuestionType(option)}
-            placeholder="Select Question Type"
-            isClearable
-            styles={customStyles}
-          />
-        </div>
+        
+        {/* Image Upload Inputs */}
+        <div className="grid md:flex md:flex-row gap-4 mb-6">
+          {/* Question Image Upload */}
+          <div>
+            <label className="file_upload" htmlFor="image">
+              <FaPlus size={40} className="file_icon" /> {imageName}
+            </label>
+            <input
+              type="file"
+              name="image"
+              id="image"
+              hidden
+              accept="image/*"
+              onChange={(e) => handleImageChange(e, setImage, setImageName)}
+            />
+          </div>
+          {/* Hint Image Upload */}
+          <div>
+            <label className="file_upload" htmlFor="hintimage">
+              <FaPlus size={40} className="file_icon" /> {hintImageName}
+            </label>
+            <input
+              type="file"
+              name="hintimage"
+              id="hintimage"
+              hidden
+              accept="image/*"
+              onChange={(e) => handleImageChange(e, setHintImage, setHintImageName)}
+            />
+          </div>
         </div>
         <button
           type="submit"

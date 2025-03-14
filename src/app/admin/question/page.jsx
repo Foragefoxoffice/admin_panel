@@ -7,6 +7,7 @@ import { FaPlus } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import useAuth from "@/contexts/useAuth";
+import RichTextEditor from "@/components/Tiptap";
 
 // Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -267,13 +268,7 @@ export default function QuestionsPage() {
               />
             </div>
 
-            <textarea
-  placeholder="Enter Question"
-  value={question}
-  onChange={(e) => setQuestion(e.target.value)}
-  rows={5}
-  style={{ minHeight: "150px", resize: "vertical" }}
-/>
+            <div className="richeeditos"> <RichTextEditor value={question} onChange={setQuestion} /></div>
 
 
           <input
@@ -318,12 +313,8 @@ export default function QuestionsPage() {
             styles={customStyles}
           />
 
-          <input
-            type="text"
-            placeholder="Hint (Optional)"
-            value={hint}
-            onChange={(e) => setHint(e.target.value)}
-          />
+<div className="my-5 richeeditos"><RichTextEditor value={hint} onChange={setHint} /></div>
+
 
           {/* Image Upload Inputs */}
           <div className="grid md:flex md:flex-row gap-4 mb-6">

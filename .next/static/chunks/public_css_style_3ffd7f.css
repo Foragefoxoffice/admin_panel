@@ -707,6 +707,45 @@ input[type="checkbox"] {
   padding-bottom: 20px;
 }
 
+.richeeditos > div > div:nth-child(2) {
+  padding: 0 !important;
+}
+
+.ProseMirror * {
+  color: #35095e;
+}
+
+.ProseMirror {
+  min-height: 150px;
+  padding: 15px;
+}
+
+.richoption {
+  color: #6712b7;
+  background: none;
+  border: 1px solid #000;
+}
+
+.richoptionhover {
+  color: #fff;
+  background: #6712b7;
+  border: none;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.ProseMirror li {
+  margin-bottom: 4px;
+}
+
 @media (width <= 600px) {
   .questionadd {
     display: grid;

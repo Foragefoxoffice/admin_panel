@@ -615,15 +615,19 @@ function QuestionsPage() {
                             lineNumber: 308,
                             columnNumber: 11
                         }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                            type: "text",
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
                             placeholder: "Hint (Optional)",
                             value: hint,
-                            onChange: (e)=>setHint(e.target.value)
+                            onChange: (e)=>setHint(e.target.value),
+                            rows: 5,
+                            style: {
+                                minHeight: "150px",
+                                resize: "vertical"
+                            }
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/question/page.jsx",
                             lineNumber: 321,
-                            columnNumber: 11
+                            columnNumber: 1
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "grid md:flex md:flex-row gap-4 mb-6",
@@ -639,7 +643,7 @@ function QuestionsPage() {
                                                     className: "file_icon"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                    lineNumber: 333,
+                                                    lineNumber: 334,
                                                     columnNumber: 17
                                                 }, this),
                                                 " ",
@@ -647,7 +651,7 @@ function QuestionsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 332,
+                                            lineNumber: 333,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -659,13 +663,13 @@ function QuestionsPage() {
                                             onChange: (e)=>handleImageChange(e, setImage, setImageName)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 335,
+                                            lineNumber: 336,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                    lineNumber: 331,
+                                    lineNumber: 332,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -679,7 +683,7 @@ function QuestionsPage() {
                                                     className: "file_icon"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                    lineNumber: 348,
+                                                    lineNumber: 349,
                                                     columnNumber: 17
                                                 }, this),
                                                 " ",
@@ -687,7 +691,7 @@ function QuestionsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 347,
+                                            lineNumber: 348,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -699,19 +703,19 @@ function QuestionsPage() {
                                             onChange: (e)=>handleImageChange(e, setHintImage, setHintImageName)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 350,
+                                            lineNumber: 351,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                    lineNumber: 346,
+                                    lineNumber: 347,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/question/page.jsx",
-                            lineNumber: 329,
+                            lineNumber: 330,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -721,7 +725,7 @@ function QuestionsPage() {
                             children: loading ? "Submitting..." : "Submit Question"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/question/page.jsx",
-                            lineNumber: 361,
+                            lineNumber: 362,
                             columnNumber: 11
                         }, this),
                         message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -729,7 +733,7 @@ function QuestionsPage() {
                             children: message
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/question/page.jsx",
-                            lineNumber: 365,
+                            lineNumber: 366,
                             columnNumber: 23
                         }, this)
                     ]
