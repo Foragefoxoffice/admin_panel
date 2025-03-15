@@ -263,15 +263,15 @@ const UploadPage = () => {
         break;
       case "subject":
         endpoint = `https://mitoslearning.in/api/subjects/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
+        payload = { name, portionId: parseInt(parentId.value, 10) };
         break;
       case "chapter":
         endpoint = `https://mitoslearning.in/api/chapters/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
+        payload = { name, subjectId: parseInt(parentId.value, 10) };
         break;
       case "topic":
         endpoint = `https://mitoslearning.in/api/topics/${editingItem.id}`;
-        payload = { name, parentId: parseInt(parentId.value, 10) };
+        payload = { name, chapterId: parseInt(parentId.value, 10) };
         break;
       default:
         setLoading(false);

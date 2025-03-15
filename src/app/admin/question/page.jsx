@@ -8,6 +8,7 @@ import { API_BASE_URL } from "@/utils/config";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import useAuth from "@/contexts/useAuth";
 import RichTextEditor from "@/components/Tiptap";
+import FormulaFormatter from "@/contexts/FormulaFormatter";
 
 // Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });

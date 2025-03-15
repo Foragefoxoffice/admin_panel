@@ -45,7 +45,7 @@ export default function EditQuestionPage() {
   useEffect(() => {
     const fetchQuestion = async () => {
       if (!token || !id) return;
-  
+
       setLoading(true);
       try {
         const response = await axios.get(`${API_BASE_URL}/questions/${id}`, {
@@ -70,7 +70,7 @@ export default function EditQuestionPage() {
         setLoading(false);
       }
     };
-  
+
     fetchQuestion();
   }, [token, id]);
 
@@ -222,16 +222,10 @@ export default function EditQuestionPage() {
         </div>
         <div>
           <label className="block font-bold">Question:</label>
-          <div onClick={(e) => {
-  if (e.target.tagName === 'BUTTON') {
-    e.preventDefault();
-  }
-}}>
-  <RichTextEditor
-    value={question}
-    onChange={(html) => setQuestion(html)}
-  />
-</div>
+          <RichTextEditor
+            value={question}
+            onChange={(html) => setQuestion(html)}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -240,7 +234,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionA}
               onChange={(e) => setOptionA(e.target.value)}
-              className="w-full border rounded"
+              className="w-full border rounded p-2"
               required
             />
           </div>
@@ -250,7 +244,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionB}
               onChange={(e) => setOptionB(e.target.value)}
-              className="w-full border rounded"
+              className="w-full border rounded p-2"
               required
             />
           </div>
@@ -260,7 +254,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionC}
               onChange={(e) => setOptionC(e.target.value)}
-              className="w-full p-4 border rounded"
+              className="w-full border rounded p-2"
               required
             />
           </div>
@@ -270,7 +264,7 @@ export default function EditQuestionPage() {
               type="text"
               value={optionD}
               onChange={(e) => setOptionD(e.target.value)}
-              className="w-full p-4 border rounded"
+              className="w-full border rounded p-2"
               required
             />
           </div>
@@ -293,16 +287,10 @@ export default function EditQuestionPage() {
         </div>
         <div>
           <label className="block font-bold">Hint (Optional):</label>
-          <div onClick={(e) => {
-  if (e.target.tagName === 'BUTTON') {
-    e.preventDefault();
-  }
-}}>
-  <RichTextEditor
-    value={hint}
-    onChange={(html) => setQuestion(html)}
-  />
-</div>
+          <RichTextEditor
+            value={hint}
+            onChange={(html) => setHint(html)}
+          />
         </div>
         
         {/* Image Upload Inputs */}
@@ -338,7 +326,7 @@ export default function EditQuestionPage() {
         </div>
         <button
           type="submit"
-          className="btn w-full"
+          className="btn w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
           disabled={loading}
         >
           {loading ? "Updating..." : "Update Question"}
