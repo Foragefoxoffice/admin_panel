@@ -27,7 +27,7 @@ export default function RichTextEditor({ value, onChange }) {
       Subscript,
       Superscript,
     ],
-    content: value || "<p>Start typing...</p>",
+    content: value || "<p></p>",
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
