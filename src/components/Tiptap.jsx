@@ -54,7 +54,7 @@ export default function RichTextEditor({ value, onChange }) {
   if (!editor) return null;
 
   return (
-    <div className="border p-4 rounded-lg">
+    <div className="border p-4 rounded-lg mt-5">
       {/* Toolbar */}
       <div className="mb-2 space-x-2 flex">
         <ToolbarButton editor={editor} command="toggleBold" type="bold" label="B" />

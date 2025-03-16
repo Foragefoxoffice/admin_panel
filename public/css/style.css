@@ -706,6 +706,9 @@ border: 1px solid #000;
   .ProseMirror li {
     margin-bottom: 4px;
   }
+  .richoptions .ProseMirror{
+min-height: 60px !important;
+  }
   
 @media(max-width:600px){
   .questionadd {

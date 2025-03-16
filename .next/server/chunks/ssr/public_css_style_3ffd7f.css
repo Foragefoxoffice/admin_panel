@@ -746,6 +746,10 @@ input[type="checkbox"] {
   margin-bottom: 4px;
 }
 
+.richoptions .ProseMirror {
+  min-height: 60px !important;
+}
+
 @media (width <= 600px) {
   .questionadd {
     display: grid;

@@ -37,8 +37,10 @@ export default function QuestionsPage() {
   const [token, setToken] = useState(null);
   const [imageName, setImageName] = useState("Select question Image to Upload");
   const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
+  const [editorKey, setEditorKey] = useState(Date.now());
+
   useAuth();
-  
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedToken = localStorage.getItem("token");
@@ -59,7 +61,7 @@ export default function QuestionsPage() {
     const fetchFilters = async () => {
       try {
         if (!token) throw new Error("Token is missing");
-  
+
         const [subjectRes, questionTypeRes] = await Promise.all([
           axios.get(`${API_BASE_URL}/subjects`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -68,7 +70,7 @@ export default function QuestionsPage() {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
-  
+
         setSubjects(
           subjectRes.data.map((s) => ({
             value: s.id, // Subject ID
@@ -81,10 +83,10 @@ export default function QuestionsPage() {
         console.error("Error fetching filters:", error);
       }
     };
-  
+
     fetchFilters();
   }, [token]);
-  
+
   useEffect(() => {
     const fetchChapters = async () => {
       if (selectedSubject) {
@@ -100,10 +102,10 @@ export default function QuestionsPage() {
         setChapters([]);
       }
     };
-  
+
     fetchChapters();
   }, [selectedSubject, token]);
-  
+
   useEffect(() => {
     const fetchTopics = async () => {
       if (selectedChapter) {
@@ -119,19 +121,19 @@ export default function QuestionsPage() {
         setTopics([]);
       }
     };
-  
+
     fetchTopics();
   }, [selectedChapter, token]);
 
   useEffect(() => {
     console.log("Question Length:", question.length);
   }, [question]);
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-
+  
     try {
       const formData = new FormData();
       formData.append("questionTypeId", selectedQuestionType?.value);
@@ -148,16 +150,18 @@ export default function QuestionsPage() {
       formData.append("hint", hint);
       if (image) formData.append("image", image);
       if (hintImage) formData.append("hintImage", hintImage);
-
+  
       const response = await axios.post(`${API_BASE_URL}/questions`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       if (response.status === 201) {
         setMessage("Question added successfully!");
+  
+        // Clear all inputs
         setQuestion("");
         setOptionA("");
         setOptionB("");
@@ -165,10 +169,21 @@ export default function QuestionsPage() {
         setOptionD("");
         setCorrectOption("");
         setHint("");
+  
+        // Reset rich text editors by updating key
+        setEditorKey(Date.now());
+  
+        // Clear image states
         setImage(null);
         setHintImage(null);
         setImageName("Select question Image to Upload");
         setHintImageName("Select Hint Image to Upload");
+  
+        // Reset Select fields
+        setSelectedSubject(null);
+        setSelectedChapter(null);
+        setSelectedTopic(null);
+        setSelectedQuestionType(null);
       } else {
         setMessage("Error adding question.");
       }
@@ -179,6 +194,8 @@ export default function QuestionsPage() {
       setLoading(false);
     }
   };
+  
+  
 
   const customStyles = {
     control: (provided, state) => ({
@@ -236,70 +253,46 @@ export default function QuestionsPage() {
         {/* Question Form */}
         <form onSubmit={handleSubmit} className="questionform">
           {/* Select Filters */}
-            <div className="questionadd">
-              <Select
-                options={subjects}
-                onChange={setSelectedSubject}
-                placeholder="Select Subject"
-                isClearable
-                styles={customStyles}
-              />
-              <Select
-                options={chapters}
-                onChange={setSelectedChapter}
-                placeholder="Select Chapter"
-                styles={customStyles}
-                isClearable
-              />
-            </div>
-            <div className="questionadd">
-              <Select
-                options={topics}
-                onChange={setSelectedTopic}
-                placeholder="Select Topic"
-                styles={customStyles}
-                isClearable
-              />
-              <Select
-                options={questionTypes}
-                onChange={setSelectedQuestionType}
-                placeholder="Select Question Type"
-                styles={customStyles}
-                isClearable
-              />
-            </div>
+          <div className="questionadd">
+            <Select
+              options={subjects}
+              onChange={setSelectedSubject}
+              placeholder="Select Subject"
+              isClearable
+              styles={customStyles}
+            />
+            <Select
+              options={chapters}
+              onChange={setSelectedChapter}
+              placeholder="Select Chapter"
+              styles={customStyles}
+              isClearable
+            />
+          </div>
+          <div className="questionadd">
+            <Select
+              options={topics}
+              onChange={setSelectedTopic}
+              placeholder="Select Topic"
+              styles={customStyles}
+              isClearable
+            />
+            <Select
+              options={questionTypes}
+              onChange={setSelectedQuestionType}
+              placeholder="Select Question Type"
+              styles={customStyles}
+              isClearable
+            />
+          </div>
 
-            <div className="richeeditos"> <RichTextEditor value={question} onChange={setQuestion} /></div>
+          <div className="richeeditos"> <span>Question:</span><RichTextEditor key={editorKey} value={question} onChange={setQuestion} /></div>
 
 
-          <input
-            type="text"
-            placeholder="Option A"
-            value={optionA}
-            onChange={(e) => setOptionA(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Option B"
-            value={optionB}
-            onChange={(e) => setOptionB(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Option C"
-            value={optionC}
-            onChange={(e) => setOptionC(e.target.value)}
-            required
-          />
-          <input
-            type="text"
-            placeholder="Option D"
-            value={optionD}
-            onChange={(e) => setOptionD(e.target.value)}
-            required
-          />
+          <div className="my-5 richoptions"><span >OptionA:</span><RichTextEditor   key={editorKey + 1} value={optionA} onChange={setOptionA} /></div>
+          <div className="my-5 richoptions"><span>OptionB:</span><RichTextEditor  key={editorKey + 2} value={optionB} onChange={setOptionB} /></div>
+          <div className="my-5 richoptions"><span>OptionC:</span><RichTextEditor  key={editorKey + 3} value={optionC} onChange={setOptionC} /></div>
+          <div className="my-5 richoptions"><span>OptionD:</span><RichTextEditor  key={editorKey + 4} value={optionD} onChange={setOptionD} /></div>
 
           <Select
             options={[
@@ -314,7 +307,7 @@ export default function QuestionsPage() {
             styles={customStyles}
           />
 
-<div className="my-5 richeeditos"><RichTextEditor value={hint} onChange={setHint} /></div>
+          <div className="my-5 richeeditos"><span>Hint:</span><RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} /></div>
 
 
           {/* Image Upload Inputs */}

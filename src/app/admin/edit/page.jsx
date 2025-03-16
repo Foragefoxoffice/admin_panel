@@ -228,46 +228,35 @@ export default function EditQuestionPage() {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block font-bold">Option A:</label>
-            <input
-              type="text"
-              value={optionA}
-              onChange={(e) => setOptionA(e.target.value)}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block font-bold">Option B:</label>
-            <input
-              type="text"
-              value={optionB}
-              onChange={(e) => setOptionB(e.target.value)}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block font-bold">Option C:</label>
-            <input
-              type="text"
-              value={optionC}
-              onChange={(e) => setOptionC(e.target.value)}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block font-bold">Option D:</label>
-            <input
-              type="text"
-              value={optionD}
-              onChange={(e) => setOptionD(e.target.value)}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
+          
+          <div className="richoptions" >
+          <label className="block font-bold">Option A:</label>
+          <RichTextEditor
+            value={optionA}
+            onChange={(html) => setOptionA(html)}
+          />
+        </div>
+        <div className="richoptions" >
+          <label className="block font-bold">Option B:</label>
+          <RichTextEditor
+            value={optionB}
+            onChange={(html) => setOptionB(html)}
+          />
+        </div>
+        <div className="richoptions" >
+        <label className="block font-bold">Option C:</label>
+          <RichTextEditor
+            value={optionC}
+            onChange={(html) => setOptionC(html)}
+          />
+        </div>
+        <div className="richoptions" >
+        <label className="block font-bold">Option D:</label>
+          <RichTextEditor
+            value={optionD}
+            onChange={(html) => setOptionD(html)}
+          />
+        </div>
         </div>
         <div>
           <label className="block font-bold">Correct Option:</label>
