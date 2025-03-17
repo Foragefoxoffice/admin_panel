@@ -125,15 +125,11 @@ export default function QuestionsPage() {
     fetchTopics();
   }, [selectedChapter, token]);
 
-  useEffect(() => {
-    console.log("Question Length:", question.length);
-  }, [question]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-  
+
     try {
       const formData = new FormData();
       formData.append("questionTypeId", selectedQuestionType?.value);
@@ -150,18 +146,18 @@ export default function QuestionsPage() {
       formData.append("hint", hint);
       if (image) formData.append("image", image);
       if (hintImage) formData.append("hintImage", hintImage);
-  
+
       const response = await axios.post(`${API_BASE_URL}/questions`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       if (response.status === 201) {
         setMessage("Question added successfully!");
-  
-        // Clear all inputs
+
+        // Reset all state variables
         setQuestion("");
         setOptionA("");
         setOptionB("");
@@ -169,21 +165,13 @@ export default function QuestionsPage() {
         setOptionD("");
         setCorrectOption("");
         setHint("");
-  
-        // Reset rich text editors by updating key
-        setEditorKey(Date.now());
-  
-        // Clear image states
         setImage(null);
         setHintImage(null);
         setImageName("Select question Image to Upload");
         setHintImageName("Select Hint Image to Upload");
-  
-        // Reset Select fields
-        setSelectedSubject(null);
-        setSelectedChapter(null);
-        setSelectedTopic(null);
-        setSelectedQuestionType(null);
+
+        // Force reset editors
+        setEditorKey(Date.now());
       } else {
         setMessage("Error adding question.");
       }
@@ -194,8 +182,6 @@ export default function QuestionsPage() {
       setLoading(false);
     }
   };
-  
-  
 
   const customStyles = {
     control: (provided, state) => ({
@@ -255,6 +241,7 @@ export default function QuestionsPage() {
           {/* Select Filters */}
           <div className="questionadd">
             <Select
+              value={selectedSubject}
               options={subjects}
               onChange={setSelectedSubject}
               placeholder="Select Subject"
@@ -262,6 +249,7 @@ export default function QuestionsPage() {
               styles={customStyles}
             />
             <Select
+              value={selectedChapter}
               options={chapters}
               onChange={setSelectedChapter}
               placeholder="Select Chapter"
@@ -271,6 +259,7 @@ export default function QuestionsPage() {
           </div>
           <div className="questionadd">
             <Select
+              value={selectedTopic}
               options={topics}
               onChange={setSelectedTopic}
               placeholder="Select Topic"
@@ -278,6 +267,7 @@ export default function QuestionsPage() {
               isClearable
             />
             <Select
+              value={selectedQuestionType}
               options={questionTypes}
               onChange={setSelectedQuestionType}
               placeholder="Select Question Type"
@@ -286,15 +276,30 @@ export default function QuestionsPage() {
             />
           </div>
 
-          <div className="richeeditos"> <span>Question:</span><RichTextEditor key={editorKey} value={question} onChange={setQuestion} /></div>
+          <div className="richeeditos">
+            <span>Question:</span>
+            <RichTextEditor key={editorKey} value={question} onChange={setQuestion} />
+          </div>
 
-
-          <div className="my-5 richoptions"><span >OptionA:</span><RichTextEditor   key={editorKey + 1} value={optionA} onChange={setOptionA} /></div>
-          <div className="my-5 richoptions"><span>OptionB:</span><RichTextEditor  key={editorKey + 2} value={optionB} onChange={setOptionB} /></div>
-          <div className="my-5 richoptions"><span>OptionC:</span><RichTextEditor  key={editorKey + 3} value={optionC} onChange={setOptionC} /></div>
-          <div className="my-5 richoptions"><span>OptionD:</span><RichTextEditor  key={editorKey + 4} value={optionD} onChange={setOptionD} /></div>
+          <div className="my-5 richoptions">
+            <span>OptionA:</span>
+            <RichTextEditor key={editorKey + 1} value={optionA} onChange={setOptionA} />
+          </div>
+          <div className="my-5 richoptions">
+            <span>OptionB:</span>
+            <RichTextEditor key={editorKey + 2} value={optionB} onChange={setOptionB} />
+          </div>
+          <div className="my-5 richoptions">
+            <span>OptionC:</span>
+            <RichTextEditor key={editorKey + 3} value={optionC} onChange={setOptionC} />
+          </div>
+          <div className="my-5 richoptions">
+            <span>OptionD:</span>
+            <RichTextEditor key={editorKey + 4} value={optionD} onChange={setOptionD} />
+          </div>
 
           <Select
+            value={correctOption ? { value: correctOption, label: `Option ${correctOption}` } : null}
             options={[
               { value: "A", label: "Option A" },
               { value: "B", label: "Option B" },
@@ -307,8 +312,10 @@ export default function QuestionsPage() {
             styles={customStyles}
           />
 
-          <div className="my-5 richeeditos"><span>Hint:</span><RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} /></div>
-
+          <div className="my-5 richeeditos">
+            <span>Hint:</span>
+            <RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} />
+          </div>
 
           {/* Image Upload Inputs */}
           <div className="grid md:flex md:flex-row gap-4 mb-6">

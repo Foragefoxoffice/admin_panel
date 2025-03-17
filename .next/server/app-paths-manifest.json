@@ -7,5 +7,6 @@
   "/admin/question/page": "app/admin/question/page.js",
   "/admin/upload/page": "app/admin/upload/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/admin/edit/page": "app/admin/edit/page.js"
+  "/admin/edit/page": "app/admin/edit/page.js",
+  "/login/page": "app/login/page.js"
 }
