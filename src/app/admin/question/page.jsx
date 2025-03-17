@@ -157,6 +157,11 @@ export default function QuestionsPage() {
       if (response.status === 201) {
         setMessage("Question added successfully!");
 
+      // Hide the success message after 5 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 5000);
+      
         // Reset all state variables
         setQuestion("");
         setOptionA("");
