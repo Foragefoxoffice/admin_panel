@@ -55,7 +55,6 @@ export default function RegisterScreen() {
   };
   
   return (
-    <GoogleOAuthProvider clientId="501560257854-oor7kgad2o2dk9l2qhv5ekd5ilmt9h0r.apps.googleusercontent.com">
       <div className="container p-10">
         <div className="flex w-full">
           <div className="w-[40%] hidden md:flex">
@@ -140,6 +139,5 @@ export default function RegisterScreen() {
           </div>
         </div>
       </div>
-    </GoogleOAuthProvider>
   );
 }

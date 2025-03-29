@@ -49,47 +49,7 @@ export default function LoginScreen() {
     }
   };
 
-  // Handle Google Sign-In success
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/auth/google`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credential: credentialResponse.credential }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        // Check if the user is an admin
-        if (data.role !== "user") {
-          setError("Access restricted to admin users only.");
-          return;
-        }
-
-        // Save token and role to local storage
-        localStorage.setItem("token", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        localStorage.setItem("role", data.role);
-        localStorage.setItem("userId", data.user.id);
-        // Navigate to admin dashboard
-        router.push("/admin/types");
-      } else {
-        setError(data.message || "Google authentication failed.");
-      }
-    } catch (err) {
-      console.error("Google Login Error:", err); // Debugging log
-      setError("Something went wrong. Please try again.");
-    }
-  };
-
-  // Handle Google Sign-In failure
-  const handleGoogleError = () => {
-    setError("Google Sign-In failed. Please try again.");
-  };
-
   return (
-    <GoogleOAuthProvider clientId="501560257854-oor7kgad2o2dk9l2qhv5ekd5ilmt9h0r.apps.googleusercontent.com">
       <div className="container p-10">
         <div className="flex w-full">
           <div className="w-[40%] hidden md:flex">
@@ -142,10 +102,7 @@ export default function LoginScreen() {
 
                 {/* Error Message */}
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-                {/* Submit Button */}
-                <div className="forgot">
-                  <a href="/auth/register">Forgot your password?</a>
-                </div>
+               
                 <button type="submit" className="login_btn">
                   Login
                 </button>
@@ -162,6 +119,5 @@ export default function LoginScreen() {
           </div>
         </div>
       </div>
-    </GoogleOAuthProvider>
   );
 }

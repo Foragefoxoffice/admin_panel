@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams  } from "next/navigation";
 import dynamic from "next/dynamic";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { TestContext } from "@/contexts/TestContext";
@@ -30,6 +30,8 @@ export default function QuestionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(20);
   const router = useRouter();
+  const { page } = router.query || {};
+  const searchParams = useSearchParams(); 
   useAuth();
 
   const { setTestData } = useContext(TestContext);
@@ -172,43 +174,139 @@ export default function QuestionsPage() {
   const handleUpdate = useCallback((id) => {
     const Data = {
       QuestionId: id,
+      returnPage: currentPage || 1, // Fallback to page 1 if currentPage is undefined
     };
-
+  
     setTestData(Data);
     router.push(`/admin/edit/`);
-  }, [setTestData, router]);
+  }, [setTestData, router, currentPage]); // Add currentPage to dependencies
 
   // Pagination Logic
   const indexOfLastQuestion = currentPage * questionsPerPage;
   const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
   const currentQuestions = filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion);
 
-  const paginate = useCallback((pageNumber) => setCurrentPage(pageNumber), []);
-
-  const Pagination = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(filteredQuestions.length / questionsPerPage); i++) {
-      pageNumbers.push(i);
+  // Initialize page from URL on component mount
+  useEffect(() => {
+    const pageParam = searchParams.get('page');
+    if (pageParam && !isNaN(pageParam)) {
+      setCurrentPage(Number(pageParam));
     }
+  }, [searchParams]); // Changed from [page] to [searchParams]
+
+  // Update URL when paginating
+  const paginate = useCallback((pageNumber) => {
+    setCurrentPage(pageNumber);
+    router.push(`/admin/questions?page=${pageNumber}`, undefined, { shallow: true });
+  }, [router]);
+
+  // Improved Pagination component
+  const Pagination = () => {
+    const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
+    if (totalPages <= 1) return null;
+
+    const getPageNumbers = () => {
+      const pages = [];
+      const maxVisiblePages = 5;
+      let startPage, endPage;
+
+      if (totalPages <= maxVisiblePages) {
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        const maxPagesBeforeCurrent = Math.floor(maxVisiblePages / 2);
+        const maxPagesAfterCurrent = Math.ceil(maxVisiblePages / 2) - 1;
+        
+        if (currentPage <= maxPagesBeforeCurrent) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + maxPagesAfterCurrent >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - maxPagesBeforeCurrent;
+          endPage = currentPage + maxPagesAfterCurrent;
+        }
+      }
+
+      // Always show first page
+      if (startPage > 1) {
+        pages.push(1);
+        if (startPage > 2) {
+          pages.push('...');
+        }
+      }
+
+      // Middle pages
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      // Always show last page if needed
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          pages.push('...');
+        }
+        pages.push(totalPages);
+      }
+
+      return pages;
+    };
 
     return (
       <div className="flex justify-center mt-6">
-        <nav>
-          <ul className="flex space-x-2">
-            {pageNumbers.map((number) => (
-              <li key={number}>
-                <button
-                  onClick={() => paginate(number)}
-                  className={`px-4 py-2 rounded-md ${
-                    currentPage === number
-                      ? "bg-[#35095e] text-white"
-                      : "bg-[#35095e2e] text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  {number}
-                </button>
+        <nav aria-label="Pagination">
+          <ul className="flex items-center space-x-1">
+            <li>
+              <button
+                onClick={() => paginate(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                aria-label="Previous page"
+                className={`px-3 py-1 rounded-md ${
+                  currentPage === 1
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                }`}
+              >
+                &lt;
+              </button>
+            </li>
+
+            {getPageNumbers().map((number, index) => (
+              <li key={index}>
+                {number === '...' ? (
+                  <span className="px-3 py-1" aria-hidden="true">...</span>
+                ) : (
+                  <button
+                    onClick={() => paginate(number)}
+                    aria-current={currentPage === number ? "page" : undefined}
+                    aria-label={`Page ${number}`}
+                    className={`px-3 py-1 rounded-md ${
+                      currentPage === number
+                        ? "bg-[#35095e] text-white"
+                        : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                    }`}
+                  >
+                    {number}
+                  </button>
+                )}
               </li>
             ))}
+
+            <li>
+              <button
+                onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                aria-label="Next page"
+                className={`px-3 py-1 rounded-md ${
+                  currentPage === totalPages
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                }`}
+              >
+                &gt;
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -264,7 +362,7 @@ export default function QuestionsPage() {
   };
 
   return (
-    <div className="px-4 max-w-7xl mx-auto">
+    <div className="p-4 md:px-4 max-w-7xl mx-auto">
       <h1 className="font-bold mb-6">Questions</h1>
 
       {/* Filters */}

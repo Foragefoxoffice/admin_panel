@@ -14,8 +14,10 @@ const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function EditQuestionPage() {
   const router = useRouter();
+  
   const { testData } = useContext(TestContext);
   const id = testData?.QuestionId;
+  const  returnPage = testData?.returnPage;
   const [question, setQuestion] = useState("");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
@@ -145,7 +147,7 @@ export default function EditQuestionPage() {
 
       if (response.status === 200) {
         toast.success("Question updated successfully!");
-        router.push("/admin/questions");
+        router.push(`/admin/questions?page=${returnPage}`);
       } else {
         toast.error("Failed to update question.");
       }

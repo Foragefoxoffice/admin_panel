@@ -18,7 +18,7 @@ const navItem = [
         href: "/admin/materials",
       },
       {
-        title: "Types",
+        title: "Types", 
         image: "/images/menu/cloud.png",
         href: "/admin/types",
       },

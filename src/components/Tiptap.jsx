@@ -85,7 +85,11 @@ export default function RichTextEditor({ value, onChange }) {
 function ToolbarButton({ editor, command, type, label }) {
   return (
     <button
-      onClick={() => editor.chain().focus()[command]().run()}
+      onClick={(e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
+        e.preventDefault(); // Prevent default behavior
+        editor.chain().focus()[command]().run();
+      }}
       className={`px-3 py-1 rounded ${editor.isActive(type) ? "richoptionhover" : "richoption"}`}
     >
       {label}
