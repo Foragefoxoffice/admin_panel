@@ -15,9 +15,10 @@ const Select = dynamic(() => import("react-select"), { ssr: false });
 export default function EditQuestionPage() {
   const router = useRouter();
   
-  const { testData } = useContext(TestContext);
+  const { testData, setTestData } = useContext(TestContext);
   const id = testData?.QuestionId;
-  const  returnPage = testData?.returnPage;
+  const returnPage = testData?.returnPage;
+  const savedFilters = testData?.filters || {};
   const [question, setQuestion] = useState("");
   const [optionA, setOptionA] = useState("");
   const [optionB, setOptionB] = useState("");
@@ -59,7 +60,7 @@ export default function EditQuestionPage() {
         setOptionB(data.optionB);
         setOptionC(data.optionC);
         setOptionD(data.optionD);
-        setCorrectOption(data.correctOption); // Ensure this is 'A', 'B', 'C', or 'D'
+        setCorrectOption(data.correctOption);
         setHint(data.hint);
         setSelectedTopic({ value: data.topic.id, label: data.topic.name });
         setSelectedQuestionType({ value: data.questionType.id, label: data.questionType.name });
@@ -123,7 +124,7 @@ export default function EditQuestionPage() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+  
     try {
       const formData = new FormData();
       formData.append("question", question);
@@ -137,16 +138,23 @@ export default function EditQuestionPage() {
       formData.append("questionTypeId", selectedQuestionType?.value);
       if (image) formData.append("image", image);
       if (hintImage) formData.append("hintImage", hintImage);
-
+  
       const response = await axios.put(`${API_BASE_URL}/questions/update/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       if (response.status === 200) {
         toast.success("Question updated successfully!");
+  
+        // Preserve savedFilters in setTestData
+        setTestData({
+          returnPage,
+          filters: savedFilters, // Ensure filters are retained
+        });
+  
         router.push(`/admin/questions?page=${returnPage}`);
       } else {
         toast.error("Failed to update question.");
@@ -158,6 +166,7 @@ export default function EditQuestionPage() {
       setLoading(false);
     }
   };
+  
 
   const customStyles = {
     control: (provided) => ({
@@ -230,35 +239,34 @@ export default function EditQuestionPage() {
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
-          
-          <div className="richoptions" >
-          <label className="block font-bold">Option A:</label>
-          <RichTextEditor
-            value={optionA}
-            onChange={(html) => setOptionA(html)}
-          />
-        </div>
-        <div className="richoptions" >
-          <label className="block font-bold">Option B:</label>
-          <RichTextEditor
-            value={optionB}
-            onChange={(html) => setOptionB(html)}
-          />
-        </div>
-        <div className="richoptions" >
-        <label className="block font-bold">Option C:</label>
-          <RichTextEditor
-            value={optionC}
-            onChange={(html) => setOptionC(html)}
-          />
-        </div>
-        <div className="richoptions" >
-        <label className="block font-bold">Option D:</label>
-          <RichTextEditor
-            value={optionD}
-            onChange={(html) => setOptionD(html)}
-          />
-        </div>
+          <div className="richoptions">
+            <label className="block font-bold">Option A:</label>
+            <RichTextEditor
+              value={optionA}
+              onChange={(html) => setOptionA(html)}
+            />
+          </div>
+          <div className="richoptions">
+            <label className="block font-bold">Option B:</label>
+            <RichTextEditor
+              value={optionB}
+              onChange={(html) => setOptionB(html)}
+            />
+          </div>
+          <div className="richoptions">
+            <label className="block font-bold">Option C:</label>
+            <RichTextEditor
+              value={optionC}
+              onChange={(html) => setOptionC(html)}
+            />
+          </div>
+          <div className="richoptions">
+            <label className="block font-bold">Option D:</label>
+            <RichTextEditor
+              value={optionD}
+              onChange={(html) => setOptionD(html)}
+            />
+          </div>
         </div>
         <div>
           <label className="block font-bold">Correct Option:</label>

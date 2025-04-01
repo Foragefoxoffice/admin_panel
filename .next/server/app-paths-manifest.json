@@ -3,7 +3,8 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/types/page": "app/admin/types/page.js",
   "/admin/questions/page": "app/admin/questions/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/admin/edit/page": "app/admin/edit/page.js",
-  "/admin/question/page": "app/admin/question/page.js"
+  "/login/page": "app/login/page.js",
+  "/admin/question/page": "app/admin/question/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

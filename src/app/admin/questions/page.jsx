@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
 import axios from "axios";
-import { useRouter,useSearchParams  } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { TestContext } from "@/contexts/TestContext";
@@ -19,22 +19,23 @@ export default function QuestionsPage() {
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
   const [questionTypes, setQuestionTypes] = useState([]);
+  const { setTestData, testData } = useContext(TestContext);
+
+  // Initialize all filter states as null
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedPortion, setSelectedPortion] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState(null);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const [openAccordion, setOpenAccordion] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [questionsPerPage] = useState(20);
   const router = useRouter();
-  const { page } = router.query || {};
-  const searchParams = useSearchParams(); 
+  const searchParams = useSearchParams();
   useAuth();
-
-  const { setTestData } = useContext(TestContext);
 
   // Fetch token from localStorage
   useEffect(() => {
@@ -42,6 +43,44 @@ export default function QuestionsPage() {
       setToken(localStorage.getItem("token"));
     }
   }, []);
+
+  // Initialize filters from testData after data is loaded
+  useEffect(() => {
+    if (testData?.filters && subjects.length > 0 && questionTypes.length > 0) {
+      const filters = testData.filters;
+      
+      if (filters.selectedSubject && subjects.some(s => s.value.toString() === filters.selectedSubject.toString())) {
+        setSelectedSubject(filters.selectedSubject);
+      }
+      
+      if (filters.selectedQuestionType && questionTypes.some(qt => qt.value.toString() === filters.selectedQuestionType.toString())) {
+        setSelectedQuestionType(filters.selectedQuestionType);
+      }
+      
+      if (filters.selectedPortion) {
+        setSelectedPortion(filters.selectedPortion);
+      }
+    }
+  }, [testData?.filters, subjects, questionTypes]);
+
+  // Initialize chapter and topic filters after they're loaded
+  useEffect(() => {
+    if (testData?.filters && chapters.length > 0) {
+      const filters = testData.filters;
+      if (filters.selectedChapter && chapters.some(c => c.value.toString() === filters.selectedChapter.toString())) {
+        setSelectedChapter(filters.selectedChapter);
+      }
+    }
+  }, [testData?.filters, chapters]);
+
+  useEffect(() => {
+    if (testData?.filters && topics.length > 0) {
+      const filters = testData.filters;
+      if (filters.selectedTopic && topics.some(t => t.value.toString() === filters.selectedTopic.toString())) {
+        setSelectedTopic(filters.selectedTopic);
+      }
+    }
+  }, [testData?.filters, topics]);
 
   // Fetch initial filters (portions, subjects, question types)
   useEffect(() => {
@@ -56,9 +95,14 @@ export default function QuestionsPage() {
         ]);
 
         setPortions(portionRes.data.map((p) => ({ value: p.id, label: p.name })));
-        setSubjects(subjectRes.data.map((s) => ({ value: s.id, label: s.name, portion: s.portion.name })));
+        setSubjects(subjectRes.data.map((s) => ({ 
+          value: s.id, 
+          label: s.name, 
+          portion: s.portion?.name || 'No portion' 
+        })));
         setQuestionTypes(questionTypeRes.data.map((qt) => ({ value: qt.id, label: qt.name })));
       } catch (error) {
+        console.error("Failed to fetch filters:", error);
         setError("Failed to fetch filters.");
       }
     };
@@ -67,55 +111,59 @@ export default function QuestionsPage() {
   }, [token]);
 
   // Debounced fetch chapters
-  const debouncedFetchChapters = useCallback(debounce(async (selectedSubject, token, setChapters, setSelectedChapter, setSelectedTopic) => {
+  const debouncedFetchChapters = useCallback(debounce(async (subjectId) => {
     try {
-      if (!token || !selectedSubject) {
+      if (!token || !subjectId) {
         setChapters([]);
         setSelectedChapter(null);
         setSelectedTopic(null);
         return;
       }
 
-      const response = await axios.get(`${API_BASE_URL}/chapters/chapter/${selectedSubject}`, {
+      const response = await axios.get(`${API_BASE_URL}/chapters/chapter/${subjectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (response.status === 200) {
-        setChapters(response.data.map((c) => ({ value: c.id, label: c.name })));
-        setSelectedChapter(null);
-        setSelectedTopic(null);
-      } else {
-        setChapters([]);
-      }
+      const chaptersData = response.data.map((c) => ({ 
+        value: c.id, 
+        label: c.name 
+      }));
+      setChapters(chaptersData);
     } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setChapters([]);
-      } else {
-        console.error("Failed to fetch chapters:", error);
-        setError("Failed to fetch chapters.");
-      }
+      console.error("Failed to fetch chapters:", error);
+      setChapters([]);
     }
-  }, 300), []);
+  }, 500), [token]);
 
   // Fetch chapters based on selected subject
   useEffect(() => {
-    debouncedFetchChapters(selectedSubject, token, setChapters, setSelectedChapter, setSelectedTopic);
-  }, [selectedSubject, token, debouncedFetchChapters]);
+    if (selectedSubject) {
+      debouncedFetchChapters(selectedSubject);
+    } else {
+      setChapters([]);
+      setSelectedChapter(null);
+      setSelectedTopic(null);
+    }
+  }, [selectedSubject, debouncedFetchChapters]);
 
   // Fetch topics based on selected chapter
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        if (!token || !selectedChapter) return;
+        if (!token || !selectedChapter) {
+          setTopics([]);
+          setSelectedTopic(null);
+          return;
+        }
 
         const response = await axios.get(`${API_BASE_URL}/topics/topic/${selectedChapter}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         setTopics(response.data.map((t) => ({ value: t.id, label: t.name })));
-        setSelectedTopic(null);
       } catch (error) {
-        setError("Failed to fetch topics.");
+        console.error("Failed to fetch topics:", error);
+        setTopics([]);
       }
     };
 
@@ -135,6 +183,7 @@ export default function QuestionsPage() {
         });
         setQuestions(response.data);
       } catch (error) {
+        console.error("Failed to fetch questions:", error);
         setError("Failed to fetch questions.");
       } finally {
         setLoading(false);
@@ -146,13 +195,28 @@ export default function QuestionsPage() {
 
   // Filter questions based on selected filters
   const filteredQuestions = useMemo(() => {
-    return questions.filter((question) => (
-      (!selectedPortion || question.portionId === selectedPortion) &&
-      (!selectedSubject || question.subjectId === selectedSubject) &&
-      (!selectedChapter || question.chapterId === selectedChapter) &&
-      (!selectedTopic || question.topicId === selectedTopic) &&
-      (!selectedQuestionType || question.questionTypeId === selectedQuestionType)
-    ));
+    return questions.filter((question) => {
+      // Convert all IDs to strings for consistent comparison
+      const qPortion = question.portionId?.toString() || '';
+      const qSubject = question.subjectId?.toString() || '';
+      const qChapter = question.chapterId?.toString() || '';
+      const qTopic = question.topicId?.toString() || '';
+      const qType = question.questionTypeId?.toString() || '';
+
+      const filterPortion = selectedPortion?.toString() || '';
+      const filterSubject = selectedSubject?.toString() || '';
+      const filterChapter = selectedChapter?.toString() || '';
+      const filterTopic = selectedTopic?.toString() || '';
+      const filterType = selectedQuestionType?.toString() || '';
+
+      return (
+        (!selectedPortion || qPortion === filterPortion) &&
+        (!selectedSubject || qSubject === filterSubject) &&
+        (!selectedChapter || qChapter === filterChapter) &&
+        (!selectedTopic || qTopic === filterTopic) &&
+        (!selectedQuestionType || qType === filterType)
+      );
+    });
   }, [questions, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType]);
 
   // Delete Question
@@ -166,6 +230,7 @@ export default function QuestionsPage() {
 
       setQuestions(questions.filter((q) => q.id !== id));
     } catch (error) {
+      console.error("Failed to delete question:", error);
       alert("Failed to delete question.");
     }
   }, [token, questions]);
@@ -174,12 +239,19 @@ export default function QuestionsPage() {
   const handleUpdate = useCallback((id) => {
     const Data = {
       QuestionId: id,
-      returnPage: currentPage || 1, // Fallback to page 1 if currentPage is undefined
+      returnPage: currentPage || 1,
+      filters: {
+        selectedPortion,
+        selectedSubject,
+        selectedChapter,
+        selectedTopic,
+        selectedQuestionType
+      }
     };
-  
+
     setTestData(Data);
     router.push(`/admin/edit/`);
-  }, [setTestData, router, currentPage]); // Add currentPage to dependencies
+  }, [setTestData, router, currentPage, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType]);
 
   // Pagination Logic
   const indexOfLastQuestion = currentPage * questionsPerPage;
@@ -192,7 +264,7 @@ export default function QuestionsPage() {
     if (pageParam && !isNaN(pageParam)) {
       setCurrentPage(Number(pageParam));
     }
-  }, [searchParams]); // Changed from [page] to [searchParams]
+  }, [searchParams]);
 
   // Update URL when paginating
   const paginate = useCallback((pageNumber) => {
@@ -200,7 +272,7 @@ export default function QuestionsPage() {
     router.push(`/admin/questions?page=${pageNumber}`, undefined, { shallow: true });
   }, [router]);
 
-  // Improved Pagination component
+  // Pagination component
   const Pagination = () => {
     const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
     if (totalPages <= 1) return null;
@@ -229,7 +301,6 @@ export default function QuestionsPage() {
         }
       }
 
-      // Always show first page
       if (startPage > 1) {
         pages.push(1);
         if (startPage > 2) {
@@ -237,12 +308,10 @@ export default function QuestionsPage() {
         }
       }
 
-      // Middle pages
       for (let i = startPage; i <= endPage; i++) {
         pages.push(i);
       }
 
-      // Always show last page if needed
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
           pages.push('...');
@@ -372,7 +441,7 @@ export default function QuestionsPage() {
             value: s.value,
             label: `${s.label} (${s.portion})`,
           }))}
-          value={subjects.find((s) => s.value === selectedSubject) || null}
+          value={subjects.find((s) => s.value.toString() === selectedSubject?.toString()) || null}
           onChange={(option) => {
             setSelectedSubject(option?.value || null);
             setSelectedChapter(null);
@@ -384,28 +453,28 @@ export default function QuestionsPage() {
         />
         <Select
           options={chapters}
-          value={chapters.find((c) => c.value === selectedChapter) || null}
+          value={chapters.find((c) => c.value.toString() === selectedChapter?.toString()) || null}
           onChange={(option) => {
             setSelectedChapter(option?.value || null);
             setSelectedTopic(null);
           }}
-          placeholder={chapters.length === 0 ? "No chapters available" : "Select Chapter"}
+          placeholder={!selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter"}
           isClearable
-          isDisabled={!selectedSubject || chapters.length === 0}
+          isDisabled={!selectedSubject}
           styles={customStyles}
         />
         <Select
           options={topics}
-          value={topics.find((t) => t.value === selectedTopic) || null}
+          value={topics.find((t) => t.value.toString() === selectedTopic?.toString()) || null}
           onChange={(option) => setSelectedTopic(option?.value || null)}
-          placeholder={!selectedChapter ? "Select a chapter first" : "Select Topic"}
+          placeholder={!selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic"}
           isClearable
           isDisabled={!selectedChapter}
           styles={customStyles}
         />
         <Select
           options={questionTypes}
-          value={questionTypes.find((qt) => qt.value === selectedQuestionType) || null}
+          value={questionTypes.find((qt) => qt.value.toString() === selectedQuestionType?.toString()) || null}
           onChange={(option) => setSelectedQuestionType(option?.value || null)}
           placeholder="Select Question Type"
           isClearable
@@ -425,51 +494,45 @@ export default function QuestionsPage() {
           {currentQuestions.length > 0 ? (
             <ul className="space-y-4">
               {currentQuestions.map((question, index) => {
-                // Calculate the serial number based on the current page
                 const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
 
                 return (
                   <li key={question.id} className="border rounded-lg shadow-sm transition-shadow">
-                    {/* Question Header */}
                     <div
                       className="p-4 flex justify-between items-center cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
                       onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
                     >
                       <div className="flex items-center space-x-4">
-                        <span className="text-gray-600 font-bold">{serialNumber}.</span> {/* Serial Number */}
+                        <span className="text-gray-600 font-bold">{serialNumber}.</span>
                         <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
                       </div>
                       <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
                     </div>
 
-                    {/* Accordion Content */}
                     {openAccordion === question.id && (
                       <div className="p-4 bg-white border-t">
-                        <img alt="" src={`https://mitoslearning.in/${question.image}`} />
+                        {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
                         <div className="space-y-2">
                           <p><strong>Option A:</strong> <FormulaFormatter text={question.optionA} /></p>
                           <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
                           <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
                           <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
-                          <p className="text-green-600"><strong>Correct Answer:</strong>{question.correctOption}</p>
-                          {question.hint && <div className=""><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
+                          <p className="text-green-600"><strong>Correct Answer:</strong> {question.correctOption}</p>
+                          {question.hint && <div className="mt-2"><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
                         </div>
 
-                        <div className="space-y-2">
-                          <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} />
-                        </div>
+                        {question.hintImage && <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} className="mt-4 max-w-full" />}
 
-                        {/* Actions */}
                         <div className="flex justify-end mt-4 space-x-4">
                           <button
                             onClick={() => handleUpdate(question.id)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
+                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600"
                           >
                             <FaEdit /> <span>Edit</span>
                           </button>
                           <button
                             onClick={() => handleDelete(question.id)}
-                            className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1"
+                            className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600"
                           >
                             <FaTrash /> <span>Delete</span>
                           </button>
@@ -481,7 +544,7 @@ export default function QuestionsPage() {
               })}
             </ul>
           ) : (
-            <p className="text-gray-600 text-center">No questions available.</p>
+            <p className="text-gray-600 text-center">No questions match the selected filters.</p>
           )}
         </div>
       )}

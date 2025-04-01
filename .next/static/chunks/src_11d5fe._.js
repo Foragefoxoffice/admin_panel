@@ -400,9 +400,10 @@ _c = Select;
 function EditQuestionPage() {
     _s();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
-    const { testData } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContext"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$TestContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TestContext"]);
+    const { testData, setTestData } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContext"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$TestContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TestContext"]);
     const id = testData?.QuestionId;
     const returnPage = testData?.returnPage;
+    const savedFilters = testData?.filters || {};
     const [question, setQuestion] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [optionA, setOptionA] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [optionB, setOptionB] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
@@ -447,7 +448,7 @@ function EditQuestionPage() {
                         setOptionB(data.optionB);
                         setOptionC(data.optionC);
                         setOptionD(data.optionD);
-                        setCorrectOption(data.correctOption); // Ensure this is 'A', 'B', 'C', or 'D'
+                        setCorrectOption(data.correctOption);
                         setHint(data.hint);
                         setSelectedTopic({
                             value: data.topic.id,
@@ -560,6 +561,11 @@ function EditQuestionPage() {
             });
             if (response.status === 200) {
                 __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].success("Question updated successfully!");
+                // Preserve savedFilters in setTestData
+                setTestData({
+                    returnPage,
+                    filters: savedFilters
+                });
                 router.push(`/admin/questions?page=${returnPage}`);
             } else {
                 __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$toastify$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error("Failed to update question.");
@@ -637,7 +643,7 @@ function EditQuestionPage() {
                 children: "Edit Question"
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                lineNumber: 198,
+                lineNumber: 207,
                 columnNumber: 7
             }, this),
             error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -645,7 +651,7 @@ function EditQuestionPage() {
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                lineNumber: 199,
+                lineNumber: 208,
                 columnNumber: 17
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -662,7 +668,7 @@ function EditQuestionPage() {
                                         children: "Topic:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 203,
+                                        lineNumber: 212,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -674,13 +680,13 @@ function EditQuestionPage() {
                                         styles: customStyles
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 204,
+                                        lineNumber: 213,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 202,
+                                lineNumber: 211,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -690,7 +696,7 @@ function EditQuestionPage() {
                                         children: "Question Type:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 214,
+                                        lineNumber: 223,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -702,19 +708,19 @@ function EditQuestionPage() {
                                         styles: customStyles
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 215,
+                                        lineNumber: 224,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 213,
+                                lineNumber: 222,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 201,
+                        lineNumber: 210,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -724,7 +730,7 @@ function EditQuestionPage() {
                                 children: "Question:"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 226,
+                                lineNumber: 235,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -732,13 +738,13 @@ function EditQuestionPage() {
                                 onChange: (html)=>setQuestion(html)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 227,
+                                lineNumber: 236,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 225,
+                        lineNumber: 234,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -752,21 +758,21 @@ function EditQuestionPage() {
                                         children: "Option A:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 235,
-                                        columnNumber: 11
+                                        lineNumber: 243,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionA,
                                         onChange: (html)=>setOptionA(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 236,
-                                        columnNumber: 11
+                                        lineNumber: 244,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 234,
+                                lineNumber: 242,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -777,22 +783,22 @@ function EditQuestionPage() {
                                         children: "Option B:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 242,
-                                        columnNumber: 11
+                                        lineNumber: 250,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionB,
                                         onChange: (html)=>setOptionB(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 243,
-                                        columnNumber: 11
+                                        lineNumber: 251,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 241,
-                                columnNumber: 9
+                                lineNumber: 249,
+                                columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "richoptions",
@@ -802,22 +808,22 @@ function EditQuestionPage() {
                                         children: "Option C:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 249,
-                                        columnNumber: 9
+                                        lineNumber: 257,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionC,
                                         onChange: (html)=>setOptionC(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 250,
-                                        columnNumber: 11
+                                        lineNumber: 258,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 248,
-                                columnNumber: 9
+                                lineNumber: 256,
+                                columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "richoptions",
@@ -827,27 +833,27 @@ function EditQuestionPage() {
                                         children: "Option D:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 256,
-                                        columnNumber: 9
+                                        lineNumber: 264,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionD,
                                         onChange: (html)=>setOptionD(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 257,
-                                        columnNumber: 11
+                                        lineNumber: 265,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 255,
-                                columnNumber: 9
+                                lineNumber: 263,
+                                columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 232,
+                        lineNumber: 241,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -857,7 +863,7 @@ function EditQuestionPage() {
                                 children: "Correct Option:"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 264,
+                                lineNumber: 272,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -886,13 +892,13 @@ function EditQuestionPage() {
                                 styles: customStyles
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 265,
+                                lineNumber: 273,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 263,
+                        lineNumber: 271,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -902,7 +908,7 @@ function EditQuestionPage() {
                                 children: "Hint (Optional):"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 280,
+                                lineNumber: 288,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -910,13 +916,13 @@ function EditQuestionPage() {
                                 onChange: (html)=>setHint(html)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 281,
+                                lineNumber: 289,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 279,
+                        lineNumber: 287,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -933,7 +939,7 @@ function EditQuestionPage() {
                                                 className: "file_icon"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 292,
+                                                lineNumber: 300,
                                                 columnNumber: 15
                                             }, this),
                                             " ",
@@ -941,7 +947,7 @@ function EditQuestionPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 291,
+                                        lineNumber: 299,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -953,13 +959,13 @@ function EditQuestionPage() {
                                         onChange: (e)=>handleImageChange(e, setImage, setImageName)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 294,
+                                        lineNumber: 302,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 290,
+                                lineNumber: 298,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -973,7 +979,7 @@ function EditQuestionPage() {
                                                 className: "file_icon"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 306,
+                                                lineNumber: 314,
                                                 columnNumber: 15
                                             }, this),
                                             " ",
@@ -981,7 +987,7 @@ function EditQuestionPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 305,
+                                        lineNumber: 313,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -993,19 +999,19 @@ function EditQuestionPage() {
                                         onChange: (e)=>handleImageChange(e, setHintImage, setHintImageName)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 308,
+                                        lineNumber: 316,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 304,
+                                lineNumber: 312,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 288,
+                        lineNumber: 296,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1015,23 +1021,23 @@ function EditQuestionPage() {
                         children: loading ? "Updating..." : "Update Question"
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 318,
+                        lineNumber: 326,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                lineNumber: 200,
+                lineNumber: 209,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/edit/page.jsx",
-        lineNumber: 197,
+        lineNumber: 206,
         columnNumber: 5
     }, this);
 }
-_s(EditQuestionPage, "YgLSzUvdOQ+R4PJADE+C8xVmHbQ=", false, function() {
+_s(EditQuestionPage, "jFP11mUeGRds29fF5vlsvx4hZPw=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$useAuth$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"]
