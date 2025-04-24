@@ -114,8 +114,17 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$list$2d$item$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-list-item/dist/index.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$subscript$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-subscript/dist/index.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$superscript$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-superscript/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$highlight$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-highlight/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$text$2d$align$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-text-align/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$text$2d$style$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-text-style/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$color$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-color/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$code$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-code/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$code$2d$block$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-code-block/dist/index.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$horizontal$2d$rule$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/@tiptap/extension-horizontal-rule/dist/index.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_import__("[project]/node_modules/@tiptap/react/dist/index.js [app-ssr] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJaxContext$2f$MathJaxContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJaxContext$3e$__ = __turbopack_import__("[project]/node_modules/better-react-mathjax/esm/MathJaxContext/MathJaxContext.js [app-ssr] (ecmascript) <export default as MathJaxContext>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__ = __turbopack_import__("[project]/node_modules/better-react-mathjax/esm/MathJax/MathJax.js [app-ssr] (ecmascript) <export default as MathJax>");
 "use client";
 ;
 ;
@@ -130,13 +139,26 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$
 ;
 ;
 ;
+;
+;
+;
+;
+;
+;
+;
+;
 function RichTextEditor({ value, onChange }) {
+    const [linkUrl, setLinkUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
+    const [showLinkInput, setShowLinkInput] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [textColor, setTextColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("#000000");
+    const [highlightColor, setHighlightColor] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("#ffff00");
     const editor = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["useEditor"])({
         extensions: [
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$starter$2d$kit$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].configure({
                 bulletList: false,
                 orderedList: false,
-                listItem: false
+                listItem: false,
+                codeBlock: false
             }),
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$bullet$2d$list$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$ordered$2d$list$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
@@ -144,9 +166,30 @@ function RichTextEditor({ value, onChange }) {
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$bold$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$italic$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$underline$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
-            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$link$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$link$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].configure({
+                openOnClick: false,
+                HTMLAttributes: {
+                    class: "text-blue-600 underline"
+                }
+            }),
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$subscript$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
-            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$superscript$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"]
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$superscript$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$highlight$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].configure({
+                multicolor: true
+            }),
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$text$2d$align$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].configure({
+                types: [
+                    "heading",
+                    "paragraph"
+                ]
+            }),
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$text$2d$style$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$color$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$code$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"],
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$code$2d$block$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].configure({
+                languageClassPrefix: "language-"
+            }),
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$extension$2d$horizontal$2d$rule$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"]
         ],
         content: value || "<p></p>",
         onUpdate: ({ editor })=>{
@@ -157,8 +200,8 @@ function RichTextEditor({ value, onChange }) {
                 event.preventDefault();
                 const clipboardData = event.clipboardData || window.clipboardData;
                 const text = clipboardData.getData("text/plain") || clipboardData.getData("text/html");
-                let formattedText = formatPastedContent(text);
-                view.dispatch(view.state.tr.insertText(formattedText));
+                const formatted = formatPastedContent(text);
+                view.dispatch(view.state.tr.insertText(formatted));
                 return true;
             }
         }
@@ -172,172 +215,555 @@ function RichTextEditor({ value, onChange }) {
         editor
     ]);
     if (!editor) return null;
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "border p-4 rounded-lg mt-5",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mb-2 space-x-2 flex",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleBold",
-                        type: "bold",
-                        label: "B"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 60,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleItalic",
-                        type: "italic",
-                        label: "I"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 61,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleUnderline",
-                        type: "underline",
-                        label: "U"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 62,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleBulletList",
-                        type: "bulletList",
-                        label: "• List"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 63,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleOrderedList",
-                        type: "orderedList",
-                        label: "1. List"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 64,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleSubscript",
-                        type: "subscript",
-                        label: "X₂"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 65,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
-                        editor: editor,
-                        command: "toggleSuperscript",
-                        type: "superscript",
-                        label: "X²"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 66,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: ()=>{
-                            const url = prompt("Enter URL:");
-                            if (url) editor.chain().focus().setLink({
-                                href: url
-                            }).run();
-                        },
-                        className: `px-3 py-1 rounded ${editor.isActive("link") ? "richoptionhover" : "richoption"}`,
-                        children: "🔗"
-                    }, void 0, false, {
-                        fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 67,
-                        columnNumber: 9
-                    }, this)
+    const addLink = ()=>{
+        if (linkUrl) {
+            editor.chain().focus().setLink({
+                href: linkUrl
+            }).run();
+        }
+        setShowLinkInput(false);
+        setLinkUrl("");
+    };
+    const removeLink = ()=>{
+        editor.chain().focus().unsetLink().run();
+        setShowLinkInput(false);
+    };
+    const setTextColorCommand = ()=>{
+        editor.chain().focus().setColor(textColor).run();
+    };
+    const setHighlightColorCommand = ()=>{
+        editor.chain().focus().setHighlight({
+            color: highlightColor
+        }).run();
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJaxContext$2f$MathJaxContext$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJaxContext$3e$__["MathJaxContext"], {
+        config: {
+            loader: {
+                load: [
+                    "input/tex",
+                    "output/chtml"
                 ]
-            }, void 0, true, {
-                fileName: "[project]/src/components/Tiptap.jsx",
-                lineNumber: 59,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["EditorContent"], {
-                editor: editor,
-                className: "min-h-[150px] p-2 border ProseMirror"
-            }, void 0, false, {
-                fileName: "[project]/src/components/Tiptap.jsx",
-                lineNumber: 79,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
+            },
+            tex: {
+                packages: {
+                    '[+]': [
+                        'color',
+                        'mhchem'
+                    ]
+                },
+                inlineMath: [
+                    [
+                        '$',
+                        '$'
+                    ],
+                    [
+                        '\\(',
+                        '\\)'
+                    ]
+                ],
+                displayMath: [
+                    [
+                        '$$',
+                        '$$'
+                    ],
+                    [
+                        '\\[',
+                        '\\]'
+                    ]
+                ]
+            }
+        },
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "border p-4 rounded-lg mt-5",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mb-2 space-x-2 flex flex-wrap gap-2",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleBold",
+                            type: "bold",
+                            label: "B"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 125,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleItalic",
+                            type: "italic",
+                            label: "I"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 126,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleUnderline",
+                            type: "underline",
+                            label: "U"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 127,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleCode",
+                            type: "code",
+                            label: "</>"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 128,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleBulletList",
+                            type: "bulletList",
+                            label: "• List"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 131,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleOrderedList",
+                            type: "orderedList",
+                            label: "1. List"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 132,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleSubscript",
+                            type: "subscript",
+                            label: "X₂"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 135,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleSuperscript",
+                            type: "superscript",
+                            label: "X²"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 136,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "relative",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>setShowLinkInput(!showLinkInput),
+                                    className: `px-3 py-1 rounded ${editor.isActive("link") ? "bg-blue-100 text-blue-600" : "bg-gray-100 hover:bg-gray-200"}`,
+                                    children: "🔗"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                    lineNumber: 140,
+                                    columnNumber: 13
+                                }, this),
+                                showLinkInput && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "absolute z-10 top-full left-0 mt-1 p-2 bg-white border rounded shadoh-8lg",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "text",
+                                            value: linkUrl,
+                                            onChange: (e)=>setLinkUrl(e.target.value),
+                                            placeholder: "Enter URL",
+                                            className: "border p-1 mb-2 h-8full"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/Tiptap.jsx",
+                                            lineNumber: 148,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "flex space-x-2",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: addLink,
+                                                    className: "px-2 py-1 bg-blue-500 text-white rounded",
+                                                    children: "Apply"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                                    lineNumber: 156,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    onClick: removeLink,
+                                                    className: "px-2 py-1 bg-red-500 text-white rounded",
+                                                    children: "Remove"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                                    lineNumber: 162,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/Tiptap.jsx",
+                                            lineNumber: 155,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                    lineNumber: 147,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 139,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "border-l border-gray-300 h-6 mx-2"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 174,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "setTextAlign",
+                            type: {
+                                textAlign: "left"
+                            },
+                            label: "≡"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 175,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "setTextAlign",
+                            type: {
+                                textAlign: "center"
+                            },
+                            label: "≡"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 176,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "setTextAlign",
+                            type: {
+                                textAlign: "right"
+                            },
+                            label: "≡"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 177,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "border-l border-gray-300 h-6 mx-2"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 180,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex items-center gap-3",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    type: "color",
+                                    value: textColor,
+                                    onChange: (e)=>setTextColor(e.target.value),
+                                    onBlur: setTextColorCommand,
+                                    className: " h-4 border-0 cursor-pointer m-0 colorpic"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                    lineNumber: 182,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                    type: "color",
+                                    value: highlightColor,
+                                    onChange: (e)=>setHighlightColor(e.target.value),
+                                    onBlur: setHighlightColorCommand,
+                                    className: " h-4 border-0 cursor-pointer ml-2 colorpic"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/Tiptap.jsx",
+                                    lineNumber: 189,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 181,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "border-l border-gray-300 h-6 "
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 200,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "toggleCodeBlock",
+                            type: "codeBlock",
+                            label: "</> Block"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 201,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "setHorizontalRule",
+                            type: "",
+                            label: "---"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 202,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Tiptap.jsx",
+                    lineNumber: 123,
+                    columnNumber: 9
+                }, this),
+                editor && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["BubbleMenu"], {
+                    editor: editor,
+                    tippyOptions: {
+                        duration: 100
+                    },
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex bg-white border rounded shadoh-8lg p-1 space-x-1",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                                editor: editor,
+                                command: "toggleBold",
+                                type: "bold",
+                                label: "B"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Tiptap.jsx",
+                                lineNumber: 209,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                                editor: editor,
+                                command: "toggleItalic",
+                                type: "italic",
+                                label: "I"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Tiptap.jsx",
+                                lineNumber: 210,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                                editor: editor,
+                                command: "toggleUnderline",
+                                type: "underline",
+                                label: "U"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Tiptap.jsx",
+                                lineNumber: 211,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>{
+                                    const url = prompt("Enter URL:");
+                                    if (url) editor.chain().focus().setLink({
+                                        href: url
+                                    }).run();
+                                },
+                                className: `px-2 py-1 rounded ${editor.isActive("link") ? "bg-blue-100" : "bg-gray-100"}`,
+                                children: "🔗"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/Tiptap.jsx",
+                                lineNumber: 212,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/Tiptap.jsx",
+                        lineNumber: 208,
+                        columnNumber: 13
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Tiptap.jsx",
+                    lineNumber: 207,
+                    columnNumber: 11
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["EditorContent"], {
+                    editor: editor,
+                    className: "min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/Tiptap.jsx",
+                    lineNumber: 226,
+                    columnNumber: 9
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mt-4 p-3 border-t text-gray-700 text-sm",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                            className: "font-medium mb-2",
+                            children: "Math Preview:"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 233,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__["MathJax"], {
+                            dynamic: true,
+                            children: editor?.getText()
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 234,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/components/Tiptap.jsx",
+                    lineNumber: 232,
+                    columnNumber: 9
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/components/Tiptap.jsx",
+            lineNumber: 121,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
         fileName: "[project]/src/components/Tiptap.jsx",
-        lineNumber: 57,
+        lineNumber: 113,
         columnNumber: 5
     }, this);
 }
-// Toolbar Button Component
 function ToolbarButton({ editor, command, type, label }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
         onClick: (e)=>{
-            e.stopPropagation(); // Prevent event from bubbling up
-            e.preventDefault(); // Prevent default behavior
-            editor.chain().focus()[command]().run();
+            e.preventDefault();
+            e.stopPropagation();
+            if (command === "setTextAlign") {
+                editor.chain().focus()[command](type.textAlign).run();
+            } else {
+                editor.chain().focus()[command]().run();
+            }
         },
         className: `px-3 py-1 rounded ${editor.isActive(type) ? "richoptionhover" : "richoption"}`,
         children: label
     }, void 0, false, {
         fileName: "[project]/src/components/Tiptap.jsx",
-        lineNumber: 87,
+        lineNumber: 245,
         columnNumber: 5
     }, this);
 }
 function formatPastedContent(text) {
-    const subscriptMap = {
-        "0": "₀",
-        "1": "₁",
-        "2": "₂",
-        "3": "₃",
-        "4": "₄",
-        "5": "₅",
-        "6": "₆",
-        "7": "₇",
-        "8": "₈",
-        "9": "₉"
-    };
-    const superscriptMap = {
-        "0": "⁰",
-        "1": "¹",
-        "2": "²",
-        "3": "³",
-        "4": "⁴",
-        "5": "⁵",
-        "6": "⁶",
-        "7": "⁷",
-        "8": "⁸",
-        "9": "⁹",
-        "+": "⁺",
-        "-": "⁻",
-        "=": "⁼",
-        "⊕": "⊕"
-    };
-    // Convert subscripts (C_6 → C₆)
-    text = text.replace(/([A-Za-z])_([0-9]+)/g, (_, base, sub)=>base + sub.split("").map((c)=>subscriptMap[c] || c).join(""));
-    // Convert superscripts (H^⊕ → H⁺)
-    text = text.replace(/([A-Za-z0-9])\^([\+\-0-9⊕]+)/g, (_, base, sup)=>base + sup.split("").map((c)=>superscriptMap[c] || c).join(""));
-    // Convert reaction arrows and annotations
-    text = text.replace(/→┴\(([^)]+)\)/g, "→ ($1)") // Converts →┴(Zn dust) → (Zn dust)
-    .replace(/→┴([^→\s]+)/g, "→ ($1)") // Converts →┴X → (X)
-    .replace(/→┴\(([^)]+)\)┬\(([^)]+)\)/g, "→ ($1, $2)") // Converts →┴(Zn dust)┬(CH₃Cl) → (Zn dust, CH₃Cl)
-    .replace(/⟶/g, "→"); // Normal reaction arrow "→"
-    return text;
+    if (!text) return "";
+    // Clean up artifacts
+    text = text.replace(/[〖〗]/g, "").replace(/\u00A0/g, " ") // non-breaking space
+    .trim();
+    // First handle complete chemical formulas (keep groups like NaBH₄ together)
+    text = text.replace(/([A-Z][a-z]*(?:[A-Z][a-z]*[\u2080-\u2089_0-9]*)*)/g, (match)=>{
+        // Only wrap in \text{} if it looks like a chemical formula
+        if (/[A-Z][a-z]*[\u2080-\u2089_0-9]*/.test(match)) {
+            // Convert Unicode subscripts to normal numbers with _
+            const withSubscripts = match.replace(/[\u2080-\u2089]/g, (char)=>{
+                const subscriptMap = {
+                    "₀": "_0",
+                    "₁": "_1",
+                    "₂": "_2",
+                    "₃": "_3",
+                    "₄": "_4",
+                    "₅": "_5",
+                    "₆": "_6",
+                    "₇": "_7",
+                    "₈": "_8",
+                    "₉": "_9"
+                };
+                return subscriptMap[char];
+            });
+            return `\\text{${withSubscripts}}`;
+        }
+        return match;
+    });
+    // Handle cases like "┬NaOH" (chemical under arrow)
+    text = text.replace(/┬([A-Z][a-z]*(?:[A-Z][a-z]*[\u2080-\u2089_0-9]*)*)/g, (_, chem)=>{
+        const withSubscripts = chem.replace(/[\u2080-\u2089]/g, (char)=>{
+            const subscriptMap = {
+                "₀": "_0",
+                "₁": "_1",
+                "₂": "_2",
+                "₃": "_3",
+                "₄": "_4",
+                "₅": "_5",
+                "₆": "_6",
+                "₇": "_7",
+                "₈": "_8",
+                "₉": "_9"
+            };
+            return subscriptMap[char];
+        });
+        return `\\text{${withSubscripts}}`;
+    });
+    // Special handling for arrow conditions →┴(condition)
+    text = text.replace(/→┴\(([^)]+)\)/g, (_, condition)=>{
+        // Handle the condition content - keep chemical formulas intact
+        const formattedCondition = condition.replace(/([A-Z][a-z]*(?:[A-Z][a-z]*[\u2080-\u2089_0-9]*)*)/g, (match)=>{
+            if (/[A-Z][a-z]*[\u2080-\u2089_0-9]*/.test(match)) {
+                const withSubscripts = match.replace(/[\u2080-\u2089]/g, (char)=>{
+                    const subscriptMap = {
+                        "₀": "_0",
+                        "₁": "_1",
+                        "₂": "_2",
+                        "₃": "_3",
+                        "₄": "_4",
+                        "₅": "_5",
+                        "₆": "_6",
+                        "₇": "_7",
+                        "₈": "_8",
+                        "₉": "_9"
+                    };
+                    return subscriptMap[char];
+                });
+                return `${withSubscripts}`;
+            }
+            return match;
+        }).replace(/"([^"]+)"/g, '\\text{$1}') // Handle quoted text
+        .replace(/┬([A-Z][a-z]*(?:[A-Z][a-z]*[\u2080-\u2089_0-9]*)*)/g, (_, chem)=>{
+            const withSubscripts = chem.replace(/[\u2080-\u2089]/g, (char)=>{
+                const subscriptMap = {
+                    "₀": "_0",
+                    "₁": "_1",
+                    "₂": "_2",
+                    "₃": "_3",
+                    "₄": "_4",
+                    "₅": "_5",
+                    "₆": "_6",
+                    "₇": "_7",
+                    "₈": "_8",
+                    "₉": "_9"
+                };
+                return subscriptMap[char];
+            });
+            return `\\text{${withSubscripts}}`;
+        });
+        return `\\xrightarrow{${formattedCondition}}`;
+    });
+    // Handle bonds and arrows
+    text = text.replace(/(\w)([-=])(\w)/g, '$1$2$3'); // Remove spaces around bonds
+    text = text.replace(/\s*→\s*/g, '→'); // Remove spaces around arrow
+    // Handle text labels
+    text = text.replace(/"([^"]+)"/g, '\\text{$1}');
+    text = text.replace(/([a-zA-Z][a-zA-Z\s]+)(?=\s*$)/g, '\\text{$1}'); // Handle unquoted text at end
+    return `\\[ ${text.trim()} \\]`;
 }
 }}),
 "[project]/src/contexts/FormulaFormatter.js [app-ssr] (ecmascript)": ((__turbopack_context__) => {

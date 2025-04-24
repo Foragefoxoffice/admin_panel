@@ -1,10 +1,19 @@
 {
-  "/page": "app/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/types/page": "app/admin/types/page.js",
-  "/admin/questions/page": "app/admin/questions/page.js",
-  "/admin/edit/page": "app/admin/edit/page.js",
   "/login/page": "app/login/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/admin/types/page": "app/admin/types/page.js",
+  "/admin/materials/page": "app/admin/materials/page.js",
   "/admin/question/page": "app/admin/question/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/admin/questions/page": "app/admin/questions/page.js",
+  "/admin/upload/page": "app/admin/upload/page.js",
+  "/admin/edit/page": "app/admin/edit/page.js",
+  "/admin/material-upload/page": "app/admin/material-upload/page.js",
+  "/admin/news/page": "app/admin/news/page.js",
+  "/admin/addnews/page": "app/admin/addnews/page.js",
+  "/admin/banners/page": "app/admin/banners/page.js",
+  "/admin/news/[id]/page": "app/admin/news/[id]/page.js",
+  "/admin/news/edit/[id]/page": "app/admin/news/edit/[id]/page.js",
+  "/admin/addbanners/page": "app/admin/addbanners/page.js"
 }

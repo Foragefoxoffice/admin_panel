@@ -26,104 +26,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 "use client";
 ;
 ;
-const subscriptMap = {
-    "0": "₀",
-    "1": "₁",
-    "2": "₂",
-    "3": "₃",
-    "4": "₄",
-    "5": "₅",
-    "6": "₆",
-    "7": "₇",
-    "8": "₈",
-    "9": "₉",
-    "a": "ₐ",
-    "e": "ₑ",
-    "h": "ₕ",
-    "i": "ᵢ",
-    "j": "ⱼ",
-    "k": "ₖ",
-    "l": "ₗ",
-    "m": "ₘ",
-    "n": "ₙ",
-    "o": "ₒ",
-    "p": "ₚ",
-    "r": "ᵣ",
-    "s": "ₛ",
-    "t": "ₜ",
-    "u": "ᵤ",
-    "v": "ᵥ",
-    "x": "ₓ"
-};
-const superscriptMap = {
-    "0": "⁰",
-    "1": "¹",
-    "2": "²",
-    "3": "³",
-    "4": "⁴",
-    "5": "⁵",
-    "6": "⁶",
-    "7": "⁷",
-    "8": "⁸",
-    "9": "⁹",
-    "+": "⁺",
-    "-": "⁻",
-    "=": "⁼",
-    "(": "⁽",
-    ")": "⁾",
-    "n": "ⁿ",
-    "⊕": "⊕",
-    "⊖": "⊖"
-};
-const greekMap = {
-    "alpha": "α",
-    "beta": "β",
-    "gamma": "γ",
-    "delta": "δ",
-    "epsilon": "ε",
-    "zeta": "ζ",
-    "eta": "η",
-    "theta": "θ",
-    "iota": "ι",
-    "kappa": "κ",
-    "lambda": "λ",
-    "mu": "μ",
-    "nu": "ν",
-    "xi": "ξ",
-    "omicron": "ο",
-    "pi": "π",
-    "rho": "ρ",
-    "sigma": "σ",
-    "tau": "τ",
-    "upsilon": "υ",
-    "phi": "φ",
-    "chi": "χ",
-    "psi": "ψ",
-    "omega": "ω"
-};
-const formatChemicalFormula = (text)=>{
-    if (!text) return "";
-    // Replace Greek letters
-    text = text.replace(/\b(alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/gi, (match)=>greekMap[match.toLowerCase()] || match);
-    // Handle subscripts
-    text = text.replace(/_\{([^}]+)}/g, (_, match)=>match.split("").map((char)=>subscriptMap[char] || char).join(""));
-    text = text.replace(/_([a-z0-9]+)/gi, (_, match)=>match.split("").map((char)=>subscriptMap[char] || char).join(""));
-    // Handle superscripts
-    text = text.replace(/\^\{([^}]+)}/g, (_, match)=>match.split("").map((char)=>superscriptMap[char] || char).join(""));
-    text = text.replace(/\^([0-9+\-()=n⊕⊖]+)/gi, (_, match)=>match.split("").map((char)=>superscriptMap[char] || char).join(""));
-    // Improve spacing around arrows and other symbols
-    text = text.replace(/([A-Za-z0-9])([→+])/g, "$1 $2 ").replace(/([→+])([A-Za-z0-9])/g, " $1 $2").replace(/→┴/g, " →┴ ");
-    return text;
-};
 const FormulaFormatter = ({ text, className = "" })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
         className: className,
         dangerouslySetInnerHTML: {
-            __html: formatChemicalFormula(text)
+            __html: text
         }
     }, void 0, false, {
         fileName: "[project]/src/contexts/FormulaFormatter.js",
-        lineNumber: 63,
+        lineNumber: 8,
         columnNumber: 5
     }, this);
 };
@@ -230,10 +141,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFo
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lodash$2f$debounce$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/lodash/debounce.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$useAuth$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/src/contexts/useAuth.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJaxContext$2f$MathJaxContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJaxContext$3e$__ = __turbopack_import__("[project]/node_modules/better-react-mathjax/esm/MathJaxContext/MathJaxContext.js [app-client] (ecmascript) <export default as MathJaxContext>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__ = __turbopack_import__("[project]/node_modules/better-react-mathjax/esm/MathJax/MathJax.js [app-client] (ecmascript) <export default as MathJax>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/react-icons/fa/index.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_refresh__.signature();
 "use client";
+;
 ;
 ;
 ;
@@ -663,12 +577,12 @@ function QuestionsPage() {
                                 children: "<"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/questions/page.jsx",
-                                lineNumber: 330,
+                                lineNumber: 332,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/questions/page.jsx",
-                            lineNumber: 329,
+                            lineNumber: 331,
                             columnNumber: 13
                         }, this),
                         getPageNumbers().map((number, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -678,7 +592,7 @@ function QuestionsPage() {
                                     children: "..."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                                    lineNumber: 347,
+                                    lineNumber: 349,
                                     columnNumber: 19
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                     onClick: ()=>paginate(number),
@@ -688,12 +602,12 @@ function QuestionsPage() {
                                     children: number
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                                    lineNumber: 349,
+                                    lineNumber: 351,
                                     columnNumber: 19
                                 }, this)
                             }, index, false, {
                                 fileName: "[project]/src/app/admin/questions/page.jsx",
-                                lineNumber: 345,
+                                lineNumber: 347,
                                 columnNumber: 15
                             }, this)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -705,28 +619,28 @@ function QuestionsPage() {
                                 children: ">"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/questions/page.jsx",
-                                lineNumber: 366,
+                                lineNumber: 368,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/questions/page.jsx",
-                            lineNumber: 365,
+                            lineNumber: 367,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                    lineNumber: 328,
+                    lineNumber: 330,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 327,
+                lineNumber: 329,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/admin/questions/page.jsx",
-            lineNumber: 326,
+            lineNumber: 328,
             columnNumber: 7
         }, this);
     };
@@ -777,426 +691,474 @@ function QuestionsPage() {
                 }
             })
     };
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "p-4 md:px-4 max-w-7xl mx-auto",
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "font-bold mb-6",
-                children: "Questions"
-            }, void 0, false, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 435,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                        options: subjects.map((s)=>({
-                                value: s.value,
-                                label: `${s.label} (${s.portion})`
-                            })),
-                        value: subjects.find((s)=>s.value.toString() === selectedSubject?.toString()) || null,
-                        onChange: (option)=>{
-                            setSelectedSubject(option?.value || null);
-                            setSelectedChapter(null);
-                            setSelectedTopic(null);
-                        },
-                        placeholder: "Select Subject",
-                        isClearable: true,
-                        styles: customStyles
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/questions/page.jsx",
-                        lineNumber: 439,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                        options: chapters,
-                        value: chapters.find((c)=>c.value.toString() === selectedChapter?.toString()) || null,
-                        onChange: (option)=>{
-                            setSelectedChapter(option?.value || null);
-                            setSelectedTopic(null);
-                        },
-                        placeholder: !selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter",
-                        isClearable: true,
-                        isDisabled: !selectedSubject,
-                        styles: customStyles
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/questions/page.jsx",
-                        lineNumber: 454,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                        options: topics,
-                        value: topics.find((t)=>t.value.toString() === selectedTopic?.toString()) || null,
-                        onChange: (option)=>setSelectedTopic(option?.value || null),
-                        placeholder: !selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic",
-                        isClearable: true,
-                        isDisabled: !selectedChapter,
-                        styles: customStyles
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/questions/page.jsx",
-                        lineNumber: 466,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                        options: questionTypes,
-                        value: questionTypes.find((qt)=>qt.value.toString() === selectedQuestionType?.toString()) || null,
-                        onChange: (option)=>setSelectedQuestionType(option?.value || null),
-                        placeholder: "Select Question Type",
-                        isClearable: true,
-                        styles: customStyles
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/questions/page.jsx",
-                        lineNumber: 475,
-                        columnNumber: 9
-                    }, this)
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJaxContext$2f$MathJaxContext$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJaxContext$3e$__["MathJaxContext"], {
+        config: {
+            loader: {
+                load: [
+                    "input/tex",
+                    "output/chtml"
                 ]
-            }, void 0, true, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 438,
-                columnNumber: 7
-            }, this),
-            loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "flex justify-center items-center h-40",
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "text-gray-600",
-                    children: "Loading questions..."
+            },
+            tex: {
+                packages: {
+                    '[+]': [
+                        'color',
+                        'mhchem'
+                    ]
+                },
+                inlineMath: [
+                    [
+                        '$',
+                        '$'
+                    ],
+                    [
+                        '\\(',
+                        '\\)'
+                    ]
+                ],
+                displayMath: [
+                    [
+                        '$$',
+                        '$$'
+                    ],
+                    [
+                        '\\[',
+                        '\\]'
+                    ]
+                ]
+            }
+        },
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "p-4 md:px-4 max-w-7xl mx-auto",
+            children: [
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                    className: "font-bold mb-6",
+                    children: "Questions"
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                    lineNumber: 488,
-                    columnNumber: 11
-                }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 487,
-                columnNumber: 9
-            }, this) : error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "text-red-500 text-center",
-                children: error
-            }, void 0, false, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 491,
-                columnNumber: 9
-            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                children: currentQuestions.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                    className: "space-y-4",
-                    children: currentQuestions.map((question, index)=>{
-                        const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
-                        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                            className: "border rounded-lg shadow-sm transition-shadow",
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "p-4 flex justify-between items-center cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]",
-                                    onClick: ()=>setOpenAccordion((prev)=>prev === question.id ? null : question.id),
+                    lineNumber: 445,
+                    columnNumber: 7
+                }, this),
+                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                            options: subjects.map((s)=>({
+                                    value: s.value,
+                                    label: `${s.label} (${s.portion})`
+                                })),
+                            value: subjects.find((s)=>s.value.toString() === selectedSubject?.toString()) || null,
+                            onChange: (option)=>{
+                                setSelectedSubject(option?.value || null);
+                                setSelectedChapter(null);
+                                setSelectedTopic(null);
+                            },
+                            placeholder: "Select Subject",
+                            isClearable: true,
+                            styles: customStyles
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                            lineNumber: 449,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                            options: chapters,
+                            value: chapters.find((c)=>c.value.toString() === selectedChapter?.toString()) || null,
+                            onChange: (option)=>{
+                                setSelectedChapter(option?.value || null);
+                                setSelectedTopic(null);
+                            },
+                            placeholder: !selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter",
+                            isClearable: true,
+                            isDisabled: !selectedSubject,
+                            styles: customStyles
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                            lineNumber: 464,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                            options: topics,
+                            value: topics.find((t)=>t.value.toString() === selectedTopic?.toString()) || null,
+                            onChange: (option)=>setSelectedTopic(option?.value || null),
+                            placeholder: !selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic",
+                            isClearable: true,
+                            isDisabled: !selectedChapter,
+                            styles: customStyles
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                            lineNumber: 476,
+                            columnNumber: 9
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                            options: questionTypes,
+                            value: questionTypes.find((qt)=>qt.value.toString() === selectedQuestionType?.toString()) || null,
+                            onChange: (option)=>setSelectedQuestionType(option?.value || null),
+                            placeholder: "Select Question Type",
+                            isClearable: true,
+                            styles: customStyles
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                            lineNumber: 485,
+                            columnNumber: 9
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                    lineNumber: 448,
+                    columnNumber: 7
+                }, this),
+                loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex justify-center items-center h-40",
+                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-gray-600",
+                        children: "Loading questions..."
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/questions/page.jsx",
+                        lineNumber: 498,
+                        columnNumber: 11
+                    }, this)
+                }, void 0, false, {
+                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                    lineNumber: 497,
+                    columnNumber: 9
+                }, this) : error ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "text-red-500 text-center",
+                    children: error
+                }, void 0, false, {
+                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                    lineNumber: 501,
+                    columnNumber: 9
+                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    children: currentQuestions.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                        className: "space-y-4",
+                        children: currentQuestions.map((question, index)=>{
+                            const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__["MathJax"], {
+                                dynamic: true,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                    className: "border rounded-lg shadow-sm transition-shadow",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex items-center space-x-4",
+                                            className: "p-4 flex justify-between items-start cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]",
+                                            onClick: ()=>setOpenAccordion((prev)=>prev === question.id ? null : question.id),
                                             children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                    className: "text-gray-600 font-bold",
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-start space-x-4",
                                                     children: [
-                                                        serialNumber,
-                                                        "."
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 506,
-                                                    columnNumber: 25
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                    className: "font-bold text-lg",
-                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                        text: question.question
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                        lineNumber: 507,
-                                                        columnNumber: 59
-                                                    }, this)
-                                                }, void 0, false, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 507,
-                                                    columnNumber: 25
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                            lineNumber: 505,
-                                            columnNumber: 23
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                            className: "text-gray-600",
-                                            children: openAccordion === question.id ? "▲" : "▼"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                            lineNumber: 509,
-                                            columnNumber: 23
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                    lineNumber: 501,
-                                    columnNumber: 21
-                                }, this),
-                                openAccordion === question.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                    className: "p-4 bg-white border-t",
-                                    children: [
-                                        question.image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                            alt: "",
-                                            src: `https://mitoslearning.in/${question.image}`,
-                                            className: "mb-4 max-w-full"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                            lineNumber: 514,
-                                            columnNumber: 44
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "space-y-2",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Option A:"
-                                                        }, void 0, false, {
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "text-gray-600 font-bold pt-1",
+                                                            children: [
+                                                                serialNumber,
+                                                                "."
+                                                            ]
+                                                        }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 516,
-                                                            columnNumber: 30
+                                                            lineNumber: 517,
+                                                            columnNumber: 25
                                                         }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                            text: question.optionA
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                            className: "font-bold text-lg",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                text: question.question
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                lineNumber: 518,
+                                                                columnNumber: 59
+                                                            }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 516,
-                                                            columnNumber: 57
+                                                            lineNumber: 518,
+                                                            columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/questions/page.jsx",
                                                     lineNumber: 516,
-                                                    columnNumber: 27
+                                                    columnNumber: 23
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Option B:"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 517,
-                                                            columnNumber: 30
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                            text: question.optionB
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 517,
-                                                            columnNumber: 57
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 517,
-                                                    columnNumber: 27
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Option C:"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 518,
-                                                            columnNumber: 30
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                            text: question.optionC
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 518,
-                                                            columnNumber: 57
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 518,
-                                                    columnNumber: 27
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Option D:"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 519,
-                                                            columnNumber: 30
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                            text: question.optionD
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 519,
-                                                            columnNumber: 57
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 519,
-                                                    columnNumber: 27
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-green-600",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Correct Answer:"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 520,
-                                                            columnNumber: 57
-                                                        }, this),
-                                                        " ",
-                                                        question.correctOption
-                                                    ]
-                                                }, void 0, true, {
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "text-gray-600",
+                                                    children: openAccordion === question.id ? "▲" : "▼"
+                                                }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/questions/page.jsx",
                                                     lineNumber: 520,
-                                                    columnNumber: 27
-                                                }, this),
-                                                question.hint && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "mt-2",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
-                                                            children: "Hint:"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 521,
-                                                            columnNumber: 67
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                                            className: "ProseMirror min-h-10 p-0",
-                                                            text: question.hint
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 521,
-                                                            columnNumber: 90
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 521,
-                                                    columnNumber: 45
+                                                    columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/questions/page.jsx",
-                                            lineNumber: 515,
-                                            columnNumber: 25
+                                            lineNumber: 512,
+                                            columnNumber: 21
                                         }, this),
-                                        question.hintImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                                            alt: "",
-                                            src: `https://mitoslearning.in/${question.hintImage}`,
-                                            className: "mt-4 max-w-full"
-                                        }, void 0, false, {
+                                        openAccordion === question.id && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "p-4 bg-white border-t",
+                                            children: [
+                                                question.image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    alt: "",
+                                                    src: `https://mitoslearning.in/${question.image}`,
+                                                    className: "mb-4 max-w-full"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                    lineNumber: 525,
+                                                    columnNumber: 44
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-2",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Option A:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 527,
+                                                                    columnNumber: 30
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    text: question.optionA
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 528,
+                                                                    columnNumber: 27
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 527,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Option B:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 530,
+                                                                    columnNumber: 30
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    text: question.optionB
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 530,
+                                                                    columnNumber: 57
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 530,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Option C:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 531,
+                                                                    columnNumber: 30
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    text: question.optionC
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 531,
+                                                                    columnNumber: 57
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 531,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Option D:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 532,
+                                                                    columnNumber: 30
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    text: question.optionD
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 532,
+                                                                    columnNumber: 57
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 532,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-green-600",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Correct Answer:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 533,
+                                                                    columnNumber: 57
+                                                                }, this),
+                                                                " ",
+                                                                question.correctOption
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 533,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        question.hint && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "mt-2",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("strong", {
+                                                                    children: "Hint:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 534,
+                                                                    columnNumber: 67
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FormulaFormatter$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                                    className: "ProseMirror min-h-10 p-0",
+                                                                    text: question.hint
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 534,
+                                                                    columnNumber: 90
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 534,
+                                                            columnNumber: 45
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                    lineNumber: 526,
+                                                    columnNumber: 25
+                                                }, this),
+                                                question.hintImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                                    alt: "",
+                                                    src: `https://mitoslearning.in/${question.hintImage}`,
+                                                    className: "mt-4 max-w-full"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                    lineNumber: 537,
+                                                    columnNumber: 48
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex justify-end mt-4 space-x-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>handleUpdate(question.id),
+                                                            className: "bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaEdit"], {}, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 544,
+                                                                    columnNumber: 29
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    children: "Edit"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 544,
+                                                                    columnNumber: 40
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 540,
+                                                            columnNumber: 27
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                            onClick: ()=>handleDelete(question.id),
+                                                            className: "bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTrash"], {}, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 550,
+                                                                    columnNumber: 29
+                                                                }, this),
+                                                                " ",
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    children: "Delete"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                                    lineNumber: 550,
+                                                                    columnNumber: 41
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                            lineNumber: 546,
+                                                            columnNumber: 27
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
+                                                    lineNumber: 539,
+                                                    columnNumber: 25
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/app/admin/questions/page.jsx",
                                             lineNumber: 524,
-                                            columnNumber: 48
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex justify-end mt-4 space-x-4",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>handleUpdate(question.id),
-                                                    className: "bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaEdit"], {}, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 531,
-                                                            columnNumber: 29
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            children: "Edit"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 531,
-                                                            columnNumber: 40
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 527,
-                                                    columnNumber: 27
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                                    onClick: ()=>handleDelete(question.id),
-                                                    className: "bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FaTrash"], {}, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 537,
-                                                            columnNumber: 29
-                                                        }, this),
-                                                        " ",
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                            children: "Delete"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                            lineNumber: 537,
-                                                            columnNumber: 41
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/app/admin/questions/page.jsx",
-                                                    lineNumber: 533,
-                                                    columnNumber: 27
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                                            lineNumber: 526,
-                                            columnNumber: 25
+                                            columnNumber: 23
                                         }, this)
                                     ]
-                                }, void 0, true, {
+                                }, question.id, true, {
                                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                                    lineNumber: 513,
-                                    columnNumber: 23
+                                    lineNumber: 511,
+                                    columnNumber: 19
                                 }, this)
-                            ]
-                        }, question.id, true, {
-                            fileName: "[project]/src/app/admin/questions/page.jsx",
-                            lineNumber: 500,
-                            columnNumber: 19
-                        }, this);
-                    })
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/questions/page.jsx",
+                                lineNumber: 510,
+                                columnNumber: 19
+                            }, this);
+                        })
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/questions/page.jsx",
+                        lineNumber: 505,
+                        columnNumber: 13
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-gray-600 text-center",
+                        children: "No questions match the selected filters."
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/questions/page.jsx",
+                        lineNumber: 561,
+                        columnNumber: 13
+                    }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                    lineNumber: 495,
-                    columnNumber: 13
-                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                    className: "text-gray-600 text-center",
-                    children: "No questions match the selected filters."
-                }, void 0, false, {
+                    lineNumber: 503,
+                    columnNumber: 9
+                }, this),
+                filteredQuestions.length > questionsPerPage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pagination, {}, void 0, false, {
                     fileName: "[project]/src/app/admin/questions/page.jsx",
-                    lineNumber: 547,
-                    columnNumber: 13
+                    lineNumber: 567,
+                    columnNumber: 55
                 }, this)
-            }, void 0, false, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 493,
-                columnNumber: 9
-            }, this),
-            filteredQuestions.length > questionsPerPage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Pagination, {}, void 0, false, {
-                fileName: "[project]/src/app/admin/questions/page.jsx",
-                lineNumber: 553,
-                columnNumber: 55
-            }, this)
-        ]
-    }, void 0, true, {
+            ]
+        }, void 0, true, {
+            fileName: "[project]/src/app/admin/questions/page.jsx",
+            lineNumber: 444,
+            columnNumber: 5
+        }, this)
+    }, void 0, false, {
         fileName: "[project]/src/app/admin/questions/page.jsx",
-        lineNumber: 434,
+        lineNumber: 436,
         columnNumber: 5
     }, this);
 }

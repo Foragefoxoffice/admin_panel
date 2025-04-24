@@ -700,11 +700,29 @@ input[type="checkbox"] {
   filter: invert();
 }
 
+.menuicon {
+  filter: hue-rotate(45deg);
+}
+
+.menuiconss {
+  filter: revert;
+}
+
 .uploadflex {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
   padding-bottom: 20px;
+}
+
+.side_bar:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 30px;
+  width: 3px;
+  border-radius: 2px;
+  background: #fff;
 }
 
 .richeeditos > div > div:nth-child(2) {
@@ -750,6 +768,12 @@ input[type="checkbox"] {
   min-height: 60px !important;
 }
 
+.colorpic {
+  margin: 0 !important;
+  padding: 4px 10px !important;
+  height: 30px !important;
+}
+
 @media (width <= 600px) {
   .questionadd {
     display: grid;
@@ -790,6 +814,13 @@ input[type="checkbox"] {
 
   .login_content {
     padding: 0;
+  }
+
+  .uploadflex {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 20px;
+    padding-bottom: 20px;
   }
 }
 

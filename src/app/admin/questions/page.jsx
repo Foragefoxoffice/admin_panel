@@ -9,6 +9,8 @@ import { API_BASE_URL } from "@/utils/config";
 import FormulaFormatter from "@/contexts/FormulaFormatter";
 import { debounce } from "lodash";
 import useAuth from "@/contexts/useAuth";
+import { MathJaxContext, MathJax } from "better-react-mathjax";
+
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function QuestionsPage() {
@@ -431,6 +433,14 @@ export default function QuestionsPage() {
   };
 
   return (
+    <MathJaxContext config={{ 
+      loader: { load: ["input/tex", "output/chtml"] },
+      tex: {
+        packages: {'[+]': ['color', 'mhchem']},
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      }
+    }}>
     <div className="p-4 md:px-4 max-w-7xl mx-auto">
       <h1 className="font-bold mb-6">Questions</h1>
 
@@ -497,13 +507,14 @@ export default function QuestionsPage() {
                 const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
 
                 return (
+                  <MathJax dynamic>
                   <li key={question.id} className="border rounded-lg shadow-sm transition-shadow">
                     <div
-                      className="p-4 flex justify-between items-center cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
+                      className="p-4 flex justify-between items-start cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
                       onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
                     >
-                      <div className="flex items-center space-x-4">
-                        <span className="text-gray-600 font-bold">{serialNumber}.</span>
+                      <div className="flex items-start space-x-4">
+                        <span className="text-gray-600 font-bold pt-1">{serialNumber}.</span>
                         <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
                       </div>
                       <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
@@ -513,7 +524,9 @@ export default function QuestionsPage() {
                       <div className="p-4 bg-white border-t">
                         {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
                         <div className="space-y-2">
-                          <p><strong>Option A:</strong> <FormulaFormatter text={question.optionA} /></p>
+                          <p><strong>Option A:</strong>  
+                          <FormulaFormatter text={question.optionA} />
+        </p>
                           <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
                           <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
                           <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
@@ -540,6 +553,7 @@ export default function QuestionsPage() {
                       </div>
                     )}
                   </li>
+                  </MathJax>
                 );
               })}
             </ul>
@@ -552,5 +566,6 @@ export default function QuestionsPage() {
       {/* Pagination */}
       {filteredQuestions.length > questionsPerPage && <Pagination />}
     </div>
+    </MathJaxContext>
   );
 }

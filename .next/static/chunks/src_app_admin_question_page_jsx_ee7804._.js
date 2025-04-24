@@ -9,9 +9,9 @@
     "static/chunks/node_modules_@tiptap_core_dist_index_bbf028.js",
     "static/chunks/node_modules_@popperjs_core_lib_fd1688._.js",
     "static/chunks/node_modules_axios_lib_c4c49c._.js",
-    "static/chunks/node_modules_a8355b._.js",
+    "static/chunks/node_modules_002b7c._.js",
     "static/chunks/src_862065._.js",
-    "static/chunks/node_modules_react-select_dist_react-select_esm_1ffe54.js"
+    "static/chunks/node_modules_react-select_dist_react-select_esm_9291f6.js"
   ],
   "source": "dynamic"
 });

@@ -1,6 +1,8 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
+import FormulaFormatter from "@/contexts/FormulaFormatter";
+
 import StarterKit from "@tiptap/starter-kit";
 import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
@@ -11,21 +13,57 @@ import OrderedList from "@tiptap/extension-ordered-list";
 import ListItem from "@tiptap/extension-list-item";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
-import { useEffect } from "react";
+import Highlight from "@tiptap/extension-highlight";
+import TextAlign from "@tiptap/extension-text-align";
+import TextStyle from "@tiptap/extension-text-style";
+import Color from "@tiptap/extension-color";
+import Code from "@tiptap/extension-code";
+import CodeBlock from "@tiptap/extension-code-block";
+import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import { MathJaxContext, MathJax } from "better-react-mathjax";
+import { useEffect, useState } from "react";
 
 export default function RichTextEditor({ value, onChange }) {
+  const [linkUrl, setLinkUrl] = useState("");
+  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [textColor, setTextColor] = useState("#000000");
+  const [highlightColor, setHighlightColor] = useState("#ffff00");
+
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ bulletList: false, orderedList: false, listItem: false }),
+      StarterKit.configure({
+        bulletList: false,
+        orderedList: false,
+        listItem: false,
+        codeBlock: false,
+      }),
       BulletList,
       OrderedList,
       ListItem,
       Bold,
       Italic,
       Underline,
-      Link,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: {
+          class: "text-blue-600 underline",
+        },
+      }),
       Subscript,
       Superscript,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      TextAlign.configure({
+        types: ["heading", "paragraph"],
+      }),
+      TextStyle,
+      Color,
+      Code,
+      CodeBlock.configure({
+        languageClassPrefix: "language-",
+      }),
+      HorizontalRule,
     ],
     content: value || "<p></p>",
     onUpdate: ({ editor }) => {
@@ -33,14 +71,11 @@ export default function RichTextEditor({ value, onChange }) {
     },
     editorProps: {
       handlePaste: (view, event) => {
-        event.preventDefault();
         const clipboardData = event.clipboardData || window.clipboardData;
-        const text = clipboardData.getData("text/plain") || clipboardData.getData("text/html");
-
-        let formattedText = formatPastedContent(text);
-
-        view.dispatch(view.state.tr.insertText(formattedText));
-        return true;
+        const text = clipboardData.getData("text/plain");
+        
+        // Let the default paste handler handle it
+        return false;
       },
     },
   });
@@ -53,70 +88,175 @@ export default function RichTextEditor({ value, onChange }) {
 
   if (!editor) return null;
 
-  return (
-    <div className="border p-4 rounded-lg mt-5">
-      {/* Toolbar */}
-      <div className="mb-2 space-x-2 flex">
-        <ToolbarButton editor={editor} command="toggleBold" type="bold" label="B" />
-        <ToolbarButton editor={editor} command="toggleItalic" type="italic" label="I" />
-        <ToolbarButton editor={editor} command="toggleUnderline" type="underline" label="U" />
-        <ToolbarButton editor={editor} command="toggleBulletList" type="bulletList" label="• List" />
-        <ToolbarButton editor={editor} command="toggleOrderedList" type="orderedList" label="1. List" />
-        <ToolbarButton editor={editor} command="toggleSubscript" type="subscript" label="X₂" />
-        <ToolbarButton editor={editor} command="toggleSuperscript" type="superscript" label="X²" />
-        <button
-          onClick={() => {
-            const url = prompt("Enter URL:");
-            if (url) editor.chain().focus().setLink({ href: url }).run();
-          }}
-          className={`px-3 py-1 rounded ${editor.isActive("link") ? "richoptionhover" : "richoption"}`}
-        >
-          🔗
-        </button>
-      </div>
+  const addLink = () => {
+    if (linkUrl) {
+      editor.chain().focus().setLink({ href: linkUrl }).run();
+    }
+    setShowLinkInput(false);
+    setLinkUrl("");
+  };
 
-      {/* Editor Content */}
-      <EditorContent editor={editor} className="min-h-[150px] p-2 border ProseMirror" />
-    </div>
+  const removeLink = () => {
+    editor.chain().focus().unsetLink().run();
+    setShowLinkInput(false);
+  };
+
+  const setTextColorCommand = () => {
+    editor.chain().focus().setColor(textColor).run();
+  };
+
+  const setHighlightColorCommand = () => {
+    editor.chain().focus().setHighlight({ color: highlightColor }).run();
+  };
+
+  return (
+    <MathJaxContext config={{ 
+      loader: { load: ["input/tex", "output/chtml"] },
+      tex: {
+        packages: {'[+]': ['color', 'mhchem']},
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      }
+    }}>
+      <div className="border p-4 rounded-lg mt-5">
+        {/* Main Toolbar */}
+        <div className="mb-2 space-x-2 flex flex-wrap gap-2">
+          {/* Text Formatting */}
+          <ToolbarButton editor={editor} command="toggleBold" type="bold" label="B" />
+          <ToolbarButton editor={editor} command="toggleItalic" type="italic" label="I" />
+          <ToolbarButton editor={editor} command="toggleUnderline" type="underline" label="U" />
+          <ToolbarButton editor={editor} command="toggleCode" type="code" label="</>" />
+          
+          {/* Lists */}
+          <ToolbarButton editor={editor} command="toggleBulletList" type="bulletList" label="• List" />
+          <ToolbarButton editor={editor} command="toggleOrderedList" type="orderedList" label="1. List" />
+          
+          {/* Scripts */}
+          <ToolbarButton editor={editor} command="toggleSubscript" type="subscript" label="X₂" />
+          <ToolbarButton editor={editor} command="toggleSuperscript" type="superscript" label="X²" />
+          
+          {/* Link */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLinkInput(!showLinkInput)}
+              className={`px-3 py-1 rounded ${editor.isActive("link") ? "bg-blue-100 text-blue-600" : "bg-gray-100 hover:bg-gray-200"}`}
+            >
+              🔗
+            </button>
+            {showLinkInput && (
+              <div className="absolute z-10 top-full left-0 mt-1 p-2 bg-white border rounded shadoh-8lg">
+                <input
+                  type="text"
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  placeholder="Enter URL"
+                  className="border p-1 mb-2 h-8full"
+                />
+                <div className="flex space-x-2">
+                  <button
+                    onClick={addLink}
+                    className="px-2 py-1 bg-blue-500 text-white rounded"
+                  >
+                    Apply
+                  </button>
+                  <button
+                    onClick={removeLink}
+                    className="px-2 py-1 bg-red-500 text-white rounded"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Text Alignment */}
+          <div className="border-l border-gray-300 h-6 mx-2"></div>
+          <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "left" }} label="≡" />
+          <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "center" }} label="≡" />
+          <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "right" }} label="≡" />
+          
+          {/* Colors */}
+          <div className="border-l border-gray-300 h-6 mx-2"></div>
+          <div className="flex items-center gap-3">
+            <input
+              type="color"
+              value={textColor}
+              onChange={(e) => setTextColor(e.target.value)}
+              onBlur={setTextColorCommand}
+              className=" h-4 border-0 cursor-pointer m-0 colorpic"
+            />
+            <input
+              type="color"
+              value={highlightColor}
+              onChange={(e) => setHighlightColor(e.target.value)}
+              onBlur={setHighlightColorCommand}
+              className=" h-4 border-0 cursor-pointer ml-2 colorpic"
+             
+            />
+          </div>
+          
+          {/* Advanced */}
+          <div className="border-l border-gray-300 h-6 "></div>
+          <ToolbarButton editor={editor} command="toggleCodeBlock" type="codeBlock" label="</> Block" />
+          <ToolbarButton editor={editor} command="setHorizontalRule" type="" label="---" />
+        </div>
+
+        {/* Bubble Menu for quick formatting */}
+        {editor && (
+          <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+            <div className="flex bg-white border rounded shadoh-8lg p-1 space-x-1">
+              <ToolbarButton editor={editor} command="toggleBold" type="bold" label="B" />
+              <ToolbarButton editor={editor} command="toggleItalic" type="italic" label="I" />
+              <ToolbarButton editor={editor} command="toggleUnderline" type="underline" label="U" />
+              <button
+                onClick={() => {
+                  const url = prompt("Enter URL:");
+                  if (url) editor.chain().focus().setLink({ href: url }).run();
+                }}
+                className={`px-2 py-1 rounded ${editor.isActive("link") ? "bg-blue-100" : "bg-gray-100"}`}
+              >
+                🔗
+              </button>
+            </div>
+          </BubbleMenu>
+        )}
+
+        {/* Editor Content */}
+        <EditorContent 
+          editor={editor} 
+          className="min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500" 
+        />
+        
+        {/* Rendered Math Preview */}
+        <div className="mt-4 p-3 border-t text-gray-700 text-sm">
+          <h3 className="font-medium mb-2">Math Preview:</h3>
+          <MathJax dynamic>
+    <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
+  </MathJax>
+        </div>
+      </div>
+    </MathJaxContext>
   );
 }
 
-// Toolbar Button Component
 function ToolbarButton({ editor, command, type, label }) {
   return (
     <button
       onClick={(e) => {
-        e.stopPropagation(); // Prevent event from bubbling up
-        e.preventDefault(); // Prevent default behavior
-        editor.chain().focus()[command]().run();
+        e.preventDefault();
+        e.stopPropagation();
+        if (command === "setTextAlign") {
+          editor.chain().focus()[command](type.textAlign).run();
+        } else {
+          editor.chain().focus()[command]().run();
+        }
       }}
-      className={`px-3 py-1 rounded ${editor.isActive(type) ? "richoptionhover" : "richoption"}`}
+      className={`px-3 py-1 rounded ${
+        editor.isActive(type) ? "richoptionhover" : "richoption"
+      }`}
     >
       {label}
     </button>
   );
-}
-
-function formatPastedContent(text) {
-  const subscriptMap = { "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄", "5": "₅", "6": "₆", "7": "₇", "8": "₈", "9": "₉" };
-  const superscriptMap = { "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹", "+": "⁺", "-": "⁻", "=": "⁼", "⊕": "⊕" };
-
-  // Convert subscripts (C_6 → C₆)
-  text = text.replace(/([A-Za-z])_([0-9]+)/g, (_, base, sub) =>
-    base + sub.split("").map(c => subscriptMap[c] || c).join("")
-  );
-
-  // Convert superscripts (H^⊕ → H⁺)
-  text = text.replace(/([A-Za-z0-9])\^([\+\-0-9⊕]+)/g, (_, base, sup) =>
-    base + sup.split("").map(c => superscriptMap[c] || c).join("")
-  );
-
-  // Convert reaction arrows and annotations
-  text = text
-    .replace(/→┴\(([^)]+)\)/g, "→ ($1)") // Converts →┴(Zn dust) → (Zn dust)
-    .replace(/→┴([^→\s]+)/g, "→ ($1)") // Converts →┴X → (X)
-    .replace(/→┴\(([^)]+)\)┬\(([^)]+)\)/g, "→ ($1, $2)") // Converts →┴(Zn dust)┬(CH₃Cl) → (Zn dust, CH₃Cl)
-    .replace(/⟶/g, "→"); // Normal reaction arrow "→"
-
-  return text;
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TestProvider } from "@/contexts/TestContext";
+import useAuth from "@/contexts/useAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({ children }) {
+  useAuth();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
