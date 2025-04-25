@@ -774,6 +774,14 @@ input[type="checkbox"] {
   height: 30px !important;
 }
 
+.preview p {
+  padding-bottom: 1rem;
+}
+
+.tiptap p {
+  padding-bottom: 1rem;
+}
+
 @media (width <= 600px) {
   .questionadd {
     display: grid;

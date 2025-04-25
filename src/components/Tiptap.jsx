@@ -232,7 +232,7 @@ export default function RichTextEditor({ value, onChange }) {
         <div className="mt-4 p-3 border-t text-gray-700 text-sm">
           <h3 className="font-medium mb-2">Math Preview:</h3>
           <MathJax dynamic>
-    <div dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
+    <div className="preview " dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
   </MathJax>
         </div>
       </div>

@@ -4,6 +4,15 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
+  src: url("../media/gyByhwUxId8gMEwYGFWNOITddY4-s.b7d310ad.woff2") format("woff2");
+  unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
+}
+
+@font-face {
+  font-family: Geist;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
   src: url("../media/gyByhwUxId8gMEwSGFWNOITddY4-s.81df3a5b.woff2") format("woff2");
   unicode-range: U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE-2D7, U+2DD-2FF, U+304, U+308, U+329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
@@ -37,6 +46,15 @@
 
 
 /* [next]/internal/font/google/geist_mono_719fb246.module.css [app-client] (css) */
+@font-face {
+  font-family: Geist Mono;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../media/or3nQ6H_1_WfwkMZI_qYFrMdmhHkjkotbA-s.cb6bbcb1.woff2") format("woff2");
+  unicode-range: U+301, U+400-45F, U+490-491, U+4B0-4B1, U+2116;
+}
+
 @font-face {
   font-family: Geist Mono;
   font-style: normal;
@@ -887,6 +905,14 @@ input[type="checkbox"] {
   height: 30px !important;
 }
 
+.preview p {
+  padding-bottom: 1rem;
+}
+
+.tiptap p {
+  padding-bottom: 1rem;
+}
+
 @media (width <= 600px) {
   .questionadd {
     display: grid;
@@ -1304,6 +1330,14 @@ img, video {
   left: 0;
 }
 
+.left-4 {
+  left: 1rem;
+}
+
+.left-\[12rem\] {
+  left: 12rem;
+}
+
 .right-0 {
   right: 0;
 }
@@ -1328,68 +1362,16 @@ img, video {
   top: 1rem;
 }
 
-.top-full {
-  top: 100%;
-}
-
-.left-4 {
-  left: 1rem;
-}
-
-.top-1 {
-  top: .25rem;
-}
-
-.top-20 {
-  top: 5rem;
-}
-
-.top-\[20\] {
-  top: 20px;
-}
-
 .top-\[6rem\] {
   top: 6rem;
 }
 
-.top-\[0rem\] {
-  top: 0;
-}
-
-.left-10 {
-  left: 2.5rem;
-}
-
-.left-\[\] {
-  left: ;
-}
-
-.left-\[60rem\] {
-  left: 60rem;
-}
-
-.left-\[6rem\] {
-  left: 6rem;
-}
-
-.left-\[rem\] {
-  left: rem;
-}
-
-.left-\[1rem\] {
-  left: 1rem;
-}
-
-.left-\[12rem\] {
-  left: 12rem;
+.top-full {
+  top: 100%;
 }
 
 .z-10 {
   z-index: 10;
-}
-
-.z-50 {
-  z-index: 50;
 }
 
 .z-30 {
@@ -1398,6 +1380,10 @@ img, video {
 
 .z-40 {
   z-index: 40;
+}
+
+.z-50 {
+  z-index: 50;
 }
 
 .m-0 {
@@ -1637,6 +1623,10 @@ img, video {
   width: 1.25rem;
 }
 
+.w-64 {
+  width: 16rem;
+}
+
 .w-80 {
   width: 20rem;
 }
@@ -1667,10 +1657,6 @@ img, video {
 
 .w-px {
   width: 1px;
-}
-
-.w-64 {
-  width: 16rem;
 }
 
 .min-w-full {
@@ -1707,10 +1693,6 @@ img, video {
 
 .max-w-xl {
   max-width: 36rem;
-}
-
-.flex-shrink-0 {
-  flex-shrink: 0;
 }
 
 .table-auto {
@@ -1877,10 +1859,6 @@ img, video {
   overflow-x: auto;
 }
 
-.overflow-y-auto {
-  overflow-y: auto;
-}
-
 .overflow-y-scroll {
   overflow-y: scroll;
 }
@@ -1966,6 +1944,11 @@ img, video {
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
 
+.bg-\[\#35095E\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(53 9 94 / var(--tw-bg-opacity, 1));
+}
+
 .bg-\[\#35095E\]\/15 {
   background-color: #35095e26;
 }
@@ -1985,6 +1968,11 @@ img, video {
 .bg-\[\#35095e\] {
   --tw-bg-opacity: 1;
   background-color: rgb(53 9 94 / var(--tw-bg-opacity, 1));
+}
+
+.bg-\[\#8938d8\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(137 56 216 / var(--tw-bg-opacity, 1));
 }
 
 .bg-\[\#C5B5CE\] {
@@ -2047,6 +2035,11 @@ img, video {
   background-color: rgb(147 51 234 / var(--tw-bg-opacity, 1));
 }
 
+.bg-purple-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(126 34 206 / var(--tw-bg-opacity, 1));
+}
+
 .bg-red-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 242 242 / var(--tw-bg-opacity, 1));
@@ -2064,25 +2057,6 @@ img, video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.bg-\[\] {
-  background-color: ;
-}
-
-.bg-\[\#8938d8\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(137 56 216 / var(--tw-bg-opacity, 1));
-}
-
-.bg-\[\#35095E\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(53 9 94 / var(--tw-bg-opacity, 1));
-}
-
-.bg-purple-700 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(126 34 206 / var(--tw-bg-opacity, 1));
 }
 
 .bg-opacity-50 {
@@ -2395,18 +2369,6 @@ img, video {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.text-\[\] {
-  color: ;
-}
-
-.text-\[\#\] {
-  color: # ;
-}
-
-.text-\[35095E\] {
-  color: 35095\65 ;
-}
-
 .underline {
   text-decoration-line: underline;
 }
@@ -2644,6 +2606,11 @@ textarea {
   background-color: #35095e4d;
 }
 
+.hover\:bg-\[\#8938d8\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(137 56 216 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-blue-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1));
@@ -2674,6 +2641,11 @@ textarea {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
+.hover\:bg-green-200:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(187 247 208 / var(--tw-bg-opacity, 1));
+}
+
 .hover\:bg-purple-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(126 34 206 / var(--tw-bg-opacity, 1));
@@ -2699,18 +2671,9 @@ textarea {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
 }
 
-.hover\:bg-\[\]:hover {
-  background-color: ;
-}
-
-.hover\:bg-\[\#8938d8\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(137 56 216 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-green-200:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(187 247 208 / var(--tw-bg-opacity, 1));
+.hover\:text-\[\#35095E\]:hover {
+  --tw-text-opacity: 1;
+  color: rgb(53 9 94 / var(--tw-text-opacity, 1));
 }
 
 .hover\:text-blue-700:hover {
@@ -2718,32 +2681,9 @@ textarea {
   color: rgb(29 78 216 / var(--tw-text-opacity, 1));
 }
 
-.hover\:text-blue-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(30 64 175 / var(--tw-text-opacity, 1));
-}
-
 .hover\:text-red-700:hover {
   --tw-text-opacity: 1;
   color: rgb(185 28 28 / var(--tw-text-opacity, 1));
-}
-
-.hover\:text-red-800:hover {
-  --tw-text-opacity: 1;
-  color: rgb(153 27 27 / var(--tw-text-opacity, 1));
-}
-
-.hover\:text-\[red-800\]:hover {
-  color: red-800;
-}
-
-.hover\:text-\[\#\]:hover {
-  color: # ;
-}
-
-.hover\:text-\[\#35095E\]:hover {
-  --tw-text-opacity: 1;
-  color: rgb(53 9 94 / var(--tw-text-opacity, 1));
 }
 
 .hover\:underline:hover {
@@ -2789,10 +2729,6 @@ textarea {
 }
 
 @media (width >= 768px) {
-  .md\:relative {
-    position: relative;
-  }
-
   .md\:flex {
     display: flex;
   }

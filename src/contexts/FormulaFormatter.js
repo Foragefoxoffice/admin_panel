@@ -5,8 +5,8 @@ import React from "react";
 
 const FormulaFormatter = ({ text, className = "" }) => {
   return (
-    <span
-      className={className}
+    <div
+      className={`preview ${className}`}
       dangerouslySetInnerHTML={{ __html: (text) }}
     />
   );

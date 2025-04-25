@@ -730,7 +730,12 @@ min-height: 60px !important;
     height: 30px !important;
     
   }
-  
+  .preview p{
+    padding-bottom: 1rem;
+  }
+  .tiptap p{
+    padding-bottom: 1rem;
+  }
 @media(max-width:600px){
   .questionadd {
     display: grid
