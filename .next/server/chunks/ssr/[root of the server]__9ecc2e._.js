@@ -133,9 +133,11 @@ module.exports = mod;
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, x: __turbopack_external_require__, y: __turbopack_external_import__, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
 __turbopack_esm__({
-    "API_BASE_URL": (()=>API_BASE_URL)
+    "API_BASE_URL": (()=>API_BASE_URL),
+    "BASE_URL": (()=>BASE_URL)
 });
-const API_BASE_URL = "https://mitoslearning.in/api";
+const API_BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "http://localhost:5000";
 }}),
 "[project]/src/contexts/useAuth.js [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";

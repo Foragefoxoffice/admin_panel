@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://mitoslearning.in/api",
+  baseURL: "http://localhost:5000/api",
 });
 
 API.interceptors.request.use(
@@ -105,7 +105,7 @@ export const fetchCustomTestQuestions = async (
   if (!token) {
     throw new Error("No token found. Please log in.");
   }
-  const response = await fetch("https://mitoslearning.in/api/questions/custom", {
+  const response = await fetch("http://localhost:5000/api/questions/custom", {
     
     method: "POST",
     headers: {
@@ -140,5 +140,26 @@ export const fetchLeaderBoard = async () => {
     throw error;
   }
 };
+
+export const updateBlockStatus = async (type, id, isPremium) => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await API.post(
+      "/block",
+      { type, id, isPremium },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.error("Error updating block status:", error);
+    throw error;
+  }
+};
+
 
 export default API;

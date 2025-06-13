@@ -167,7 +167,7 @@ export default function EditNewsPage() {
 
     const fetchNewsData = async () => {
       try {
-        const response = await fetch(`https://mitoslearning.in/api/news/${newsId}`);
+        const response = await fetch(`http://localhost:5000/api/news/${newsId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch news data');
         }
@@ -250,7 +250,7 @@ export default function EditNewsPage() {
         formData.append('image', form.image);
       }
 
-      const response = await fetch(`https://mitoslearning.in/api/news/${newsId}`, {
+      const response = await fetch(`http://localhost:5000/api/news/${newsId}`, {
         method: 'PUT',
         body: formData,
       });

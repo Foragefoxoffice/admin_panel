@@ -173,7 +173,7 @@ const UploadPage = ()=>{
         setIsFilterVisible(false); // Hide the filter-option box after selecting a filter
     };
     const fetchParentData = async (type)=>{
-        const endpoint = `https://mitoslearning.in/api/${type}/`;
+        const endpoint = `http://localhost:5000/api/${type}/`;
         try {
             const response = await fetch(endpoint);
             if (!response.ok) throw new Error(`Failed to fetch ${type}`);
@@ -197,7 +197,7 @@ const UploadPage = ()=>{
         };
         if (endpoints[filterType]) {
             try {
-                const response = await fetch(`https://mitoslearning.in/api/${endpoints[filterType]}`);
+                const response = await fetch(`http://localhost:5000/api/${endpoints[filterType]}`);
                 if (!response.ok) throw new Error(`Failed to fetch ${filterType}`);
                 const data = await response.json();
                 if ([
@@ -206,7 +206,7 @@ const UploadPage = ()=>{
                     "subject"
                 ].includes(filterType)) {
                     const parentEndpoint = filterType === "chapter" ? "subjects" : filterType === "topic" ? "chapters" : "portions";
-                    const parentResponse = await fetch(`https://mitoslearning.in/api/${parentEndpoint}`);
+                    const parentResponse = await fetch(`http://localhost:5000/api/${parentEndpoint}`);
                     if (!parentResponse.ok) throw new Error(`Failed to fetch parent data`);
                     const parentData = await parentResponse.json();
                     console.log("Item Data:", data);
@@ -286,33 +286,33 @@ const UploadPage = ()=>{
         let payload = {};
         switch(selectedType?.value){
             case "questionType":
-                endpoint = "https://mitoslearning.in/api/question-types/";
+                endpoint = "http://localhost:5000/api/question-types/";
                 payload = {
                     name
                 };
                 break;
             case "subject":
-                endpoint = "https://mitoslearning.in/api/subjects/";
+                endpoint = "http://localhost:5000/api/subjects/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
                 };
                 break;
             case "portion":
-                endpoint = "https://mitoslearning.in/api/portions/";
+                endpoint = "http://localhost:5000/api/portions/";
                 payload = {
                     name
                 };
                 break;
             case "chapter":
-                endpoint = "https://mitoslearning.in/api/chapters/";
+                endpoint = "http://localhost:5000/api/chapters/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
                 };
                 break;
             case "topic":
-                endpoint = "https://mitoslearning.in/api/topics/";
+                endpoint = "http://localhost:5000/api/topics/";
                 payload = {
                     name,
                     parentId: parseInt(parentId.value, 10)
@@ -357,33 +357,33 @@ const UploadPage = ()=>{
         let payload = {};
         switch(selectedType?.value){
             case "questionType":
-                endpoint = `https://mitoslearning.in/api/question-types/${editingItem.id}`;
+                endpoint = `http://localhost:5000/api/question-types/${editingItem.id}`;
                 payload = {
                     name
                 };
                 break;
             case "portion":
-                endpoint = `https://mitoslearning.in/api/portions/${editingItem.id}`;
+                endpoint = `http://localhost:5000/api/portions/${editingItem.id}`;
                 payload = {
                     name
                 };
                 break;
             case "subject":
-                endpoint = `https://mitoslearning.in/api/subjects/${editingItem.id}`;
+                endpoint = `http://localhost:5000/api/subjects/${editingItem.id}`;
                 payload = {
                     name,
                     portionId: parseInt(parentId.value, 10)
                 };
                 break;
             case "chapter":
-                endpoint = `https://mitoslearning.in/api/chapters/${editingItem.id}`;
+                endpoint = `http://localhost:5000/api/chapters/${editingItem.id}`;
                 payload = {
                     name,
                     subjectId: parseInt(parentId.value, 10)
                 };
                 break;
             case "topic":
-                endpoint = `https://mitoslearning.in/api/topics/${editingItem.id}`;
+                endpoint = `http://localhost:5000/api/topics/${editingItem.id}`;
                 payload = {
                     name,
                     chapterId: parseInt(parentId.value, 10)

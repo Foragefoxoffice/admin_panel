@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import { TestContext } from "@/contexts/TestContext";
-import { API_BASE_URL } from "@/utils/config";
-import useAuth from "@/contexts/useAuth";
-import { FaPlus } from "react-icons/fa6";
+import { API_BASE_URL, BASE_URL } from "@/utils/config";
+import useAuth from "@/contexts/useAuth"; 
+import { FaPlus, FaTrash } from "react-icons/fa6";
 import RichTextEditor from "@/components/Tiptap";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -37,6 +37,13 @@ export default function EditQuestionPage() {
   const [hintImage, setHintImage] = useState(null);
   const [imageName, setImageName] = useState("Select question Image to Upload");
   const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
+  const [existingImage, setExistingImage] = useState(null);
+  const [existingHintImage, setExistingHintImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [hintImagePreview, setHintImagePreview] = useState(null);
+  const [deleteImage, setDeleteImage] = useState(false);
+  const [deleteHintImage, setDeleteHintImage] = useState(false);
+  
   useAuth();
 
   useEffect(() => {
@@ -64,8 +71,16 @@ export default function EditQuestionPage() {
         setHint(data.hint);
         setSelectedTopic({ value: data.topic.id, label: data.topic.name });
         setSelectedQuestionType({ value: data.questionType.id, label: data.questionType.name });
-        setImageName(data.image ? "Image uploaded" : "Select question Image to Upload");
-        setHintImageName(data.hintImage ? "Hint image uploaded" : "Select Hint Image to Upload");
+        
+        // Handle existing images
+        if (data.image) {
+          setExistingImage(`${BASE_URL}/${data.image}`);
+          setImageName("Image uploaded");
+        }
+        if (data.hintImage) {
+          setExistingHintImage(`${BASE_URL}/${data.hintImage}`);
+          setHintImageName("Hint image uploaded");
+        }
       } catch (error) {
         setError("Failed to fetch question.");
         toast.error("Failed to fetch question.");
@@ -113,60 +128,96 @@ export default function EditQuestionPage() {
     fetchQuestionTypes();
   }, [token]);
 
-  const handleImageChange = (e, setImageState, setFileName) => {
+  const handleImageChange = (e, setImageState, setFileName, setPreview) => {
     const file = e.target.files[0];
     if (file) {
       setImageState(file);
       setFileName(file.name);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-  
-    try {
-      const formData = new FormData();
-      formData.append("question", question);
-      formData.append("optionA", optionA);
-      formData.append("optionB", optionB);
-      formData.append("optionC", optionC);
-      formData.append("optionD", optionD);
-      formData.append("correctOption", correctOption);
-      formData.append("hint", hint);
-      formData.append("topicId", selectedTopic?.value);
-      formData.append("questionTypeId", selectedQuestionType?.value);
-      if (image) formData.append("image", image);
-      if (hintImage) formData.append("hintImage", hintImage);
-  
-      const response = await axios.put(`${API_BASE_URL}/questions/update/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-  
-      if (response.status === 200) {
-        toast.success("Question updated successfully!");
-  
-        // Preserve savedFilters in setTestData
-        setTestData({
-          returnPage,
-          filters: savedFilters, // Ensure filters are retained
-        });
-  
-        router.push(`/admin/questions?page=${returnPage}`);
-      } else {
-        toast.error("Failed to update question.");
-      }
-    } catch (error) {
-      console.error("Error updating question:", error);
-      toast.error("Failed to update question.");
-    } finally {
-      setLoading(false);
+  const removeImage = (type) => {
+    if (type === 'question') {
+      setImage(null);
+      setImagePreview(null);
+      setImageName("Select question Image to Upload");
+      setDeleteImage(true);
+    } else {
+      setHintImage(null);
+      setHintImagePreview(null);
+      setHintImageName("Select Hint Image to Upload");
+      setDeleteHintImage(true);
     }
   };
-  
+
+ const handleUpdate = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("question", question);
+    formData.append("optionA", optionA);
+    formData.append("optionB", optionB);
+    formData.append("optionC", optionC);
+    formData.append("optionD", optionD);
+    formData.append("correctOption", correctOption);
+    formData.append("hint", hint);
+    formData.append("topicId", selectedTopic?.value);
+    formData.append("questionTypeId", selectedQuestionType?.value);
+    
+    // Append new images if they exist
+    if (image) formData.append("image", image);
+    if (hintImage) formData.append("hintImage", hintImage);
+    
+    // Handle image deletion flags
+    if (deleteImage) formData.append("deleteImage", "true");
+    if (deleteHintImage) formData.append("deleteHintImage", "true");
+
+    const response = await axios.put(`${API_BASE_URL}/questions/update/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (response.status === 200) {
+      toast.success("Question updated successfully!");
+      
+      // Reset image states if images were deleted
+      if (deleteImage) {
+        setExistingImage(null);
+        setImagePreview(null);
+      }
+      if (deleteHintImage) {
+        setExistingHintImage(null);
+        setHintImagePreview(null);
+      }
+
+      // Preserve savedFilters in setTestData
+      setTestData({
+        returnPage,
+        filters: savedFilters,
+      });
+
+      router.push(`/admin/questions?page=${returnPage}`);
+    } else {
+      toast.error("Failed to update question.");
+    }
+  } catch (error) {
+    console.error("Error updating question:", error);
+    toast.error("Failed to update question.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const customStyles = {
     control: (provided) => ({
@@ -231,7 +282,61 @@ export default function EditQuestionPage() {
             />
           </div>
         </div>
+
+                <div className="space-y-2 w-6/12">
+            <label className="block font-bold">Question Image:</label>
+            <div className="grid items-center gap-4">
+              <label className="file_upload" htmlFor="image">
+                <FaPlus size={40} className="file_icon" /> {imageName}
+              </label>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                hidden
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+              />
+              
+              {(existingImage && !imagePreview && !deleteImage) && (
+                <div className="relative group">
+                  <img 
+                    src={existingImage} 
+                    alt="Question" 
+                    className="h-full w-full rounded border border-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage('question')}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaTrash size={14} />
+                  </button>
+                </div>
+              )}
+              
+              {imagePreview && (
+                <div className="relative group">
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    className="h-full w-full rounded border border-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage('question')}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaTrash size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          
+
         <div>
+          
           <label className="block font-bold">Question:</label>
           <RichTextEditor
             value={question}
@@ -284,6 +389,60 @@ export default function EditQuestionPage() {
             styles={customStyles}
           />
         </div>
+
+          <div className="space-y-2 w-6/12">
+            <label className="block font-bold">Hint Image:</label>
+            <div className="grid items-center gap-4">
+              <label className="file_upload" htmlFor="hintimage">
+                <FaPlus size={40} className="file_icon" /> {hintImageName}
+              </label>
+              <input
+                type="file"
+                name="hintimage"
+                id="hintimage"
+                hidden
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
+              />
+
+              {hintImagePreview && (
+                <div className="relative group">
+                  <img 
+                    src={hintImagePreview} 
+                    alt="Hint Preview" 
+                    className="h-full w-full rounded border border-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage('hint')}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaTrash size={14} />
+                  </button>
+                </div>
+              )}
+              
+              {(existingHintImage && !hintImagePreview && !deleteHintImage) && (
+                <div className="relative group">
+                  <img 
+                    src={existingHintImage} 
+                    alt="Hint" 
+                    className="h-full w-full rounded border border-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeImage('hint')}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
+                    <FaTrash size={14} />
+                  </button>
+                </div>
+              )}
+              
+              
+            </div>
+          </div>
+          
         <div>
           <label className="block font-bold">Hint (Optional):</label>
           <RichTextEditor
@@ -292,37 +451,14 @@ export default function EditQuestionPage() {
           />
         </div>
         
-        {/* Image Upload Inputs */}
-        <div className="grid md:flex md:flex-row gap-4 mb-6">
-          {/* Question Image Upload */}
-          <div>
-            <label className="file_upload" htmlFor="image">
-              <FaPlus size={40} className="file_icon" /> {imageName}
-            </label>
-            <input
-              type="file"
-              name="image"
-              id="image"
-              hidden
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, setImage, setImageName)}
-            />
-          </div>
-          {/* Hint Image Upload */}
-          <div>
-            <label className="file_upload" htmlFor="hintimage">
-              <FaPlus size={40} className="file_icon" /> {hintImageName}
-            </label>
-            <input
-              type="file"
-              name="hintimage"
-              id="hintimage"
-              hidden
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, setHintImage, setHintImageName)}
-            />
-          </div>
+        {/* Image Upload and Preview Section */}
+        <div className="grid md:flex md:flex-row gap-8 mb-6">
+          {/* Question Image */}
+  
+          {/* Hint Image */}
+        
         </div>
+        
         <button
           type="submit"
           className="btn w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"

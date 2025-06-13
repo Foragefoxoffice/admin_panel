@@ -8,7 +8,7 @@ var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_
 __turbopack_esm__({
     "API_BASE_URL": (()=>API_BASE_URL)
 });
-const API_BASE_URL = "https://mitoslearning.in/api";
+const API_BASE_URL = "http://localhost:5000/api";
 }}),
 "[project]/src/contexts/useAuth.js [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
@@ -245,7 +245,7 @@ function PDFViewer() {
                                                 className: "flex space-x-3",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
-                                                        href: `https://mitoslearning.in${pdf.url}`,
+                                                        href: `http://localhost:5000${pdf.url}`,
                                                         target: "_blank",
                                                         rel: "noopener noreferrer",
                                                         className: "bg-blue-500 text-white px-4 py-1.5 rounded-lg hover:bg-blue-600 transition",

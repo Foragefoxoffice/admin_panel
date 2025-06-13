@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaTrash } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import useAuth from "@/contexts/useAuth";
@@ -38,6 +38,8 @@ export default function QuestionsPage() {
   const [imageName, setImageName] = useState("Select question Image to Upload");
   const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
   const [editorKey, setEditorKey] = useState(Date.now());
+  const [imagePreview, setImagePreview] = useState(null);
+  const [hintImagePreview, setHintImagePreview] = useState(null);
 
   useAuth();
 
@@ -48,11 +50,30 @@ export default function QuestionsPage() {
     }
   }, []);
 
-  const handleImageChange = (e, setImageState, setFileName) => {
+  const handleImageChange = (e, setImageState, setFileName, setPreview) => {
     const file = e.target.files[0];
     if (file) {
       setImageState(file);
       setFileName(file.name);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = (type) => {
+    if (type === 'question') {
+      setImage(null);
+      setImagePreview(null);
+      setImageName("Select question Image to Upload");
+    } else {
+      setHintImage(null);
+      setHintImagePreview(null);
+      setHintImageName("Select Hint Image to Upload");
     }
   };
 
@@ -157,11 +178,11 @@ export default function QuestionsPage() {
       if (response.status === 201) {
         setMessage("Question added successfully!");
 
-      // Hide the success message after 5 seconds
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
-      
+        // Hide the success message after 5 seconds
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+        
         // Reset all state variables
         setQuestion("");
         setOptionA("");
@@ -172,6 +193,8 @@ export default function QuestionsPage() {
         setHint("");
         setImage(null);
         setHintImage(null);
+        setImagePreview(null);
+        setHintImagePreview(null);
         setImageName("Select question Image to Upload");
         setHintImageName("Select Hint Image to Upload");
 
@@ -322,36 +345,76 @@ export default function QuestionsPage() {
             <RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} />
           </div>
 
-          {/* Image Upload Inputs */}
-          <div className="grid md:flex md:flex-row gap-4 mb-6">
-            {/* First File Upload */}
-            <div>
-              <label className="file_upload" htmlFor="image">
-                <FaPlus size={40} className="file_icon" /> {imageName}
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                hidden
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, setImage, setImageName)}
-              />
+          {/* Image Upload and Preview Section */}
+          <div className="grid md:flex md:flex-row gap-8 mb-6">
+            {/* Question Image */}
+            <div className="space-y-2 w-6/12">
+              <label className="block font-bold">Question Image:</label>
+              <div className="grid items-center gap-4">
+                <label className="file_upload" htmlFor="image">
+                  <FaPlus size={40} className="file_icon" /> {imageName}
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+                />
+                
+                {imagePreview && (
+                  <div className="relative group">
+                    <img 
+                      src={imagePreview} 
+                      alt="Preview" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('question')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-
-            {/* Second File Upload */}
-            <div>
-              <label className="file_upload" htmlFor="hintimage">
-                <FaPlus size={40} className="file_icon" /> {hintImageName}
-              </label>
-              <input
-                type="file"
-                name="hintimage"
-                id="hintimage"
-                hidden
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, setHintImage, setHintImageName)}
-              />
+            
+            {/* Hint Image */}
+            <div className="space-y-2 w-6/12">
+              <label className="block font-bold">Hint Image:</label>
+              <div className="grid items-center gap-4">
+                <label className="file_upload" htmlFor="hintimage">
+                  <FaPlus size={40} className="file_icon" /> {hintImageName}
+                </label>
+                <input
+                  type="file"
+                  name="hintimage"
+                  id="hintimage"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
+                />
+                
+                {hintImagePreview && (
+                  <div className="relative group">
+                    <img 
+                      src={hintImagePreview} 
+                      alt="Hint Preview" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('hint')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 

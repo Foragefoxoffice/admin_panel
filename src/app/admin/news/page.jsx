@@ -13,7 +13,7 @@ export default function NewsListPage() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch('https://mitoslearning.in/api/news');
+        const response = await fetch('http://localhost:5000/api/news');
         if (!response.ok) {
           throw new Error('Failed to fetch news');
         }
@@ -42,7 +42,7 @@ export default function NewsListPage() {
       }
   
     try {
-      const response = await fetch(`https://mitoslearning.in/api/news/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/news/${id}`, {
         method: 'DELETE',
       });
       

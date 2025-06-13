@@ -522,7 +522,7 @@ export default function QuestionsPage() {
 
                     {openAccordion === question.id && (
                       <div className="p-4 bg-white border-t">
-                        {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
+                        {question.image && <img alt="" src={`http://localhost:5000/${question.image}`} className="mb-4 max-w-full" />}
                         <div className="space-y-2">
                           <p><strong>Option A:</strong>  
                           <FormulaFormatter text={question.optionA} />
@@ -534,20 +534,20 @@ export default function QuestionsPage() {
                           {question.hint && <div className="mt-2"><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
                         </div>
 
-                        {question.hintImage && <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} className="mt-4 max-w-full" />}
+                        {question.hintImage && <img alt="" src={`http://localhost:5000/${question.hintImage}`} className="mt-4 max-w-full" />}
 
                         <div className="flex justify-end mt-4 space-x-4">
                           <button
                             onClick={() => handleUpdate(question.id)}
                             className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600"
                           >
-                            <FaEdit /> <span>Edit</span>
+                            <FaEdit /> <span className="text-white">Edit</span>
                           </button>
                           <button
                             onClick={() => handleDelete(question.id)}
                             className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600"
                           >
-                            <FaTrash /> <span>Delete</span>
+                            <FaTrash /> <span className="text-white" >Delete</span>
                           </button>
                         </div>
                       </div>

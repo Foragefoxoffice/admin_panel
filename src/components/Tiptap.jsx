@@ -113,7 +113,7 @@ export default function RichTextEditor({ value, onChange }) {
     <MathJaxContext config={{ 
       loader: { load: ["input/tex", "output/chtml"] },
       tex: {
-        packages: {'[+]': ['color', 'mhchem']},
+        packages: {'[+]': ['color', 'mhchem', 'chemfig']},
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
       }
@@ -126,7 +126,17 @@ export default function RichTextEditor({ value, onChange }) {
           <ToolbarButton editor={editor} command="toggleItalic" type="italic" label="I" />
           <ToolbarButton editor={editor} command="toggleUnderline" type="underline" label="U" />
           <ToolbarButton editor={editor} command="toggleCode" type="code" label="</>" />
-          
+          <ToolbarButton
+  editor={editor}
+  command="insertMath"
+  type="math"
+  label="∑"
+/>
+
+<ToolbarButton editor={editor} command="insertLatexSub" type="latexSub" label="X₍ₙ₎" />
+<ToolbarButton editor={editor} command="insertLatexSup" type="latexSup" label="Xⁿ" />
+
+
           {/* Lists */}
           <ToolbarButton editor={editor} command="toggleBulletList" type="bulletList" label="• List" />
           <ToolbarButton editor={editor} command="toggleOrderedList" type="orderedList" label="1. List" />
@@ -181,17 +191,19 @@ export default function RichTextEditor({ value, onChange }) {
           <div className="flex items-center gap-3">
             <input
               type="color"
+               style={{margin:0, height:25,padding:0,border:'none',width:25,background:"transparent"}}
               value={textColor}
               onChange={(e) => setTextColor(e.target.value)}
               onBlur={setTextColorCommand}
-              className=" h-4 border-0 cursor-pointer m-0 colorpic"
+             
             />
             <input
               type="color"
+               style={{margin:0, height:25,padding:0,border:'none',width:25,background:"transparent"}}
               value={highlightColor}
               onChange={(e) => setHighlightColor(e.target.value)}
               onBlur={setHighlightColorCommand}
-              className=" h-4 border-0 cursor-pointer ml-2 colorpic"
+           
              
             />
           </div>
@@ -246,8 +258,18 @@ function ToolbarButton({ editor, command, type, label }) {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
+
         if (command === "setTextAlign") {
           editor.chain().focus()[command](type.textAlign).run();
+        } else if (command === "insertMath") {
+          const latex = '\\(\\frac{TEXT}{TEXT}\\)';
+          editor.chain().focus().insertContent(latex).run();
+        } else if (command === "insertLatexSub") {
+          const latex = 'm_{2}';
+          editor.chain().focus().insertContent(latex).run();
+        } else if (command === "insertLatexSup") {
+          const latex = 'x^{2}';
+          editor.chain().focus().insertContent(latex).run();
         } else {
           editor.chain().focus()[command]().run();
         }
@@ -260,3 +282,4 @@ function ToolbarButton({ editor, command, type, label }) {
     </button>
   );
 }
+

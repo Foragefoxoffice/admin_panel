@@ -43,7 +43,7 @@ export default function CreateBannerPage() {
       formData.append('isActive', form.isActive);
       if (form.image) formData.append('image', form.image);
 
-      const res = await fetch('https://mitoslearning.in/api/banners', {
+      const res = await fetch('http://localhost:5000/api/banners', {
         method: 'POST',
         body: formData,
       });
