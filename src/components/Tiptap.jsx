@@ -120,7 +120,7 @@ export default function RichTextEditor({ value, onChange }) {
     }}>
       <div className="border p-4 rounded-lg mt-5">
         {/* Main Toolbar */}
-        <div className="mb-2 space-x-2 flex flex-wrap gap-2">
+        <div className="mb-2  flex flex-wrap gap-2">
           {/* Text Formatting */}
           <ToolbarButton editor={editor} command="toggleBold" type="bold" label="B" />
           <ToolbarButton editor={editor} command="toggleItalic" type="italic" label="I" />
@@ -135,6 +135,8 @@ export default function RichTextEditor({ value, onChange }) {
 
 <ToolbarButton editor={editor} command="insertLatexSub" type="latexSub" label="X₍ₙ₎" />
 <ToolbarButton editor={editor} command="insertLatexSup" type="latexSup" label="Xⁿ" />
+<ToolbarButton editor={editor} command="insertquotation" type="latexSub" label="{}" />
+<ToolbarButton editor={editor} command="insertarray" type="latexSup" label="[]" />
 
 
           {/* Lists */}
@@ -262,19 +264,27 @@ function ToolbarButton({ editor, command, type, label }) {
         if (command === "setTextAlign") {
           editor.chain().focus()[command](type.textAlign).run();
         } else if (command === "insertMath") {
-          const latex = '\\(\\frac{TEXT}{TEXT}\\)';
+          const latex = '\\(\\frac{}{}\\)';
           editor.chain().focus().insertContent(latex).run();
         } else if (command === "insertLatexSub") {
-          const latex = 'm_{2}';
+          const latex = '_{ }';
           editor.chain().focus().insertContent(latex).run();
         } else if (command === "insertLatexSup") {
-          const latex = 'x^{2}';
+          const latex = '^{ }';
           editor.chain().focus().insertContent(latex).run();
-        } else {
+        
+          } else if (command === "insertquotation") {
+          const latex = '{ }';
+          editor.chain().focus().insertContent(latex).run();
+          } else if (command === "insertarray") {
+          const latex = '[ ]';
+          editor.chain().focus().insertContent(latex).run();
+        }
+        else {
           editor.chain().focus()[command]().run();
         }
       }}
-      className={`px-3 py-1 rounded ${
+      className={`px-3 py-1 rounded  ${
         editor.isActive(type) ? "richoptionhover" : "richoption"
       }`}
     >

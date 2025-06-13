@@ -210,7 +210,7 @@ function RichTextEditor({ value, onChange }) {
             className: "border p-4 rounded-lg mt-5",
             children: [
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                    className: "mb-2 space-x-2 flex flex-wrap gap-2",
+                    className: "mb-2  flex flex-wrap gap-2",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
@@ -284,12 +284,32 @@ function RichTextEditor({ value, onChange }) {
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
+                            command: "insertquotation",
+                            type: "latexSub",
+                            label: "{}"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 138,
+                            columnNumber: 1
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
+                            command: "insertarray",
+                            type: "latexSup",
+                            label: "[]"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/Tiptap.jsx",
+                            lineNumber: 139,
+                            columnNumber: 1
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
+                            editor: editor,
                             command: "toggleBulletList",
                             type: "bulletList",
                             label: "• List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 141,
+                            lineNumber: 143,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -299,7 +319,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "1. List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 142,
+                            lineNumber: 144,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -309,7 +329,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X₂"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 145,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -319,7 +339,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X²"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 146,
+                            lineNumber: 148,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -331,7 +351,7 @@ function RichTextEditor({ value, onChange }) {
                                     children: "🔗"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 150,
+                                    lineNumber: 152,
                                     columnNumber: 13
                                 }, this),
                                 showLinkInput && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -345,7 +365,7 @@ function RichTextEditor({ value, onChange }) {
                                             className: "border p-1 mb-2 h-8full"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 158,
+                                            lineNumber: 160,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -357,7 +377,7 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Apply"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 166,
+                                                    lineNumber: 168,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -366,32 +386,32 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Remove"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 172,
+                                                    lineNumber: 174,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 165,
+                                            lineNumber: 167,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 157,
+                                    lineNumber: 159,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 149,
+                            lineNumber: 151,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 184,
+                            lineNumber: 186,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -403,7 +423,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 185,
+                            lineNumber: 187,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -415,7 +435,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 186,
+                            lineNumber: 188,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -427,14 +447,14 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 187,
+                            lineNumber: 189,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 190,
+                            lineNumber: 192,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -455,7 +475,7 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setTextColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 192,
+                                    lineNumber: 194,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -473,20 +493,20 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setHighlightColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 200,
+                                    lineNumber: 202,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 191,
+                            lineNumber: 193,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 "
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 212,
+                            lineNumber: 214,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -496,7 +516,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "</> Block"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 213,
+                            lineNumber: 215,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -506,7 +526,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "---"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 214,
+                            lineNumber: 216,
                             columnNumber: 11
                         }, this)
                     ]
@@ -530,7 +550,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "B"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 221,
+                                lineNumber: 223,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -540,7 +560,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "I"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 222,
+                                lineNumber: 224,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -550,7 +570,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "U"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 223,
+                                lineNumber: 225,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -564,18 +584,18 @@ function RichTextEditor({ value, onChange }) {
                                 children: "🔗"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 224,
+                                lineNumber: 226,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 220,
+                        lineNumber: 222,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 219,
+                    lineNumber: 221,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["EditorContent"], {
@@ -583,7 +603,7 @@ function RichTextEditor({ value, onChange }) {
                     className: "min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 238,
+                    lineNumber: 240,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -594,7 +614,7 @@ function RichTextEditor({ value, onChange }) {
                             children: "Math Preview:"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 245,
+                            lineNumber: 247,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__["MathJax"], {
@@ -606,18 +626,18 @@ function RichTextEditor({ value, onChange }) {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 247,
+                                lineNumber: 249,
                                 columnNumber: 5
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 246,
+                            lineNumber: 248,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 244,
+                    lineNumber: 246,
                     columnNumber: 9
                 }, this)
             ]
@@ -640,23 +660,29 @@ function ToolbarButton({ editor, command, type, label }) {
             if (command === "setTextAlign") {
                 editor.chain().focus()[command](type.textAlign).run();
             } else if (command === "insertMath") {
-                const latex = '\\(\\frac{TEXT}{TEXT}\\)';
+                const latex = '\\(\\frac{}{}\\)';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertLatexSub") {
-                const latex = 'm_{2}';
+                const latex = '_{ }';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertLatexSup") {
-                const latex = 'x^{2}';
+                const latex = '^{ }';
+                editor.chain().focus().insertContent(latex).run();
+            } else if (command === "insertquotation") {
+                const latex = '{ }';
+                editor.chain().focus().insertContent(latex).run();
+            } else if (command === "insertarray") {
+                const latex = '[ ]';
                 editor.chain().focus().insertContent(latex).run();
             } else {
                 editor.chain().focus()[command]().run();
             }
         },
-        className: `px-3 py-1 rounded ${editor.isActive(type) ? "richoptionhover" : "richoption"}`,
+        className: `px-3 py-1 rounded  ${editor.isActive(type) ? "richoptionhover" : "richoption"}`,
         children: label
     }, void 0, false, {
         fileName: "[project]/src/components/Tiptap.jsx",
-        lineNumber: 257,
+        lineNumber: 259,
         columnNumber: 5
     }, this);
 }
