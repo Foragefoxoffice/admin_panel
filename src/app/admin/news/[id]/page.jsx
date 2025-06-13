@@ -14,7 +14,7 @@ export default function NewsDetailPage({ params }) {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/news/${params.id}`);
+        const response = await fetch(`https://mitoslearning.in/api/news/${params.id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch news');
         }
@@ -32,7 +32,7 @@ export default function NewsDetailPage({ params }) {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/news/${params.id}`, {
+      const response = await fetch(`https://mitoslearning.in/api/news/${params.id}`, {
         method: 'DELETE',
       });
       

@@ -113,8 +113,8 @@ __turbopack_esm__({
     "API_BASE_URL": (()=>API_BASE_URL),
     "BASE_URL": (()=>BASE_URL)
 });
-const API_BASE_URL = "http://localhost:5000/api";
-const BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://mitoslearning.in/api";
+const BASE_URL = "https://mitoslearning.in";
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_refresh__.registerExports(module, globalThis.$RefreshHelpers$);
 }

@@ -15,7 +15,7 @@ export default function BannerListPage() {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/banners');
+        const response = await fetch('https://mitoslearning.in/api/banners');
         if (!response.ok) throw new Error('Failed to fetch banners');
         const data = await response.json();
 
@@ -47,7 +47,7 @@ export default function BannerListPage() {
     if (!confirm('Are you sure you want to delete this banner?')) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/banners/${id}`, {
+      const response = await fetch(`https://mitoslearning.in/api/banners/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ export default function BannerListPage() {
         isActive: bannerToUpdate.isActive ? 0 : 1
       };      
   
-      const response = await fetch(`http://localhost:5000/api/banners/${id}`, {
+      const response = await fetch(`https://mitoslearning.in/api/banners/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export default function BannerListPage() {
                 <div className="relative h-48 bg-gray-100">
                   {banner.imageUrl ? (
                     <img 
-                      src={`http://localhost:5000${banner.imageUrl}`} 
+                      src={`https://mitoslearning.in${banner.imageUrl}`} 
                       alt={banner.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {

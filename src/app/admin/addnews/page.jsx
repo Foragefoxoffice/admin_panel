@@ -206,7 +206,7 @@ const handleSubmit = async (e) => {
     }
 
     // Submit to API endpoint
-    const response = await fetch('http://localhost:5000/api/news', {
+    const response = await fetch('https://mitoslearning.in/api/news', {
       method: 'POST',
       body: formData,
     });
