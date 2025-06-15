@@ -1,19 +1,18 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { FaPlus, FaTrash } from "react-icons/fa6";
+import { FaPlus, FaTrash, FaQuestion, FaListUl, FaCheck, FaLightbulb } from "react-icons/fa6";
 import { API_BASE_URL } from "@/utils/config";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
 import useAuth from "@/contexts/useAuth";
 import RichTextEditor from "@/components/Tiptap";
-import FormulaFormatter from "@/contexts/FormulaFormatter";
 
-// Dynamically import react-select with SSR disabled
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function QuestionsPage() {
+  // State variables
   const [topics, setTopics] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const [chapters, setChapters] = useState([]);
@@ -33,14 +32,22 @@ export default function QuestionsPage() {
   const [hintImage, setHintImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const router = useRouter();
   const [token, setToken] = useState(null);
   const [imageName, setImageName] = useState("Select question Image to Upload");
   const [hintImageName, setHintImageName] = useState("Select Hint Image to Upload");
   const [editorKey, setEditorKey] = useState(Date.now());
   const [imagePreview, setImagePreview] = useState(null);
   const [hintImagePreview, setHintImagePreview] = useState(null);
-  const [activeTab, setActiveTab] = useState("question"); // Tab state
+
+  // Refs for navigation
+  const questionRef = useRef(null);
+  const optionARef = useRef(null);
+  const optionBRef = useRef(null);
+  const optionCRef = useRef(null);
+  const optionDRef = useRef(null);
+  const correctOptionRef = useRef(null);
+  const hintRef = useRef(null);
+  const scrollContainerRef = useRef(null);
 
   useAuth();
 
@@ -51,13 +58,25 @@ export default function QuestionsPage() {
     }
   }, []);
 
+  const scrollToRef = (ref) => {
+    if (ref?.current && scrollContainerRef?.current) {
+      const navbarHeight = 64; // Height of the fixed navbar
+      const elementPosition = ref.current.offsetTop;
+      const scrollPosition = elementPosition - navbarHeight;
+      
+      scrollContainerRef.current.scrollTo({
+        top: scrollPosition,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const handleImageChange = (e, setImageState, setFileName, setPreview) => {
     const file = e.target.files[0];
     if (file) {
       setImageState(file);
       setFileName(file.name);
       
-      // Create preview
       const reader = new FileReader();
       reader.onload = () => {
         setPreview(reader.result);
@@ -95,9 +114,9 @@ export default function QuestionsPage() {
 
         setSubjects(
           subjectRes.data.map((s) => ({
-            value: s.id, // Subject ID
-            label: `${s.name} (${s.portion.name})`, // Subject Name + Portion Name
-            portion: s.portion, // Keep the portion object for later use
+            value: s.id,
+            label: `${s.name} (${s.portion.name})`,
+            portion: s.portion,
           }))
         );
         setQuestionTypes(questionTypeRes.data.map((qt) => ({ value: qt.id, label: qt.name })));
@@ -178,13 +197,11 @@ export default function QuestionsPage() {
 
       if (response.status === 201) {
         setMessage("Question added successfully!");
-
-        // Hide the success message after 5 seconds
         setTimeout(() => {
           setMessage("");
         }, 5000);
         
-        // Reset all state variables
+        // Reset form
         setQuestion("");
         setOptionA("");
         setOptionB("");
@@ -198,8 +215,6 @@ export default function QuestionsPage() {
         setHintImagePreview(null);
         setImageName("Select question Image to Upload");
         setHintImageName("Select Hint Image to Upload");
-
-        // Force reset editors
         setEditorKey(Date.now());
       } else {
         setMessage("Error adding question.");
@@ -260,221 +275,246 @@ export default function QuestionsPage() {
     }),
   };
 
-  // Tab component
-  const TabButton = ({ tabName, label }) => (
-    <button
-      type="button"
-      className={`px-4 py-2 font-bold rounded-t-lg transition-colors ${
-        activeTab === tabName
-          ? "bg-purple-700 text-white"
-          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-      }`}
-      onClick={() => setActiveTab(tabName)}
-    >
-      {label}
-    </button>
-  );
-
   return (
     <MathJaxContext>
-      <div className="p-6 md:p-0 pt-12">
-        <h1 className="font-bold mb-4">Add a Question</h1>
-
-        {/* Question Form */}
-        <form onSubmit={handleSubmit} className="questionform">
-          {/* Select Filters */}
-          <div className="questionadd">
-            <Select
-              value={selectedSubject}
-              options={subjects}
-              onChange={setSelectedSubject}
-              placeholder="Select Subject"
-              isClearable
-              styles={customStyles}
-            />
-            <Select
-              value={selectedChapter}
-              options={chapters}
-              onChange={setSelectedChapter}
-              placeholder="Select Chapter"
-              styles={customStyles}
-              isClearable
-            />
+      <div className="relative h-screen overflow-hidden">
+        {/* Fixed Top Navigation Bar */}
+        <nav className=" top-0 left-0 right-0 bg-white z-40 py-3 px-6 border-b border-gray-200">
+          <div className="flex justify-between items-center">
+            <h1 className="font-bold text-xl text-purple-800">Add New Question</h1>
+            <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide">
+              <button 
+                onClick={() => scrollToRef(questionRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaQuestion className="mr-1" /> 
+              </button>
+              <button 
+                onClick={() => scrollToRef(optionARef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaListUl className="mr-1" />  A
+              </button>
+              <button 
+                onClick={() => scrollToRef(optionBRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaListUl className="mr-1" />  B
+              </button>
+              <button 
+                onClick={() => scrollToRef(optionCRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaListUl className="mr-1" /> C
+              </button>
+              <button 
+                onClick={() => scrollToRef(optionDRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaListUl className="mr-1" />  D
+              </button>
+              <button 
+                onClick={() => scrollToRef(correctOptionRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaCheck className="mr-1" /> 
+              </button>
+              <button 
+                onClick={() => scrollToRef(hintRef)} 
+                className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+              >
+                <FaLightbulb className="mr-1" />
+              </button>
+            </div>
           </div>
-          <div className="questionadd">
-            <Select
-              value={selectedTopic}
-              options={topics}
-              onChange={setSelectedTopic}
-              placeholder="Select Topic"
-              styles={customStyles}
-              isClearable
-            />
-            <Select
-              value={selectedQuestionType}
-              options={questionTypes}
-              onChange={setSelectedQuestionType}
-              placeholder="Select Question Type"
-              styles={customStyles}
-              isClearable
-            />
-          </div>
+        </nav>
 
-          {/* Tab Navigation */}
-          <div className="flex flex-wrap gap-2 mt-6 mb-4">
-            <TabButton tabName="question" label="Question" />
-            <TabButton tabName="optionA" label="Option A" />
-            <TabButton tabName="optionB" label="Option B" />
-            <TabButton tabName="optionC" label="Option C" />
-            <TabButton tabName="optionD" label="Option D" />
-            <TabButton tabName="correct" label="Correct Answer" />
-            <TabButton tabName="hint" label="Hint" />
-          </div>
+        {/* Main Scrollable Content Container */}
+        <div 
+          ref={scrollContainerRef}
+          className="pt-16 px-6 h-full overflow-y-auto scrollbar-hide"
+        >
+          <form onSubmit={handleSubmit} className="space-y-6 pb-10">
+            {/* Select Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Select
+                value={selectedSubject}
+                options={subjects}
+                onChange={setSelectedSubject}
+                placeholder="Select Subject"
+                isClearable
+                styles={customStyles}
+              />
+              <Select
+                value={selectedChapter}
+                options={chapters}
+                onChange={setSelectedChapter}
+                placeholder="Select Chapter"
+                styles={customStyles}
+                isClearable
+              />
+              <Select
+                value={selectedTopic}
+                options={topics}
+                onChange={setSelectedTopic}
+                placeholder="Select Topic"
+                styles={customStyles}
+                isClearable
+              />
+              <Select
+                value={selectedQuestionType}
+                options={questionTypes}
+                onChange={setSelectedQuestionType}
+                placeholder="Select Question Type"
+                styles={customStyles}
+                isClearable
+              />
+            </div>
 
-          {/* Tab Content */}
-          <div className="border border-gray-200 rounded-b-lg p-4">
-            {/* Question Tab */}
-            {activeTab === "question" && (
-              <div className="richeeditos">
-                <div className="space-y-2 w-6/12">
-                  <label className="block font-medium">Question Image:</label>
-                  <div className="grid items-center gap-4">
-                    <label className="file_upload" htmlFor="image">
-                      <FaPlus size={40} className="file_icon" /> {imageName}
-                    </label>
-                    <input
-                      type="file"
-                      name="image"
-                      id="image"
-                      hidden
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
-                    />
-                    
-                    {imagePreview && (
-                      <div className="relative group">
-                        <img 
-                          src={imagePreview} 
-                          alt="Preview" 
-                          className="h-full w-full rounded border border-gray-300"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage('question')}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <FaTrash size={14} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
+            {/* Question Section */}
+            <div ref={questionRef} className="space-y-4 bg-white p-4 rounded-lg shadow">
+              <div className="space-y-2">
+                <label className="block font-bold text-lg text-purple-700">Question Image:</label>
+                <div className="grid items-center gap-4">
+                  <label className="file_upload" htmlFor="image">
+                    <FaPlus size={40} className="file_icon" /> {imageName}
+                  </label>
+                  <input
+                    type="file"
+                    name="image"
+                    id="image"
+                    hidden
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+                  />
+                  
+                  {imagePreview && (
+                    <div className="relative group max-w-md">
+                      <img 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        className="h-auto w-full rounded border border-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage('question')}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <FaTrash size={14} />
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <h3 className='font-medium text-black mt-3' >Question:</h3>
+              </div>
+              <div className="space-y-2">
+                <label className="block font-bold text-lg text-purple-700">Question:</label>
                 <RichTextEditor key={editorKey} value={question} onChange={setQuestion} />
               </div>
-            )}
+            </div>
 
-            {/* Option A Tab */}
-            {activeTab === "optionA" && (
-              <div className="richoptions">
-                <h3 className='font-medium text-black' >Option A:</h3>
-                <RichTextEditor key={editorKey + 1} value={optionA} onChange={setOptionA} />
-              </div>
-            )}
+            {/* Options Sections */}
+            <div ref={optionARef} className="space-y-2 bg-white p-4 rounded-lg shadow">
+              <label className="block font-bold text-lg text-purple-700">Option A:</label>
+              <RichTextEditor key={editorKey + 1} value={optionA} onChange={setOptionA} />
+            </div>
+            
+            <div ref={optionBRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
+              <label className="block font-bold text-lg text-purple-700">Option B:</label>
+              <RichTextEditor key={editorKey + 2} value={optionB} onChange={setOptionB} />
+            </div>
+            
+            <div ref={optionCRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
+              <label className="block font-bold text-lg text-purple-700">Option C:</label>
+              <RichTextEditor key={editorKey + 3} value={optionC} onChange={setOptionC} />
+            </div>
+            
+            <div ref={optionDRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
+              <label className="block font-bold text-lg text-purple-700">Option D:</label>
+              <RichTextEditor key={editorKey + 4} value={optionD} onChange={setOptionD} />
+            </div>
 
-            {/* Option B Tab */}
-            {activeTab === "optionB" && (
-              <div className="richoptions">
-                <h3 className='font-medium text-black' >Option B:</h3>
-                <RichTextEditor key={editorKey + 2} value={optionB} onChange={setOptionB} />
-              </div>
-            )}
+            {/* Correct Answer Section */}
+            <div ref={correctOptionRef} className="bg-white p-4 rounded-lg shadow">
+              <label className="block font-bold text-lg text-purple-700 mb-2">Correct Answer:</label>
+              <Select
+                value={correctOption ? { value: correctOption, label: `Option ${correctOption}` } : null}
+                options={[
+                  { value: "A", label: "Option A" },
+                  { value: "B", label: "Option B" },
+                  { value: "C", label: "Option C" },
+                  { value: "D", label: "Option D" },
+                ]}
+                onChange={(opt) => setCorrectOption(opt?.value)}
+                placeholder="Select Correct Answer"
+                isClearable
+                styles={customStyles}
+              />
+            </div>
 
-            {/* Option C Tab */}
-            {activeTab === "optionC" && (
-              <div className="richoptions">
-                <h3 className='font-medium text-black' >Option C:</h3>
-                <RichTextEditor key={editorKey + 3} value={optionC} onChange={setOptionC} />
-              </div>
-            )}
-
-            {/* Option D Tab */}
-            {activeTab === "optionD" && (
-              <div className="richoptions">
-                <h3 className='font-medium text-black' >Option D:</h3>
-                <RichTextEditor key={editorKey + 4} value={optionD} onChange={setOptionD} />
-              </div>
-            )}
-
-            {/* Correct Answer Tab */}
-            {activeTab === "correct" && (
-              <div className="space-y-4">
-                <h3 className="font-medium text-lg text-black">Select the correct answer:</h3>
-                <Select
-                  value={correctOption ? { value: correctOption, label: `Option ${correctOption}` } : null}
-                  options={[
-                    { value: "A", label: "Option A" },
-                    { value: "B", label: "Option B" },
-                    { value: "C", label: "Option C" },
-                    { value: "D", label: "Option D" },
-                  ]}
-                  onChange={(opt) => setCorrectOption(opt?.value)}
-                  placeholder="Select Correct Answer"
-                  isClearable
-                  styles={customStyles}
-                />
-                
-              </div>
-            )}
-
-            {/* Hint Tab */}
-            {activeTab === "hint" && (
-              <div className="richeeditos">
-                <div className="space-y-2 w-6/12">
-                  <label className="block font-bold">Hint Image:</label>
-                  <div className="grid items-center gap-4">
-                    <label className="file_upload" htmlFor="hintimage">
-                      <FaPlus size={40} className="file_icon" /> {hintImageName}
-                    </label>
-                    <input
-                      type="file"
-                      name="hintimage"
-                      id="hintimage"
-                      hidden
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
-                    />
-                    
-                    {hintImagePreview && (
-                      <div className="relative group">
-                        <img 
-                          src={hintImagePreview} 
-                          alt="Hint Preview" 
-                          className="h-full w-full rounded border border-gray-300"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage('hint')}
-                          className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <FaTrash size={14} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
+            {/* Hint Section */}
+            <div ref={hintRef} className="space-y-4 bg-white p-4 rounded-lg shadow">
+              <div className="space-y-2">
+                <label className="block font-bold text-lg text-purple-700">Hint Image:</label>
+                <div className="grid items-center gap-4">
+                  <label className="file_upload" htmlFor="hintimage">
+                    <FaPlus size={40} className="file_icon" /> {hintImageName}
+                  </label>
+                  <input
+                    type="file"
+                    name="hintimage"
+                    id="hintimage"
+                    hidden
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
+                  />
+                  
+                  {hintImagePreview && (
+                    <div className="relative group max-w-md">
+                      <img 
+                        src={hintImagePreview} 
+                        alt="Hint Preview" 
+                        className="h-auto w-full rounded border border-gray-300"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage('hint')}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <FaTrash size={14} />
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <span>Hint:</span>
+              </div>
+              <div className="space-y-2">
+                <label className="block font-bold text-lg text-purple-700">Hint:</label>
                 <RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} />
               </div>
+            </div>
+
+            <button 
+              type="submit" 
+              className="w-full bg-purple-700  hover:bg-purple-800 text-white font-bold py-3 px-4 rounded-lg shadow transition-colors duration-300 " style={{ marginBottom: "50px" }}
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Submitting...
+                </span>
+              ) : "Submit Question"}
+            </button>
+
+            {message && (
+              <div className={`p-4 rounded-lg ${message.includes("success") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+                {message}
+              </div>
             )}
-          </div>
-
-          <button type="submit" className="btn mt-6" disabled={loading}>
-            {loading ? "Submitting..." : "Submit Question"}
-          </button>
-
-          {message && <p className="mt-2 text-green-600">{message}</p>}
-        </form>
+          </form>
+        </div>
       </div>
     </MathJaxContext>
   );
