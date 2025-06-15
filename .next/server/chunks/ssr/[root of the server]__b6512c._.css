@@ -1305,6 +1305,10 @@ img, video {
   }
 }
 
+.visible {
+  visibility: visible;
+}
+
 .fixed {
   position: fixed;
 }
@@ -1396,10 +1400,6 @@ img, video {
 
 .m-0 {
   margin: 0;
-}
-
-.m-\[\] {
-  margin: ;
 }
 
 .mx-1 {
@@ -1501,8 +1501,8 @@ img, video {
   margin-top: 2rem;
 }
 
-.ml-0 {
-  margin-left: 0;
+.mt-3 {
+  margin-top: .75rem;
 }
 
 .line-clamp-2 {
@@ -1881,6 +1881,12 @@ img, video {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1921,6 +1927,16 @@ img, video {
 
 .rounded-xl {
   border-radius: .75rem;
+}
+
+.rounded-b-lg {
+  border-bottom-right-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+}
+
+.rounded-t-lg {
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
 }
 
 .border {
@@ -2417,6 +2433,19 @@ img, video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-\[\] {
+  color: ;
+}
+
+.text-\[\#3a0a67\] {
+  --tw-text-opacity: 1;
+  color: rgb(58 10 103 / var(--tw-text-opacity, 1));
+}
+
+.text-\[gray-500\] {
+  color: gray-500;
 }
 
 .underline {

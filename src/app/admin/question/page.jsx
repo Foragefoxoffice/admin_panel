@@ -40,6 +40,7 @@ export default function QuestionsPage() {
   const [editorKey, setEditorKey] = useState(Date.now());
   const [imagePreview, setImagePreview] = useState(null);
   const [hintImagePreview, setHintImagePreview] = useState(null);
+  const [activeTab, setActiveTab] = useState("question"); // Tab state
 
   useAuth();
 
@@ -259,6 +260,21 @@ export default function QuestionsPage() {
     }),
   };
 
+  // Tab component
+  const TabButton = ({ tabName, label }) => (
+    <button
+      type="button"
+      className={`px-4 py-2 font-bold rounded-t-lg transition-colors ${
+        activeTab === tabName
+          ? "bg-purple-700 text-white"
+          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      }`}
+      onClick={() => setActiveTab(tabName)}
+    >
+      {label}
+    </button>
+  );
+
   return (
     <MathJaxContext>
       <div className="p-6 md:p-0 pt-12">
@@ -304,121 +320,156 @@ export default function QuestionsPage() {
             />
           </div>
 
-          <div className="richeeditos">
-            <span>Question:</span>
-            <RichTextEditor key={editorKey} value={question} onChange={setQuestion} />
+          {/* Tab Navigation */}
+          <div className="flex flex-wrap gap-2 mt-6 mb-4">
+            <TabButton tabName="question" label="Question" />
+            <TabButton tabName="optionA" label="Option A" />
+            <TabButton tabName="optionB" label="Option B" />
+            <TabButton tabName="optionC" label="Option C" />
+            <TabButton tabName="optionD" label="Option D" />
+            <TabButton tabName="correct" label="Correct Answer" />
+            <TabButton tabName="hint" label="Hint" />
           </div>
 
-          <div className="my-5 richoptions">
-            <span>OptionA:</span>
-            <RichTextEditor key={editorKey + 1} value={optionA} onChange={setOptionA} />
-          </div>
-          <div className="my-5 richoptions">
-            <span>OptionB:</span>
-            <RichTextEditor key={editorKey + 2} value={optionB} onChange={setOptionB} />
-          </div>
-          <div className="my-5 richoptions">
-            <span>OptionC:</span>
-            <RichTextEditor key={editorKey + 3} value={optionC} onChange={setOptionC} />
-          </div>
-          <div className="my-5 richoptions">
-            <span>OptionD:</span>
-            <RichTextEditor key={editorKey + 4} value={optionD} onChange={setOptionD} />
-          </div>
+          {/* Tab Content */}
+          <div className="border border-gray-200 rounded-b-lg p-4">
+            {/* Question Tab */}
+            {activeTab === "question" && (
+              <div className="richeeditos">
+                <div className="space-y-2 w-6/12">
+                  <label className="block font-medium">Question Image:</label>
+                  <div className="grid items-center gap-4">
+                    <label className="file_upload" htmlFor="image">
+                      <FaPlus size={40} className="file_icon" /> {imageName}
+                    </label>
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      hidden
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+                    />
+                    
+                    {imagePreview && (
+                      <div className="relative group">
+                        <img 
+                          src={imagePreview} 
+                          alt="Preview" 
+                          className="h-full w-full rounded border border-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage('question')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <FaTrash size={14} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <h3 className='font-medium text-black mt-3' >Question:</h3>
+                <RichTextEditor key={editorKey} value={question} onChange={setQuestion} />
+              </div>
+            )}
 
-          <Select
-            value={correctOption ? { value: correctOption, label: `Option ${correctOption}` } : null}
-            options={[
-              { value: "A", label: "Option A" },
-              { value: "B", label: "Option B" },
-              { value: "C", label: "Option C" },
-              { value: "D", label: "Option D" },
-            ]}
-            onChange={(opt) => setCorrectOption(opt?.value)}
-            placeholder="Select Correct Answer"
-            isClearable
-            styles={customStyles}
-          />
+            {/* Option A Tab */}
+            {activeTab === "optionA" && (
+              <div className="richoptions">
+                <h3 className='font-medium text-black' >Option A:</h3>
+                <RichTextEditor key={editorKey + 1} value={optionA} onChange={setOptionA} />
+              </div>
+            )}
 
-          <div className="my-5 richeeditos">
-            <span>Hint:</span>
-            <RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} />
-          </div>
+            {/* Option B Tab */}
+            {activeTab === "optionB" && (
+              <div className="richoptions">
+                <h3 className='font-medium text-black' >Option B:</h3>
+                <RichTextEditor key={editorKey + 2} value={optionB} onChange={setOptionB} />
+              </div>
+            )}
 
-          {/* Image Upload and Preview Section */}
-          <div className="grid md:flex md:flex-row gap-8 mb-6">
-            {/* Question Image */}
-            <div className="space-y-2 w-6/12">
-              <label className="block font-bold">Question Image:</label>
-              <div className="grid items-center gap-4">
-                <label className="file_upload" htmlFor="image">
-                  <FaPlus size={40} className="file_icon" /> {imageName}
-                </label>
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  hidden
-                  accept="image/*"
-                  onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+            {/* Option C Tab */}
+            {activeTab === "optionC" && (
+              <div className="richoptions">
+                <h3 className='font-medium text-black' >Option C:</h3>
+                <RichTextEditor key={editorKey + 3} value={optionC} onChange={setOptionC} />
+              </div>
+            )}
+
+            {/* Option D Tab */}
+            {activeTab === "optionD" && (
+              <div className="richoptions">
+                <h3 className='font-medium text-black' >Option D:</h3>
+                <RichTextEditor key={editorKey + 4} value={optionD} onChange={setOptionD} />
+              </div>
+            )}
+
+            {/* Correct Answer Tab */}
+            {activeTab === "correct" && (
+              <div className="space-y-4">
+                <h3 className="font-medium text-lg text-black">Select the correct answer:</h3>
+                <Select
+                  value={correctOption ? { value: correctOption, label: `Option ${correctOption}` } : null}
+                  options={[
+                    { value: "A", label: "Option A" },
+                    { value: "B", label: "Option B" },
+                    { value: "C", label: "Option C" },
+                    { value: "D", label: "Option D" },
+                  ]}
+                  onChange={(opt) => setCorrectOption(opt?.value)}
+                  placeholder="Select Correct Answer"
+                  isClearable
+                  styles={customStyles}
                 />
                 
-                {imagePreview && (
-                  <div className="relative group">
-                    <img 
-                      src={imagePreview} 
-                      alt="Preview" 
-                      className="h-full w-full rounded border border-gray-300"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeImage('question')}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <FaTrash size={14} />
-                    </button>
-                  </div>
-                )}
               </div>
-            </div>
-            
-            {/* Hint Image */}
-            <div className="space-y-2 w-6/12">
-              <label className="block font-bold">Hint Image:</label>
-              <div className="grid items-center gap-4">
-                <label className="file_upload" htmlFor="hintimage">
-                  <FaPlus size={40} className="file_icon" /> {hintImageName}
-                </label>
-                <input
-                  type="file"
-                  name="hintimage"
-                  id="hintimage"
-                  hidden
-                  accept="image/*"
-                  onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
-                />
-                
-                {hintImagePreview && (
-                  <div className="relative group">
-                    <img 
-                      src={hintImagePreview} 
-                      alt="Hint Preview" 
-                      className="h-full w-full rounded border border-gray-300"
+            )}
+
+            {/* Hint Tab */}
+            {activeTab === "hint" && (
+              <div className="richeeditos">
+                <div className="space-y-2 w-6/12">
+                  <label className="block font-bold">Hint Image:</label>
+                  <div className="grid items-center gap-4">
+                    <label className="file_upload" htmlFor="hintimage">
+                      <FaPlus size={40} className="file_icon" /> {hintImageName}
+                    </label>
+                    <input
+                      type="file"
+                      name="hintimage"
+                      id="hintimage"
+                      hidden
+                      accept="image/*"
+                      onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
                     />
-                    <button
-                      type="button"
-                      onClick={() => removeImage('hint')}
-                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <FaTrash size={14} />
-                    </button>
+                    
+                    {hintImagePreview && (
+                      <div className="relative group">
+                        <img 
+                          src={hintImagePreview} 
+                          alt="Hint Preview" 
+                          className="h-full w-full rounded border border-gray-300"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeImage('hint')}
+                          className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <FaTrash size={14} />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
+                <span>Hint:</span>
+                <RichTextEditor key={editorKey + 5} value={hint} onChange={setHint} />
               </div>
-            </div>
+            )}
           </div>
 
-          <button type="submit" className="btn" disabled={loading}>
+          <button type="submit" className="btn mt-6" disabled={loading}>
             {loading ? "Submitting..." : "Submit Question"}
           </button>
 

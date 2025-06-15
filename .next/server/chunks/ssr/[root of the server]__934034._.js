@@ -134,7 +134,7 @@ __turbopack_esm__({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-ssr] (ecmascript)");
 ;
 const API = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].create({
-    baseURL: "http://localhost:5000/api"
+    baseURL: "https://mitoslearning.in/api"
 });
 API.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");
@@ -217,7 +217,7 @@ const fetchCustomTestQuestions = async (portionId, subjectId, chapterId, topicId
     if (!token) {
         throw new Error("No token found. Please log in.");
     }
-    const response = await fetch("http://localhost:5000/api/questions/custom", {
+    const response = await fetch("https://mitoslearning.in/api/questions/custom", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
