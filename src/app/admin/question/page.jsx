@@ -147,24 +147,35 @@ export default function QuestionsPage() {
     fetchChapters();
   }, [selectedSubject, token]);
 
-  useEffect(() => {
-    const fetchTopics = async () => {
-      if (selectedChapter) {
-        try {
-          const response = await axios.get(`${API_BASE_URL}/topics/topic/${selectedChapter.value}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setTopics(response.data.map((t) => ({ value: t.id, label: t.name })));
-        } catch (error) {
-          console.error("Error fetching topics:", error);
-        }
-      } else {
+useEffect(() => {
+  const fetchTopics = async () => {
+    if (selectedChapter) {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/topics/topic/${selectedChapter.value}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setTopics(response.data.map((t) => ({
+          value: t.id,
+          label: t.name,
+          isPremium: t.isPremium, // <-- include this if you want to track premium status
+        })));
+      } catch (error) {
+        console.error("Error fetching topics:", error);
         setTopics([]);
       }
-    };
+    } else {
+      setTopics([]);
+    }
+  };
 
-    fetchTopics();
-  }, [selectedChapter, token]);
+  fetchTopics();
+}, [selectedChapter, token]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

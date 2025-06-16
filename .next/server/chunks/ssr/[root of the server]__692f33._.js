@@ -270,7 +270,7 @@ function RichTextEditor({ value, onChange }) {
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 136,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
@@ -280,27 +280,27 @@ function RichTextEditor({ value, onChange }) {
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 137,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
                             command: "insertquotation",
                             type: "latexSub",
-                            label: "{}"
+                            label: "\\("
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 138,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
                             command: "insertarray",
                             type: "latexSup",
-                            label: "[]"
+                            label: "\\)"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 139,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
@@ -309,7 +309,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "• List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 143,
+                            lineNumber: 142,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -319,7 +319,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "1. List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 144,
+                            lineNumber: 143,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -329,7 +329,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X₂"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 147,
+                            lineNumber: 146,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -339,7 +339,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X²"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 148,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -351,7 +351,7 @@ function RichTextEditor({ value, onChange }) {
                                     children: "🔗"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 152,
+                                    lineNumber: 151,
                                     columnNumber: 13
                                 }, this),
                                 showLinkInput && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -365,7 +365,7 @@ function RichTextEditor({ value, onChange }) {
                                             className: "border p-1 mb-2 h-8full"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 160,
+                                            lineNumber: 159,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -377,7 +377,7 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Apply"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 168,
+                                                    lineNumber: 167,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -386,32 +386,32 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Remove"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 174,
+                                                    lineNumber: 173,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 167,
+                                            lineNumber: 166,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 159,
+                                    lineNumber: 158,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 151,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 186,
+                            lineNumber: 185,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -423,7 +423,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 187,
+                            lineNumber: 186,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -435,7 +435,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 188,
+                            lineNumber: 187,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -447,14 +447,14 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 189,
+                            lineNumber: 188,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 192,
+                            lineNumber: 191,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -475,7 +475,7 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setTextColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 194,
+                                    lineNumber: 193,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -493,20 +493,20 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setHighlightColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 202,
+                                    lineNumber: 201,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 193,
+                            lineNumber: 192,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 "
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 214,
+                            lineNumber: 213,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -516,7 +516,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "</> Block"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 215,
+                            lineNumber: 214,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -526,7 +526,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "---"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 216,
+                            lineNumber: 215,
                             columnNumber: 11
                         }, this)
                     ]
@@ -550,7 +550,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "B"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 223,
+                                lineNumber: 222,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -560,7 +560,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "I"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 224,
+                                lineNumber: 223,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -570,7 +570,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "U"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 225,
+                                lineNumber: 224,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -584,18 +584,18 @@ function RichTextEditor({ value, onChange }) {
                                 children: "🔗"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 226,
+                                lineNumber: 225,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 222,
+                        lineNumber: 221,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 221,
+                    lineNumber: 220,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$locals$3e$__["EditorContent"], {
@@ -603,7 +603,7 @@ function RichTextEditor({ value, onChange }) {
                     className: "min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 240,
+                    lineNumber: 239,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -614,30 +614,30 @@ function RichTextEditor({ value, onChange }) {
                             children: "Math Preview:"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 247,
+                            lineNumber: 246,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__["MathJax"], {
                             dynamic: true,
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "preview ",
+                                className: "preview overflow-auto break-words whitespace-pre-wrap",
                                 dangerouslySetInnerHTML: {
                                     __html: editor?.getHTML()
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 249,
-                                columnNumber: 5
+                                lineNumber: 248,
+                                columnNumber: 12
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 248,
+                            lineNumber: 247,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 246,
+                    lineNumber: 245,
                     columnNumber: 9
                 }, this)
             ]
@@ -669,10 +669,10 @@ function ToolbarButton({ editor, command, type, label }) {
                 const latex = '^{ }';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertquotation") {
-                const latex = '{ }';
+                const latex = '\(';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertarray") {
-                const latex = '[ ]';
+                const latex = '\)';
                 editor.chain().focus().insertContent(latex).run();
             } else {
                 editor.chain().focus()[command]().run();
@@ -682,7 +682,7 @@ function ToolbarButton({ editor, command, type, label }) {
         children: label
     }, void 0, false, {
         fileName: "[project]/src/components/Tiptap.jsx",
-        lineNumber: 259,
+        lineNumber: 262,
         columnNumber: 5
     }, this);
 }
@@ -838,7 +838,6 @@ function EditQuestionPage() {
     const id = testData?.QuestionId;
     const returnPage = testData?.returnPage;
     const savedFilters = testData?.filters || {};
-    // State for form fields
     const [question, setQuestion] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [optionA, setOptionA] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [optionB, setOptionB] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
@@ -846,17 +845,13 @@ function EditQuestionPage() {
     const [optionD, setOptionD] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [correctOption, setCorrectOption] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const [hint, setHint] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    // State for filters
     const [topics, setTopics] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [selectedTopic, setSelectedTopic] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [questionTypes, setQuestionTypes] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
     const [selectedQuestionType, setSelectedQuestionType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    // State for UI
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [token, setToken] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("question"); // Tab state
-    // State for images
     const [image, setImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [hintImage, setHintImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [imageName, setImageName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("Select question Image to Upload");
@@ -867,12 +862,32 @@ function EditQuestionPage() {
     const [hintImagePreview, setHintImagePreview] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [deleteImage, setDeleteImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [deleteHintImage, setDeleteHintImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Refs for navigation
+    const questionRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const optionARef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const optionBRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const optionCRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const optionDRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const correctOptionRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const hintRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const scrollContainerRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$useAuth$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"])();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         if ("TURBOPACK compile-time falsy", 0) {
             "TURBOPACK unreachable";
         }
     }, []);
+    const scrollToRef = (ref)=>{
+        if (ref?.current && scrollContainerRef?.current) {
+            const navbarHeight = 64; // Height of the fixed navbar
+            const elementPosition = ref.current.offsetTop;
+            const scrollPosition = elementPosition - navbarHeight;
+            scrollContainerRef.current.scrollTo({
+                top: scrollPosition,
+                behavior: "smooth"
+            });
+        }
+    };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const fetchQuestion = async ()=>{
             if (!token || !id) return;
@@ -931,7 +946,8 @@ function EditQuestionPage() {
                 });
                 setTopics(response.data.map((t)=>({
                         value: t.id,
-                        label: t.name
+                        label: t.name,
+                        isPremium: t.isPremium
                     })));
             } catch (error) {
                 setError("Failed to fetch topics.");
@@ -1101,175 +1117,243 @@ function EditQuestionPage() {
             label: "Option D"
         }
     ].find((opt)=>opt.value === correctOption);
-    // Tab component
-    const TabButton = ({ tabName, label })=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-            type: "button",
-            className: `px-4 py-2 font-bold rounded-t-lg transition-colors ${activeTab === tabName ? "bg-purple-700 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`,
-            onClick: ()=>setActiveTab(tabName),
-            children: label
-        }, void 0, false, {
-            fileName: "[project]/src/app/admin/edit/page.jsx",
-            lineNumber: 266,
-            columnNumber: 5
-        }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: "mx-auto p-6",
+        className: "relative h-screen overflow-hidden",
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "text-2xl font-bold mb-6",
-                children: "Edit Question"
-            }, void 0, false, {
-                fileName: "[project]/src/app/admin/edit/page.jsx",
-                lineNumber: 281,
-                columnNumber: 7
-            }, this),
-            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                className: "text-red-500",
-                children: error
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
+                className: "top-0 left-0 right-0 bg-white z-40 py-3 px-6 border-b border-gray-200",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex justify-between items-center",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                            className: "font-bold text-xl text-purple-800",
+                            children: "Edit Question"
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                            lineNumber: 284,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "flex space-x-2 overflow-x-auto py-2 scrollbar-hide",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(questionRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaQuestion"], {
+                                        className: "mr-1"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                                        lineNumber: 290,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 286,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(optionARef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaListUl"], {
+                                            className: "mr-1"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                                            lineNumber: 296,
+                                            columnNumber: 15
+                                        }, this),
+                                        "  A"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 292,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(optionBRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaListUl"], {
+                                            className: "mr-1"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                                            lineNumber: 302,
+                                            columnNumber: 15
+                                        }, this),
+                                        "  B"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 298,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(optionCRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaListUl"], {
+                                            className: "mr-1"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                                            lineNumber: 308,
+                                            columnNumber: 15
+                                        }, this),
+                                        " C"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 304,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(optionDRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaListUl"], {
+                                            className: "mr-1"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                                            lineNumber: 314,
+                                            columnNumber: 15
+                                        }, this),
+                                        "  D"
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 310,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(correctOptionRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaCheck"], {
+                                        className: "mr-1"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                                        lineNumber: 320,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 316,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                    onClick: ()=>scrollToRef(hintRef),
+                                    className: "flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fa6$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FaLightbulb"], {
+                                        className: "mr-1"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                                        lineNumber: 326,
+                                        columnNumber: 15
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 322,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                            lineNumber: 285,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                    lineNumber: 283,
+                    columnNumber: 9
+                }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/edit/page.jsx",
                 lineNumber: 282,
-                columnNumber: 17
+                columnNumber: 7
             }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                onSubmit: handleUpdate,
-                className: "space-y-4",
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                ref: scrollContainerRef,
+                className: "pt-16 px-6 h-full overflow-y-auto scrollbar-hide",
                 children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex gap-8",
+                    error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-red-500",
+                        children: error
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                        lineNumber: 337,
+                        columnNumber: 19
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
+                        onSubmit: handleUpdate,
+                        className: "space-y-6 pb-10",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-8",
                                 children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                        className: "block font-bold",
-                                        children: "Topic:"
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block font-bold",
+                                                children: "Topic:"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                lineNumber: 341,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                                                options: topics,
+                                                value: selectedTopic,
+                                                onChange: (option)=>setSelectedTopic(option),
+                                                placeholder: "Select Topic",
+                                                isClearable: true,
+                                                styles: customStyles
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                lineNumber: 342,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 288,
+                                        lineNumber: 340,
                                         columnNumber: 13
                                     }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                                        options: topics,
-                                        value: selectedTopic,
-                                        onChange: (option)=>setSelectedTopic(option),
-                                        placeholder: "Select Topic",
-                                        isClearable: true,
-                                        styles: customStyles
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                className: "block font-bold",
+                                                children: "Question Type:"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                lineNumber: 352,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                                                options: questionTypes,
+                                                value: selectedQuestionType,
+                                                onChange: (option)=>setSelectedQuestionType(option),
+                                                placeholder: "Select Question Type",
+                                                isClearable: true,
+                                                styles: customStyles
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                lineNumber: 353,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 289,
+                                        lineNumber: 351,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 287,
+                                lineNumber: 339,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                        className: "block font-bold",
-                                        children: "Question Type:"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 299,
-                                        columnNumber: 13
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                                        options: questionTypes,
-                                        value: selectedQuestionType,
-                                        onChange: (option)=>setSelectedQuestionType(option),
-                                        placeholder: "Select Question Type",
-                                        isClearable: true,
-                                        styles: customStyles
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 300,
-                                        columnNumber: 13
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 298,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 286,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex flex-wrap gap-2 mt-6 mb-4",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "question",
-                                label: "Question"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 313,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "optionA",
-                                label: "Option A"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 314,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "optionB",
-                                label: "Option B"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 315,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "optionC",
-                                label: "Option C"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 316,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "optionD",
-                                label: "Option D"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 317,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "correct",
-                                label: "Correct Answer"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 318,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(TabButton, {
-                                tabName: "hint",
-                                label: "Hint"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 319,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 312,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "border border-gray-200 rounded-b-lg p-4",
-                        children: [
-                            activeTab === "question" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "space-y-4",
+                                ref: questionRef,
+                                className: "space-y-4 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "space-y-2 w-6/12",
@@ -1279,8 +1363,8 @@ function EditQuestionPage() {
                                                 children: "Question Image:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 328,
-                                                columnNumber: 17
+                                                lineNumber: 367,
+                                                columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid items-center gap-4",
@@ -1294,16 +1378,16 @@ function EditQuestionPage() {
                                                                 className: "file_icon"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 331,
-                                                                columnNumber: 21
+                                                                lineNumber: 370,
+                                                                columnNumber: 19
                                                             }, this),
                                                             " ",
                                                             imageName
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 330,
-                                                        columnNumber: 19
+                                                        lineNumber: 369,
+                                                        columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                         type: "file",
@@ -1314,8 +1398,8 @@ function EditQuestionPage() {
                                                         onChange: (e)=>handleImageChange(e, setImage, setImageName, setImagePreview)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 333,
-                                                        columnNumber: 19
+                                                        lineNumber: 372,
+                                                        columnNumber: 17
                                                     }, this),
                                                     existingImage && !imagePreview && !deleteImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "relative group",
@@ -1326,8 +1410,8 @@ function EditQuestionPage() {
                                                                 className: "h-full w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 344,
-                                                                columnNumber: 23
+                                                                lineNumber: 383,
+                                                                columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 type: "button",
@@ -1337,19 +1421,19 @@ function EditQuestionPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                    lineNumber: 354,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 393,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 349,
-                                                                columnNumber: 23
+                                                                lineNumber: 388,
+                                                                columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 343,
-                                                        columnNumber: 21
+                                                        lineNumber: 382,
+                                                        columnNumber: 19
                                                     }, this),
                                                     imagePreview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "relative group",
@@ -1360,8 +1444,8 @@ function EditQuestionPage() {
                                                                 className: "h-full w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 361,
-                                                                columnNumber: 23
+                                                                lineNumber: 400,
+                                                                columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 type: "button",
@@ -1371,31 +1455,31 @@ function EditQuestionPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                    lineNumber: 371,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 410,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 366,
-                                                                columnNumber: 23
+                                                                lineNumber: 405,
+                                                                columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 360,
-                                                        columnNumber: 21
+                                                        lineNumber: 399,
+                                                        columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 329,
-                                                columnNumber: 17
+                                                lineNumber: 368,
+                                                columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 327,
-                                        columnNumber: 15
+                                        lineNumber: 366,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
@@ -1404,242 +1488,183 @@ function EditQuestionPage() {
                                                 children: "Question:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 379,
-                                                columnNumber: 17
+                                                lineNumber: 418,
+                                                columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                                 value: question,
                                                 onChange: (html)=>setQuestion(html)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 380,
-                                                columnNumber: 17
+                                                lineNumber: 419,
+                                                columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 378,
-                                        columnNumber: 15
+                                        lineNumber: 417,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 326,
-                                columnNumber: 13
+                                lineNumber: 365,
+                                columnNumber: 11
                             }, this),
-                            activeTab === "optionA" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: optionARef,
+                                className: "space-y-2 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                         className: "block font-bold",
                                         children: "Option A:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 391,
-                                        columnNumber: 15
+                                        lineNumber: 428,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionA,
                                         onChange: (html)=>setOptionA(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 392,
-                                        columnNumber: 15
+                                        lineNumber: 429,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 390,
-                                columnNumber: 13
+                                lineNumber: 427,
+                                columnNumber: 11
                             }, this),
-                            activeTab === "optionB" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: optionBRef,
+                                className: "space-y-2 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                         className: "block font-bold",
                                         children: "Option B:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 402,
-                                        columnNumber: 15
+                                        lineNumber: 436,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionB,
                                         onChange: (html)=>setOptionB(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 403,
-                                        columnNumber: 15
+                                        lineNumber: 437,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 401,
-                                columnNumber: 13
+                                lineNumber: 435,
+                                columnNumber: 11
                             }, this),
-                            activeTab === "optionC" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: optionCRef,
+                                className: "space-y-2 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                         className: "block font-bold",
                                         children: "Option C:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 413,
-                                        columnNumber: 15
+                                        lineNumber: 444,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionC,
                                         onChange: (html)=>setOptionC(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 414,
-                                        columnNumber: 15
+                                        lineNumber: 445,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 412,
-                                columnNumber: 13
+                                lineNumber: 443,
+                                columnNumber: 11
                             }, this),
-                            activeTab === "optionD" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: optionDRef,
+                                className: "space-y-2 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                         className: "block font-bold",
                                         children: "Option D:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 424,
-                                        columnNumber: 15
+                                        lineNumber: 452,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                         value: optionD,
                                         onChange: (html)=>setOptionD(html)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 425,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 423,
-                                columnNumber: 13
-                            }, this),
-                            activeTab === "correct" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "space-y-4",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                className: "block font-bold",
-                                                children: "Correct Option:"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 436,
-                                                columnNumber: 17
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
-                                                options: [
-                                                    {
-                                                        value: "A",
-                                                        label: "Option A"
-                                                    },
-                                                    {
-                                                        value: "B",
-                                                        label: "Option B"
-                                                    },
-                                                    {
-                                                        value: "C",
-                                                        label: "Option C"
-                                                    },
-                                                    {
-                                                        value: "D",
-                                                        label: "Option D"
-                                                    }
-                                                ],
-                                                value: correctOptionValue,
-                                                onChange: (opt)=>setCorrectOption(opt?.value),
-                                                placeholder: "Select Correct Answer",
-                                                isClearable: true,
-                                                styles: customStyles
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 437,
-                                                columnNumber: 17
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 435,
-                                        columnNumber: 15
-                                    }, this),
-                                    correctOption && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                className: "font-bold mb-2 text-black",
-                                                children: "Preview of selected option:"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 454,
-                                                columnNumber: 19
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "p-4 bg-gray-100 text-[#3a0a67] rounded-lg",
-                                                children: [
-                                                    correctOption === "A" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        dangerouslySetInnerHTML: {
-                                                            __html: optionA
-                                                        }
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 456,
-                                                        columnNumber: 47
-                                                    }, this),
-                                                    correctOption === "B" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        dangerouslySetInnerHTML: {
-                                                            __html: optionB
-                                                        }
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 457,
-                                                        columnNumber: 47
-                                                    }, this),
-                                                    correctOption === "C" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        dangerouslySetInnerHTML: {
-                                                            __html: optionC
-                                                        }
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 458,
-                                                        columnNumber: 47
-                                                    }, this),
-                                                    correctOption === "D" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        dangerouslySetInnerHTML: {
-                                                            __html: optionD
-                                                        }
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 459,
-                                                        columnNumber: 47
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 455,
-                                                columnNumber: 19
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/admin/edit/page.jsx",
                                         lineNumber: 453,
-                                        columnNumber: 17
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 434,
-                                columnNumber: 13
+                                lineNumber: 451,
+                                columnNumber: 11
                             }, this),
-                            activeTab === "hint" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "space-y-4",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: correctOptionRef,
+                                className: "bg-white p-4 rounded-lg shadow",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        className: "block font-bold",
+                                        children: "Correct Option:"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                                        lineNumber: 461,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
+                                        options: [
+                                            {
+                                                value: "A",
+                                                label: "Option A"
+                                            },
+                                            {
+                                                value: "B",
+                                                label: "Option B"
+                                            },
+                                            {
+                                                value: "C",
+                                                label: "Option C"
+                                            },
+                                            {
+                                                value: "D",
+                                                label: "Option D"
+                                            }
+                                        ],
+                                        value: correctOptionValue,
+                                        onChange: (opt)=>setCorrectOption(opt?.value),
+                                        placeholder: "Select Correct Answer",
+                                        isClearable: true,
+                                        styles: customStyles
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/edit/page.jsx",
+                                        lineNumber: 462,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                lineNumber: 460,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                ref: hintRef,
+                                className: "space-y-4 bg-white p-4 rounded-lg shadow",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "space-y-2 w-6/12",
@@ -1649,8 +1674,8 @@ function EditQuestionPage() {
                                                 children: "Hint Image:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 470,
-                                                columnNumber: 17
+                                                lineNumber: 480,
+                                                columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid items-center gap-4",
@@ -1664,16 +1689,16 @@ function EditQuestionPage() {
                                                                 className: "file_icon"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 473,
-                                                                columnNumber: 21
+                                                                lineNumber: 483,
+                                                                columnNumber: 19
                                                             }, this),
                                                             " ",
                                                             hintImageName
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 472,
-                                                        columnNumber: 19
+                                                        lineNumber: 482,
+                                                        columnNumber: 17
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                         type: "file",
@@ -1684,8 +1709,8 @@ function EditQuestionPage() {
                                                         onChange: (e)=>handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 475,
-                                                        columnNumber: 19
+                                                        lineNumber: 485,
+                                                        columnNumber: 17
                                                     }, this),
                                                     hintImagePreview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "relative group",
@@ -1696,8 +1721,8 @@ function EditQuestionPage() {
                                                                 className: "h-full w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 486,
-                                                                columnNumber: 23
+                                                                lineNumber: 496,
+                                                                columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 type: "button",
@@ -1707,19 +1732,19 @@ function EditQuestionPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                    lineNumber: 496,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 506,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 491,
-                                                                columnNumber: 23
+                                                                lineNumber: 501,
+                                                                columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 485,
-                                                        columnNumber: 21
+                                                        lineNumber: 495,
+                                                        columnNumber: 19
                                                     }, this),
                                                     existingHintImage && !hintImagePreview && !deleteHintImage && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "relative group",
@@ -1730,8 +1755,8 @@ function EditQuestionPage() {
                                                                 className: "h-full w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 503,
-                                                                columnNumber: 23
+                                                                lineNumber: 513,
+                                                                columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                                                 type: "button",
@@ -1741,31 +1766,31 @@ function EditQuestionPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                    lineNumber: 513,
-                                                                    columnNumber: 25
+                                                                    lineNumber: 523,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                                lineNumber: 508,
-                                                                columnNumber: 23
+                                                                lineNumber: 518,
+                                                                columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                        lineNumber: 502,
-                                                        columnNumber: 21
+                                                        lineNumber: 512,
+                                                        columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 471,
-                                                columnNumber: 17
+                                                lineNumber: 481,
+                                                columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 469,
-                                        columnNumber: 15
+                                        lineNumber: 479,
+                                        columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
@@ -1774,49 +1799,94 @@ function EditQuestionPage() {
                                                 children: "Hint (Optional):"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 521,
-                                                columnNumber: 17
+                                                lineNumber: 531,
+                                                columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                                                 value: hint,
                                                 onChange: (html)=>setHint(html)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                                lineNumber: 522,
-                                                columnNumber: 17
+                                                lineNumber: 532,
+                                                columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                                        lineNumber: 520,
-                                        columnNumber: 15
+                                        lineNumber: 530,
+                                        columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                                lineNumber: 468,
-                                columnNumber: 13
+                                lineNumber: 478,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                type: "submit",
+                                className: "w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-4 rounded-lg shadow transition-colors duration-300",
+                                style: {
+                                    marginBottom: "50px"
+                                },
+                                disabled: loading,
+                                children: loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: "flex items-center justify-center gap-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
+                                            className: "animate-spin h-5 w-5 text-white",
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            fill: "none",
+                                            viewBox: "0 0 24 24",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("circle", {
+                                                    className: "opacity-25",
+                                                    cx: "12",
+                                                    cy: "12",
+                                                    r: "10",
+                                                    stroke: "currentColor",
+                                                    strokeWidth: "4"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                    lineNumber: 548,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
+                                                    className: "opacity-75",
+                                                    fill: "currentColor",
+                                                    d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                                    lineNumber: 549,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/edit/page.jsx",
+                                            lineNumber: 547,
+                                            columnNumber: 17
+                                        }, this),
+                                        "Updating..."
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/app/admin/edit/page.jsx",
+                                    lineNumber: 546,
+                                    columnNumber: 15
+                                }, this) : "Update Question"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/edit/page.jsx",
+                                lineNumber: 539,
+                                columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 323,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        type: "submit",
-                        className: "btn w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700",
-                        disabled: loading,
-                        children: loading ? "Updating..." : "Update Question"
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/edit/page.jsx",
-                        lineNumber: 531,
+                        lineNumber: 338,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/edit/page.jsx",
-                lineNumber: 284,
+                lineNumber: 333,
                 columnNumber: 7
             }, this)
         ]

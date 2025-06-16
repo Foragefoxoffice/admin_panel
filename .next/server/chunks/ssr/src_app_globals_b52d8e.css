@@ -694,6 +694,10 @@ img, video {
   max-height: 24rem;
 }
 
+.max-h-\[300px\] {
+  max-height: 300px;
+}
+
 .min-h-10 {
   min-height: 2.5rem;
 }
@@ -987,6 +991,10 @@ img, video {
   margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
 }
 
+.overflow-auto {
+  overflow: auto;
+}
+
 .overflow-hidden {
   overflow: hidden;
 }
@@ -1011,6 +1019,14 @@ img, video {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+}
+
+.break-words {
+  overflow-wrap: break-word;
 }
 
 .rounded {

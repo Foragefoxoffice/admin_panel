@@ -162,7 +162,7 @@ export default function QuestionsPage() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        setTopics(response.data.map((t) => ({ value: t.id, label: t.name })));
+        setTopics(response.data.map((t) => ({ value: t.id, label: t.name, isPremium: t.isPremium })));
       } catch (error) {
         console.error("Failed to fetch topics:", error);
         setTopics([]);

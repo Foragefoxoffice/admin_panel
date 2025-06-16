@@ -73,7 +73,7 @@ export default function RichTextEditor({ value, onChange }) {
       handlePaste: (view, event) => {
         const clipboardData = event.clipboardData || window.clipboardData;
         const text = clipboardData.getData("text/plain");
-        
+
         // Let the default paste handler handle it
         return false;
       },
@@ -110,10 +110,10 @@ export default function RichTextEditor({ value, onChange }) {
   };
 
   return (
-    <MathJaxContext config={{ 
+    <MathJaxContext config={{
       loader: { load: ["input/tex", "output/chtml"] },
       tex: {
-        packages: {'[+]': ['color', 'mhchem', 'chemfig']},
+        packages: { '[+]': ['color', 'mhchem', 'chemfig'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
       }
@@ -127,26 +127,25 @@ export default function RichTextEditor({ value, onChange }) {
           <ToolbarButton editor={editor} command="toggleUnderline" type="underline" label="U" />
           <ToolbarButton editor={editor} command="toggleCode" type="code" label="</>" />
           <ToolbarButton
-  editor={editor}
-  command="insertMath"
-  type="math"
-  label="∑"
-/>
+            editor={editor}
+            command="insertMath"
+            type="math"
+            label="∑"
+          />
 
-<ToolbarButton editor={editor} command="insertLatexSub" type="latexSub" label="X₍ₙ₎" />
-<ToolbarButton editor={editor} command="insertLatexSup" type="latexSup" label="Xⁿ" />
-<ToolbarButton editor={editor} command="insertquotation" type="latexSub" label="{}" />
-<ToolbarButton editor={editor} command="insertarray" type="latexSup" label="[]" />
-
+          <ToolbarButton editor={editor} command="insertLatexSub" type="latexSub" label="X₍ₙ₎" />
+          <ToolbarButton editor={editor} command="insertLatexSup" type="latexSup" label="Xⁿ" />
+          <ToolbarButton editor={editor} command="insertquotation" type="latexSub" label="\(" />
+          <ToolbarButton editor={editor} command="insertarray" type="latexSup" label="\)" />
 
           {/* Lists */}
           <ToolbarButton editor={editor} command="toggleBulletList" type="bulletList" label="• List" />
           <ToolbarButton editor={editor} command="toggleOrderedList" type="orderedList" label="1. List" />
-          
+
           {/* Scripts */}
           <ToolbarButton editor={editor} command="toggleSubscript" type="subscript" label="X₂" />
           <ToolbarButton editor={editor} command="toggleSuperscript" type="superscript" label="X²" />
-          
+
           {/* Link */}
           <div className="relative">
             <button
@@ -181,35 +180,35 @@ export default function RichTextEditor({ value, onChange }) {
               </div>
             )}
           </div>
-          
+
           {/* Text Alignment */}
           <div className="border-l border-gray-300 h-6 mx-2"></div>
           <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "left" }} label="≡" />
           <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "center" }} label="≡" />
           <ToolbarButton editor={editor} command="setTextAlign" type={{ textAlign: "right" }} label="≡" />
-          
+
           {/* Colors */}
           <div className="border-l border-gray-300 h-6 mx-2"></div>
           <div className="flex items-center gap-3">
             <input
               type="color"
-               style={{margin:0, height:25,padding:0,border:'none',width:25,background:"transparent"}}
+              style={{ margin: 0, height: 25, padding: 0, border: 'none', width: 25, background: "transparent" }}
               value={textColor}
               onChange={(e) => setTextColor(e.target.value)}
               onBlur={setTextColorCommand}
-             
+
             />
             <input
               type="color"
-               style={{margin:0, height:25,padding:0,border:'none',width:25,background:"transparent"}}
+              style={{ margin: 0, height: 25, padding: 0, border: 'none', width: 25, background: "transparent" }}
               value={highlightColor}
               onChange={(e) => setHighlightColor(e.target.value)}
               onBlur={setHighlightColorCommand}
-           
-             
+
+
             />
           </div>
-          
+
           {/* Advanced */}
           <div className="border-l border-gray-300 h-6 "></div>
           <ToolbarButton editor={editor} command="toggleCodeBlock" type="codeBlock" label="</> Block" />
@@ -237,17 +236,21 @@ export default function RichTextEditor({ value, onChange }) {
         )}
 
         {/* Editor Content */}
-        <EditorContent 
-          editor={editor} 
-          className="min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500" 
+        <EditorContent
+          editor={editor}
+          className="min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500"
         />
-        
+
         {/* Rendered Math Preview */}
         <div className="mt-4 p-3 border-t text-gray-700 text-sm">
           <h3 className="font-medium mb-2">Math Preview:</h3>
           <MathJax dynamic>
-    <div className="preview " dangerouslySetInnerHTML={{ __html: editor?.getHTML() }} />
-  </MathJax>
+           <div
+  className="preview overflow-auto break-words whitespace-pre-wrap"
+  dangerouslySetInnerHTML={{ __html: editor?.getHTML() }}
+/>
+
+          </MathJax>
         </div>
       </div>
     </MathJaxContext>
@@ -272,21 +275,20 @@ function ToolbarButton({ editor, command, type, label }) {
         } else if (command === "insertLatexSup") {
           const latex = '^{ }';
           editor.chain().focus().insertContent(latex).run();
-        
-          } else if (command === "insertquotation") {
-          const latex = '{ }';
+
+        } else if (command === "insertquotation") {
+          const latex = '\(';
           editor.chain().focus().insertContent(latex).run();
-          } else if (command === "insertarray") {
-          const latex = '[ ]';
+        } else if (command === "insertarray") {
+          const latex = '\)';
           editor.chain().focus().insertContent(latex).run();
         }
         else {
           editor.chain().focus()[command]().run();
         }
       }}
-      className={`px-3 py-1 rounded  ${
-        editor.isActive(type) ? "richoptionhover" : "richoption"
-      }`}
+      className={`px-3 py-1 rounded  ${editor.isActive(type) ? "richoptionhover" : "richoption"
+        }`}
     >
       {label}
     </button>

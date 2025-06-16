@@ -284,7 +284,7 @@ function RichTextEditor({ value, onChange }) {
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 136,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
@@ -294,27 +294,27 @@ function RichTextEditor({ value, onChange }) {
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 137,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
                             command: "insertquotation",
                             type: "latexSub",
-                            label: "{}"
+                            label: "\\("
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 138,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
                             command: "insertarray",
                             type: "latexSup",
-                            label: "[]"
+                            label: "\\)"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
                             lineNumber: 139,
-                            columnNumber: 1
+                            columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
                             editor: editor,
@@ -323,7 +323,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "• List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 143,
+                            lineNumber: 142,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -333,7 +333,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "1. List"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 144,
+                            lineNumber: 143,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -343,7 +343,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X₂"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 147,
+                            lineNumber: 146,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -353,7 +353,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "X²"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 148,
+                            lineNumber: 147,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -365,7 +365,7 @@ function RichTextEditor({ value, onChange }) {
                                     children: "🔗"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 152,
+                                    lineNumber: 151,
                                     columnNumber: 13
                                 }, this),
                                 showLinkInput && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -379,7 +379,7 @@ function RichTextEditor({ value, onChange }) {
                                             className: "border p-1 mb-2 h-8full"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 160,
+                                            lineNumber: 159,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -391,7 +391,7 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Apply"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 168,
+                                                    lineNumber: 167,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -400,32 +400,32 @@ function RichTextEditor({ value, onChange }) {
                                                     children: "Remove"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                                    lineNumber: 174,
+                                                    lineNumber: 173,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/Tiptap.jsx",
-                                            lineNumber: 167,
+                                            lineNumber: 166,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 159,
+                                    lineNumber: 158,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 151,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 186,
+                            lineNumber: 185,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -437,7 +437,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 187,
+                            lineNumber: 186,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -449,7 +449,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 188,
+                            lineNumber: 187,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -461,14 +461,14 @@ function RichTextEditor({ value, onChange }) {
                             label: "≡"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 189,
+                            lineNumber: 188,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 mx-2"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 192,
+                            lineNumber: 191,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -489,7 +489,7 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setTextColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 194,
+                                    lineNumber: 193,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -507,20 +507,20 @@ function RichTextEditor({ value, onChange }) {
                                     onBlur: setHighlightColorCommand
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/Tiptap.jsx",
-                                    lineNumber: 202,
+                                    lineNumber: 201,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 193,
+                            lineNumber: 192,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "border-l border-gray-300 h-6 "
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 214,
+                            lineNumber: 213,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -530,7 +530,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "</> Block"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 215,
+                            lineNumber: 214,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -540,7 +540,7 @@ function RichTextEditor({ value, onChange }) {
                             label: "---"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 216,
+                            lineNumber: 215,
                             columnNumber: 11
                         }, this)
                     ]
@@ -564,7 +564,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "B"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 223,
+                                lineNumber: 222,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -574,7 +574,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "I"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 224,
+                                lineNumber: 223,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ToolbarButton, {
@@ -584,7 +584,7 @@ function RichTextEditor({ value, onChange }) {
                                 label: "U"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 225,
+                                lineNumber: 224,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -598,18 +598,18 @@ function RichTextEditor({ value, onChange }) {
                                 children: "🔗"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 226,
+                                lineNumber: 225,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/Tiptap.jsx",
-                        lineNumber: 222,
+                        lineNumber: 221,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 221,
+                    lineNumber: 220,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tiptap$2f$react$2f$dist$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["EditorContent"], {
@@ -617,7 +617,7 @@ function RichTextEditor({ value, onChange }) {
                     className: "min-h-[150px] p-4 border rounded ProseMirror focus:outline-none focus:ring-1 focus:ring-blue-500"
                 }, void 0, false, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 240,
+                    lineNumber: 239,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -628,30 +628,30 @@ function RichTextEditor({ value, onChange }) {
                             children: "Math Preview:"
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 247,
+                            lineNumber: 246,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$react$2d$mathjax$2f$esm$2f$MathJax$2f$MathJax$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MathJax$3e$__["MathJax"], {
                             dynamic: true,
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "preview ",
+                                className: "preview overflow-auto break-words whitespace-pre-wrap",
                                 dangerouslySetInnerHTML: {
                                     __html: editor?.getHTML()
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/src/components/Tiptap.jsx",
-                                lineNumber: 249,
-                                columnNumber: 5
+                                lineNumber: 248,
+                                columnNumber: 12
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/Tiptap.jsx",
-                            lineNumber: 248,
+                            lineNumber: 247,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/Tiptap.jsx",
-                    lineNumber: 246,
+                    lineNumber: 245,
                     columnNumber: 9
                 }, this)
             ]
@@ -689,10 +689,10 @@ function ToolbarButton({ editor, command, type, label }) {
                 const latex = '^{ }';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertquotation") {
-                const latex = '{ }';
+                const latex = '\(';
                 editor.chain().focus().insertContent(latex).run();
             } else if (command === "insertarray") {
-                const latex = '[ ]';
+                const latex = '\)';
                 editor.chain().focus().insertContent(latex).run();
             } else {
                 editor.chain().focus()[command]().run();
@@ -702,7 +702,7 @@ function ToolbarButton({ editor, command, type, label }) {
         children: label
     }, void 0, false, {
         fileName: "[project]/src/components/Tiptap.jsx",
-        lineNumber: 259,
+        lineNumber: 262,
         columnNumber: 5
     }, this);
 }
@@ -920,11 +920,13 @@ function QuestionsPage() {
                             setTopics(response.data.map({
                                 "QuestionsPage.useEffect.fetchTopics": (t)=>({
                                         value: t.id,
-                                        label: t.name
+                                        label: t.name,
+                                        isPremium: t.isPremium
                                     })
                             }["QuestionsPage.useEffect.fetchTopics"]));
                         } catch (error) {
                             console.error("Error fetching topics:", error);
+                            setTopics([]);
                         }
                     } else {
                         setTopics([]);
@@ -1054,7 +1056,7 @@ function QuestionsPage() {
                                 children: "Add New Question"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 284,
+                                lineNumber: 295,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1067,12 +1069,12 @@ function QuestionsPage() {
                                             className: "mr-1"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 290,
+                                            lineNumber: 301,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 286,
+                                        lineNumber: 297,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1083,14 +1085,14 @@ function QuestionsPage() {
                                                 className: "mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 296,
+                                                lineNumber: 307,
                                                 columnNumber: 17
                                             }, this),
                                             "  A"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 292,
+                                        lineNumber: 303,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1101,14 +1103,14 @@ function QuestionsPage() {
                                                 className: "mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 302,
+                                                lineNumber: 313,
                                                 columnNumber: 17
                                             }, this),
                                             "  B"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 298,
+                                        lineNumber: 309,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1119,14 +1121,14 @@ function QuestionsPage() {
                                                 className: "mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 308,
+                                                lineNumber: 319,
                                                 columnNumber: 17
                                             }, this),
                                             " C"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 304,
+                                        lineNumber: 315,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1137,14 +1139,14 @@ function QuestionsPage() {
                                                 className: "mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 314,
+                                                lineNumber: 325,
                                                 columnNumber: 17
                                             }, this),
                                             "  D"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 310,
+                                        lineNumber: 321,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1154,12 +1156,12 @@ function QuestionsPage() {
                                             className: "mr-1"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 320,
+                                            lineNumber: 331,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 316,
+                                        lineNumber: 327,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1169,29 +1171,29 @@ function QuestionsPage() {
                                             className: "mr-1"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 326,
+                                            lineNumber: 337,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 322,
+                                        lineNumber: 333,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 285,
+                                lineNumber: 296,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/question/page.jsx",
-                        lineNumber: 283,
+                        lineNumber: 294,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/question/page.jsx",
-                    lineNumber: 282,
+                    lineNumber: 293,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1213,7 +1215,7 @@ function QuestionsPage() {
                                         styles: customStyles
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 340,
+                                        lineNumber: 351,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -1225,7 +1227,7 @@ function QuestionsPage() {
                                         isClearable: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 348,
+                                        lineNumber: 359,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -1237,7 +1239,7 @@ function QuestionsPage() {
                                         isClearable: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 356,
+                                        lineNumber: 367,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -1249,13 +1251,13 @@ function QuestionsPage() {
                                         isClearable: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 364,
+                                        lineNumber: 375,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 339,
+                                lineNumber: 350,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1270,7 +1272,7 @@ function QuestionsPage() {
                                                 children: "Question Image:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 377,
+                                                lineNumber: 388,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1285,7 +1287,7 @@ function QuestionsPage() {
                                                                 className: "file_icon"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 380,
+                                                                lineNumber: 391,
                                                                 columnNumber: 21
                                                             }, this),
                                                             " ",
@@ -1293,7 +1295,7 @@ function QuestionsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 379,
+                                                        lineNumber: 390,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1305,7 +1307,7 @@ function QuestionsPage() {
                                                         onChange: (e)=>handleImageChange(e, setImage, setImageName, setImagePreview)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 382,
+                                                        lineNumber: 393,
                                                         columnNumber: 19
                                                     }, this),
                                                     imagePreview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1317,7 +1319,7 @@ function QuestionsPage() {
                                                                 className: "h-auto w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 393,
+                                                                lineNumber: 404,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1328,30 +1330,30 @@ function QuestionsPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                    lineNumber: 403,
+                                                                    lineNumber: 414,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 398,
+                                                                lineNumber: 409,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 392,
+                                                        lineNumber: 403,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 378,
+                                                lineNumber: 389,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 376,
+                                        lineNumber: 387,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1362,7 +1364,7 @@ function QuestionsPage() {
                                                 children: "Question:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 410,
+                                                lineNumber: 421,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1370,19 +1372,19 @@ function QuestionsPage() {
                                                 onChange: setQuestion
                                             }, editorKey, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 411,
+                                                lineNumber: 422,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 409,
+                                        lineNumber: 420,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 375,
+                                lineNumber: 386,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1394,7 +1396,7 @@ function QuestionsPage() {
                                         children: "Option A:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 417,
+                                        lineNumber: 428,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1402,13 +1404,13 @@ function QuestionsPage() {
                                         onChange: setOptionA
                                     }, editorKey + 1, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 418,
+                                        lineNumber: 429,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 416,
+                                lineNumber: 427,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1420,7 +1422,7 @@ function QuestionsPage() {
                                         children: "Option B:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 422,
+                                        lineNumber: 433,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1428,13 +1430,13 @@ function QuestionsPage() {
                                         onChange: setOptionB
                                     }, editorKey + 2, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 423,
+                                        lineNumber: 434,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 421,
+                                lineNumber: 432,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1446,7 +1448,7 @@ function QuestionsPage() {
                                         children: "Option C:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 427,
+                                        lineNumber: 438,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1454,13 +1456,13 @@ function QuestionsPage() {
                                         onChange: setOptionC
                                     }, editorKey + 3, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 428,
+                                        lineNumber: 439,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 426,
+                                lineNumber: 437,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1472,7 +1474,7 @@ function QuestionsPage() {
                                         children: "Option D:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 432,
+                                        lineNumber: 443,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1480,13 +1482,13 @@ function QuestionsPage() {
                                         onChange: setOptionD
                                     }, editorKey + 4, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 433,
+                                        lineNumber: 444,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 431,
+                                lineNumber: 442,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1498,7 +1500,7 @@ function QuestionsPage() {
                                         children: "Correct Answer:"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 438,
+                                        lineNumber: 449,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(Select, {
@@ -1530,13 +1532,13 @@ function QuestionsPage() {
                                         styles: customStyles
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 439,
+                                        lineNumber: 450,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 437,
+                                lineNumber: 448,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1551,7 +1553,7 @@ function QuestionsPage() {
                                                 children: "Hint Image:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 457,
+                                                lineNumber: 468,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1566,7 +1568,7 @@ function QuestionsPage() {
                                                                 className: "file_icon"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 460,
+                                                                lineNumber: 471,
                                                                 columnNumber: 21
                                                             }, this),
                                                             " ",
@@ -1574,7 +1576,7 @@ function QuestionsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 459,
+                                                        lineNumber: 470,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1586,7 +1588,7 @@ function QuestionsPage() {
                                                         onChange: (e)=>handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 462,
+                                                        lineNumber: 473,
                                                         columnNumber: 19
                                                     }, this),
                                                     hintImagePreview && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1598,7 +1600,7 @@ function QuestionsPage() {
                                                                 className: "h-auto w-full rounded border border-gray-300"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 473,
+                                                                lineNumber: 484,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1609,30 +1611,30 @@ function QuestionsPage() {
                                                                     size: 14
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                    lineNumber: 483,
+                                                                    lineNumber: 494,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                                lineNumber: 478,
+                                                                lineNumber: 489,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                                        lineNumber: 472,
+                                                        lineNumber: 483,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 458,
+                                                lineNumber: 469,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 456,
+                                        lineNumber: 467,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1643,7 +1645,7 @@ function QuestionsPage() {
                                                 children: "Hint:"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 490,
+                                                lineNumber: 501,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Tiptap$2e$jsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1651,19 +1653,19 @@ function QuestionsPage() {
                                                 onChange: setHint
                                             }, editorKey + 5, false, {
                                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                                lineNumber: 491,
+                                                lineNumber: 502,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/question/page.jsx",
-                                        lineNumber: 489,
+                                        lineNumber: 500,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 455,
+                                lineNumber: 466,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1691,7 +1693,7 @@ function QuestionsPage() {
                                                     strokeWidth: "4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                    lineNumber: 503,
+                                                    lineNumber: 514,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("path", {
@@ -1700,25 +1702,25 @@ function QuestionsPage() {
                                                     d: "M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                                    lineNumber: 504,
+                                                    lineNumber: 515,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/question/page.jsx",
-                                            lineNumber: 502,
+                                            lineNumber: 513,
                                             columnNumber: 19
                                         }, this),
                                         "Submitting..."
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/question/page.jsx",
-                                    lineNumber: 501,
+                                    lineNumber: 512,
                                     columnNumber: 17
                                 }, this) : "Submit Question"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 495,
+                                lineNumber: 506,
                                 columnNumber: 13
                             }, this),
                             message && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1726,29 +1728,29 @@ function QuestionsPage() {
                                 children: message
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/question/page.jsx",
-                                lineNumber: 512,
+                                lineNumber: 523,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/question/page.jsx",
-                        lineNumber: 337,
+                        lineNumber: 348,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/question/page.jsx",
-                    lineNumber: 333,
+                    lineNumber: 344,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/admin/question/page.jsx",
-            lineNumber: 280,
+            lineNumber: 291,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/admin/question/page.jsx",
-        lineNumber: 279,
+        lineNumber: 290,
         columnNumber: 5
     }, this);
 }

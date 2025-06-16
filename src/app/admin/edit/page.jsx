@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { TestContext } from "@/contexts/TestContext";
 import { API_BASE_URL, BASE_URL } from "@/utils/config";
 import useAuth from "@/contexts/useAuth"; 
-import { FaPlus, FaTrash } from "react-icons/fa6";
+import { FaPlus, FaTrash, FaQuestion, FaListUl, FaCheck, FaLightbulb } from "react-icons/fa6";
 import RichTextEditor from "@/components/Tiptap";
 
 const Select = dynamic(() => import("react-select"), { ssr: false });
@@ -44,6 +44,16 @@ export default function EditQuestionPage() {
   const [deleteImage, setDeleteImage] = useState(false);
   const [deleteHintImage, setDeleteHintImage] = useState(false);
   
+  // Refs for navigation
+  const questionRef = useRef(null);
+  const optionARef = useRef(null);
+  const optionBRef = useRef(null);
+  const optionCRef = useRef(null);
+  const optionDRef = useRef(null);
+  const correctOptionRef = useRef(null);
+  const hintRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+
   useAuth();
 
   useEffect(() => {
@@ -51,6 +61,19 @@ export default function EditQuestionPage() {
       setToken(localStorage.getItem("token"));
     }
   }, []);
+
+  const scrollToRef = (ref) => {
+    if (ref?.current && scrollContainerRef?.current) {
+      const navbarHeight = 64; // Height of the fixed navbar
+      const elementPosition = ref.current.offsetTop;
+      const scrollPosition = elementPosition - navbarHeight;
+      
+      scrollContainerRef.current.scrollTo({
+        top: scrollPosition,
+        behavior: "smooth"
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -100,7 +123,7 @@ export default function EditQuestionPage() {
         const response = await axios.get(`${API_BASE_URL}/topics`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setTopics(response.data.map((t) => ({ value: t.id, label: t.name })));
+        setTopics(response.data.map((t) => ({ value: t.id, label: t.name, isPremium: t.isPremium })));
       } catch (error) {
         setError("Failed to fetch topics.");
         toast.error("Failed to fetch topics.");
@@ -254,213 +277,283 @@ export default function EditQuestionPage() {
   ].find(opt => opt.value === correctOption);
 
   return (
-    <div className="mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Edit Question</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleUpdate} className="space-y-4">
-        <div className="flex gap-8">
-          <div>
-            <label className="block font-bold">Topic:</label>
-            <Select
-              options={topics}
-              value={selectedTopic}
-              onChange={(option) => setSelectedTopic(option)}
-              placeholder="Select Topic"
-              isClearable
-              styles={customStyles}
-            />
-          </div>
-          <div>
-            <label className="block font-bold">Question Type:</label>
-            <Select
-              options={questionTypes}
-              value={selectedQuestionType}
-              onChange={(option) => setSelectedQuestionType(option)}
-              placeholder="Select Question Type"
-              isClearable
-              styles={customStyles}
-            />
+    <div className="relative h-screen overflow-hidden">
+      {/* Fixed Top Navigation Bar */}
+      <nav className="top-0 left-0 right-0 bg-white z-40 py-3 px-6 border-b border-gray-200">
+        <div className="flex justify-between items-center">
+          <h1 className="font-bold text-xl text-purple-800">Edit Question</h1>
+          <div className="flex space-x-2 overflow-x-auto py-2 scrollbar-hide">
+            <button 
+              onClick={() => scrollToRef(questionRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaQuestion className="mr-1" /> 
+            </button>
+            <button 
+              onClick={() => scrollToRef(optionARef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaListUl className="mr-1" />  A
+            </button>
+            <button 
+              onClick={() => scrollToRef(optionBRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaListUl className="mr-1" />  B
+            </button>
+            <button 
+              onClick={() => scrollToRef(optionCRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaListUl className="mr-1" /> C
+            </button>
+            <button 
+              onClick={() => scrollToRef(optionDRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaListUl className="mr-1" />  D
+            </button>
+            <button 
+              onClick={() => scrollToRef(correctOptionRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaCheck className="mr-1" /> 
+            </button>
+            <button 
+              onClick={() => scrollToRef(hintRef)} 
+              className="flex items-center px-3 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded-full text-sm font-medium whitespace-nowrap transition-colors"
+            >
+              <FaLightbulb className="mr-1" />
+            </button>
           </div>
         </div>
+      </nav>
 
-                <div className="space-y-2 w-6/12">
-            <label className="block font-bold">Question Image:</label>
-            <div className="grid items-center gap-4">
-              <label className="file_upload" htmlFor="image">
-                <FaPlus size={40} className="file_icon" /> {imageName}
-              </label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                hidden
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+      {/* Main Scrollable Content Container */}
+      <div 
+        ref={scrollContainerRef}
+        className="pt-16 px-6 h-full overflow-y-auto scrollbar-hide"
+      >
+        {error && <p className="text-red-500">{error}</p>}
+        <form onSubmit={handleUpdate} className="space-y-6 pb-10">
+          <div className="flex gap-8">
+            <div>
+              <label className="block font-bold">Topic:</label>
+              <Select
+                options={topics}
+                value={selectedTopic}
+                onChange={(option) => setSelectedTopic(option)}
+                placeholder="Select Topic"
+                isClearable
+                styles={customStyles}
               />
-              
-              {(existingImage && !imagePreview && !deleteImage) && (
-                <div className="relative group">
-                  <img 
-                    src={existingImage} 
-                    alt="Question" 
-                    className="h-full w-full rounded border border-gray-300"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage('question')}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </div>
-              )}
-              
-              {imagePreview && (
-                <div className="relative group">
-                  <img 
-                    src={imagePreview} 
-                    alt="Preview" 
-                    className="h-full w-full rounded border border-gray-300"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage('question')}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </div>
-              )}
+            </div>
+            <div>
+              <label className="block font-bold">Question Type:</label>
+              <Select
+                options={questionTypes}
+                value={selectedQuestionType}
+                onChange={(option) => setSelectedQuestionType(option)}
+                placeholder="Select Question Type"
+                isClearable
+                styles={customStyles}
+              />
             </div>
           </div>
-          
 
-        <div>
-          
-          <label className="block font-bold">Question:</label>
-          <RichTextEditor
-            value={question}
-            onChange={(html) => setQuestion(html)}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="richoptions">
+          {/* Question Section */}
+          <div ref={questionRef} className="space-y-4 bg-white p-4 rounded-lg shadow">
+            <div className="space-y-2 w-6/12">
+              <label className="block font-bold">Question Image:</label>
+              <div className="grid items-center gap-4">
+                <label className="file_upload" htmlFor="image">
+                  <FaPlus size={40} className="file_icon" /> {imageName}
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, setImage, setImageName, setImagePreview)}
+                />
+                
+                {(existingImage && !imagePreview && !deleteImage) && (
+                  <div className="relative group">
+                    <img 
+                      src={existingImage} 
+                      alt="Question" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('question')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+                
+                {imagePreview && (
+                  <div className="relative group">
+                    <img 
+                      src={imagePreview} 
+                      alt="Preview" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('question')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div>
+              <label className="block font-bold">Question:</label>
+              <RichTextEditor
+                value={question}
+                onChange={(html) => setQuestion(html)}
+              />
+            </div>
+          </div>
+
+          {/* Options Sections */}
+          <div ref={optionARef} className="space-y-2 bg-white p-4 rounded-lg shadow">
             <label className="block font-bold">Option A:</label>
             <RichTextEditor
               value={optionA}
               onChange={(html) => setOptionA(html)}
             />
           </div>
-          <div className="richoptions">
+          
+          <div ref={optionBRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
             <label className="block font-bold">Option B:</label>
             <RichTextEditor
               value={optionB}
               onChange={(html) => setOptionB(html)}
             />
           </div>
-          <div className="richoptions">
+          
+          <div ref={optionCRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
             <label className="block font-bold">Option C:</label>
             <RichTextEditor
               value={optionC}
               onChange={(html) => setOptionC(html)}
             />
           </div>
-          <div className="richoptions">
+          
+          <div ref={optionDRef} className="space-y-2 bg-white p-4 rounded-lg shadow">
             <label className="block font-bold">Option D:</label>
             <RichTextEditor
               value={optionD}
               onChange={(html) => setOptionD(html)}
             />
           </div>
-        </div>
-        <div>
-          <label className="block font-bold">Correct Option:</label>
-          <Select
-            options={[
-              { value: "A", label: "Option A" },
-              { value: "B", label: "Option B" },
-              { value: "C", label: "Option C" },
-              { value: "D", label: "Option D" },
-            ]}
-            value={correctOptionValue}
-            onChange={(opt) => setCorrectOption(opt?.value)}
-            placeholder="Select Correct Answer"
-            isClearable
-            styles={customStyles}
-          />
-        </div>
 
-          <div className="space-y-2 w-6/12">
-            <label className="block font-bold">Hint Image:</label>
-            <div className="grid items-center gap-4">
-              <label className="file_upload" htmlFor="hintimage">
-                <FaPlus size={40} className="file_icon" /> {hintImageName}
-              </label>
-              <input
-                type="file"
-                name="hintimage"
-                id="hintimage"
-                hidden
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
+          {/* Correct Answer Section */}
+          <div ref={correctOptionRef} className="bg-white p-4 rounded-lg shadow">
+            <label className="block font-bold">Correct Option:</label>
+            <Select
+              options={[
+                { value: "A", label: "Option A" },
+                { value: "B", label: "Option B" },
+                { value: "C", label: "Option C" },
+                { value: "D", label: "Option D" },
+              ]}
+              value={correctOptionValue}
+              onChange={(opt) => setCorrectOption(opt?.value)}
+              placeholder="Select Correct Answer"
+              isClearable
+              styles={customStyles}
+            />
+          </div>
+
+          {/* Hint Section */}
+          <div ref={hintRef} className="space-y-4 bg-white p-4 rounded-lg shadow">
+            <div className="space-y-2 w-6/12">
+              <label className="block font-bold">Hint Image:</label>
+              <div className="grid items-center gap-4">
+                <label className="file_upload" htmlFor="hintimage">
+                  <FaPlus size={40} className="file_icon" /> {hintImageName}
+                </label>
+                <input
+                  type="file"
+                  name="hintimage"
+                  id="hintimage"
+                  hidden
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, setHintImage, setHintImageName, setHintImagePreview)}
+                />
+
+                {hintImagePreview && (
+                  <div className="relative group">
+                    <img 
+                      src={hintImagePreview} 
+                      alt="Hint Preview" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('hint')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+                
+                {(existingHintImage && !hintImagePreview && !deleteHintImage) && (
+                  <div className="relative group">
+                    <img 
+                      src={existingHintImage} 
+                      alt="Hint" 
+                      className="h-full w-full rounded border border-gray-300"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeImage('hint')}
+                      className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div>
+              <label className="block font-bold">Hint (Optional):</label>
+              <RichTextEditor
+                value={hint}
+                onChange={(html) => setHint(html)}
               />
-
-              {hintImagePreview && (
-                <div className="relative group">
-                  <img 
-                    src={hintImagePreview} 
-                    alt="Hint Preview" 
-                    className="h-full w-full rounded border border-gray-300"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage('hint')}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </div>
-              )}
-              
-              {(existingHintImage && !hintImagePreview && !deleteHintImage) && (
-                <div className="relative group">
-                  <img 
-                    src={existingHintImage} 
-                    alt="Hint" 
-                    className="h-full w-full rounded border border-gray-300"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeImage('hint')}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </div>
-              )}
-              
-              
             </div>
           </div>
           
-        <div>
-          <label className="block font-bold">Hint (Optional):</label>
-          <RichTextEditor
-            value={hint}
-            onChange={(html) => setHint(html)}
-          />
-        </div>
-        
-    
-        
-        <button
-          type="submit"
-          className="btn w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
-          disabled={loading}
-        >
-          {loading ? "Updating..." : "Update Question"}
-        </button>
-      </form>
+          <button
+            type="submit"
+            className="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 px-4 rounded-lg shadow transition-colors duration-300"
+            style={{ marginBottom: "50px" }}
+            disabled={loading}
+          >
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Updating...
+              </span>
+            ) : "Update Question"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

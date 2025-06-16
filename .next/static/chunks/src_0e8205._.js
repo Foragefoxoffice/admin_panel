@@ -283,7 +283,8 @@ function QuestionsPage() {
                         setTopics(response.data.map({
                             "QuestionsPage.useEffect.fetchTopics": (t)=>({
                                     value: t.id,
-                                    label: t.name
+                                    label: t.name,
+                                    isPremium: t.isPremium
                                 })
                         }["QuestionsPage.useEffect.fetchTopics"]));
                     } catch (error) {
