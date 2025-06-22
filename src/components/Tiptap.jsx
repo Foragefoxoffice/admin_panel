@@ -136,7 +136,8 @@ export default function RichTextEditor({ value, onChange }) {
           <ToolbarButton editor={editor} command="insertLatexSub" type="latexSub" label="X₍ₙ₎" />
           <ToolbarButton editor={editor} command="insertLatexSup" type="latexSup" label="Xⁿ" />
           <ToolbarButton editor={editor} command="insertquotation" type="latexSub" label="\(" />
-          <ToolbarButton editor={editor} command="insertarray" type="latexSup" label="\)" />
+          <ToolbarButton editor={editor} command="insertfrac" type="latexSup" label="frac" />
+          <ToolbarButton editor={editor} command="inserttext" type="latexSup" label="text" />
 
           {/* Lists */}
           <ToolbarButton editor={editor} command="toggleBulletList" type="bulletList" label="• List" />
@@ -275,23 +276,24 @@ function ToolbarButton({ editor, command, type, label }) {
         } else if (command === "insertLatexSup") {
           const latex = '^{ }';
           editor.chain().focus().insertContent(latex).run();
-
         } else if (command === "insertquotation") {
-          const latex = '\(';
+          const latex = '\\( \\)';
           editor.chain().focus().insertContent(latex).run();
-        } else if (command === "insertarray") {
-          const latex = '\)';
+        } else if (command === "insertfrac") {
+          const latex = '\\frac{ }{ }';
           editor.chain().focus().insertContent(latex).run();
-        }
-        else {
+        } else if (command === "inserttext") {
+          const latex = '\\text{ }';
+          editor.chain().focus().insertContent(latex).run();
+        } else {
           editor.chain().focus()[command]().run();
         }
       }}
-      className={`px-3 py-1 rounded  ${editor.isActive(type) ? "richoptionhover" : "richoption"
-        }`}
+      className={`px-3 py-1 rounded ${editor.isActive(type) ? "richoptionhover" : "richoption"}`}
     >
       {label}
     </button>
   );
 }
+
 

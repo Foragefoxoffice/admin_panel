@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext, useMemo, useCallback } from "re
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaSearch } from "react-icons/fa";
 import { TestContext } from "@/contexts/TestContext";
 import { API_BASE_URL } from "@/utils/config";
 import FormulaFormatter from "@/contexts/FormulaFormatter";
@@ -29,6 +29,7 @@ export default function QuestionsPage() {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedChapter, setSelectedChapter] = useState(null);
   const [selectedQuestionType, setSelectedQuestionType] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
@@ -45,6 +46,12 @@ export default function QuestionsPage() {
       setToken(localStorage.getItem("token"));
     }
   }, []);
+
+  // Function to reset pagination to page 1
+  const resetPagination = useCallback(() => {
+    setCurrentPage(1);
+    router.push(`/admin/questions?page=1`, undefined, { shallow: true });
+  }, [router]);
 
   // Initialize filters from testData after data is loaded
   useEffect(() => {
@@ -195,7 +202,7 @@ export default function QuestionsPage() {
     fetchQuestions();
   }, [token]);
 
-  // Filter questions based on selected filters
+  // Filter questions based on selected filters and search term
   const filteredQuestions = useMemo(() => {
     return questions.filter((question) => {
       // Convert all IDs to strings for consistent comparison
@@ -211,15 +218,24 @@ export default function QuestionsPage() {
       const filterTopic = selectedTopic?.toString() || '';
       const filterType = selectedQuestionType?.toString() || '';
 
+      // Search term matching logic
+      const matchesSearchTerm = searchTerm === '' || 
+        question.id.toString().includes(searchTerm.toLowerCase()) ||
+        question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (question.subject?.name && question.subject.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (question.chapter?.name && question.chapter.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (question.topic?.name && question.topic.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
       return (
         (!selectedPortion || qPortion === filterPortion) &&
         (!selectedSubject || qSubject === filterSubject) &&
         (!selectedChapter || qChapter === filterChapter) &&
         (!selectedTopic || qTopic === filterTopic) &&
-        (!selectedQuestionType || qType === filterType)
+        (!selectedQuestionType || qType === filterType) &&
+        matchesSearchTerm
       );
     });
-  }, [questions, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType]);
+  }, [questions, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType, searchTerm]);
 
   // Delete Question
   const handleDelete = useCallback(async (id) => {
@@ -444,6 +460,23 @@ export default function QuestionsPage() {
     <div className="p-4 md:px-4 max-w-7xl mx-auto">
       <h1 className="font-bold mb-6">Questions</h1>
 
+      {/* Search Bar */}
+      <div className="mb-6 relative">
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by ID, question, subject, chapter, or topic..."
+            className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:border-[#6F13C4] focus:ring-2 focus:ring-[#6F13C4] transition-all"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value.toLowerCase());
+              resetPagination();
+            }}
+          />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        </div>
+      </div>
+
       {/* Filters */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Select
@@ -456,6 +489,7 @@ export default function QuestionsPage() {
             setSelectedSubject(option?.value || null);
             setSelectedChapter(null);
             setSelectedTopic(null);
+            resetPagination();
           }}
           placeholder="Select Subject"
           isClearable
@@ -467,6 +501,7 @@ export default function QuestionsPage() {
           onChange={(option) => {
             setSelectedChapter(option?.value || null);
             setSelectedTopic(null);
+            resetPagination();
           }}
           placeholder={!selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter"}
           isClearable
@@ -476,7 +511,10 @@ export default function QuestionsPage() {
         <Select
           options={topics}
           value={topics.find((t) => t.value.toString() === selectedTopic?.toString()) || null}
-          onChange={(option) => setSelectedTopic(option?.value || null)}
+          onChange={(option) => {
+            setSelectedTopic(option?.value || null);
+            resetPagination();
+          }}
           placeholder={!selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic"}
           isClearable
           isDisabled={!selectedChapter}
@@ -485,7 +523,10 @@ export default function QuestionsPage() {
         <Select
           options={questionTypes}
           value={questionTypes.find((qt) => qt.value.toString() === selectedQuestionType?.toString()) || null}
-          onChange={(option) => setSelectedQuestionType(option?.value || null)}
+          onChange={(option) => {
+            setSelectedQuestionType(option?.value || null);
+            resetPagination();
+          }}
           placeholder="Select Question Type"
           isClearable
           styles={customStyles}
@@ -515,7 +556,15 @@ export default function QuestionsPage() {
                     >
                       <div className="flex items-start space-x-4">
                         <span className="text-gray-600 font-bold pt-1">{serialNumber}.</span>
-                        <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
+                        <div>
+                          <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
+                          <div className="text-sm text-gray-500 mt-1">
+                            <span>ID: {question.id}</span>
+                            {question.subject?.name && <span> | Subject: {question.subject.name}</span>}
+                            {question.chapter?.name && <span> | Chapter: {question.chapter.name}</span>}
+                            {question.topic?.name && <span> | Topic: {question.topic.name}</span>}
+                          </div>
+                        </div>
                       </div>
                       <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
                     </div>
