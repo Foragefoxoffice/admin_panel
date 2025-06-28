@@ -7,11 +7,11 @@ import {
   fetchChapterTopics,
   updateBlockStatus,
 } from "@/utils/api";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiChevronDown, FiChevronRight, FiRefreshCw, FiCheck, FiX } from "react-icons/fi";
+import { FiChevronDown, FiChevronRight, FiRefreshCw, FiCheck, FiX, FiSearch } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 
 const BlockContentPage = () => {
+  // State
   const [portions, setPortions] = useState([]);
   const [selectedPortion, setSelectedPortion] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -20,16 +20,12 @@ const BlockContentPage = () => {
   const [chapters, setChapters] = useState([]);
   const [topics, setTopics] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [expandedSections, setExpandedSections] = useState({
-    portions: true,
-    subjects: false,
-    chapters: false,
-    topics: false,
-  });
   const [searchTerm, setSearchTerm] = useState("");
+  const [activePanel, setActivePanel] = useState("portions");
 
+  // Fetch initial data
   useEffect(() => {
-    const loadPortions = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
         const data = await fetchPortions();
@@ -40,16 +36,18 @@ const BlockContentPage = () => {
         setLoading(false);
       }
     };
-    loadPortions();
+    loadData();
   }, []);
 
-  const toggleSection = (section) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
+  // Filter items based on search term
+  const filterItems = (items) => {
+    if (!searchTerm) return items;
+    return items.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   };
 
+  // Handlers
   const handlePortionSelect = async (portionId) => {
     try {
       setLoading(true);
@@ -60,13 +58,8 @@ const BlockContentPage = () => {
       setSubjects(subs);
       setChapters([]);
       setTopics([]);
-      setExpandedSections({
-        ...expandedSections,
-        subjects: true,
-        chapters: false,
-        topics: false
-      });
-      toast.success(`Loaded subjects for selected portion`);
+      setActivePanel("subjects");
+      toast.success(`Loaded ${subs.length} subjects`);
     } catch (error) {
       toast.error("Failed to load subjects");
     } finally {
@@ -82,12 +75,8 @@ const BlockContentPage = () => {
       const chaps = await fetchChaptersBySubject(subjectId);
       setChapters(chaps);
       setTopics([]);
-      setExpandedSections({
-        ...expandedSections,
-        chapters: true,
-        topics: false
-      });
-      toast.success(`Loaded chapters for selected subject`);
+      setActivePanel("chapters");
+      toast.success(`Loaded ${chaps.length} chapters`);
     } catch (error) {
       toast.error("Failed to load chapters");
     } finally {
@@ -101,11 +90,8 @@ const BlockContentPage = () => {
       setSelectedChapter(chapterId);
       const tops = await fetchChapterTopics(chapterId);
       setTopics(tops);
-      setExpandedSections({
-        ...expandedSections,
-        topics: true
-      });
-      toast.success(`Loaded topics for selected chapter`);
+      setActivePanel("topics");
+      toast.success(`Loaded ${tops.length} topics`);
     } catch (error) {
       toast.error("Failed to load topics");
     } finally {
@@ -118,35 +104,26 @@ const BlockContentPage = () => {
       setLoading(true);
       await updateBlockStatus(type, id, !currentState);
       
-      // Refresh the appropriate data based on what was updated
-      switch (type) {
-        case "portion":
-          const updatedPortions = await fetchPortions();
-          setPortions(updatedPortions);
-          break;
-        case "subject":
-          if (selectedPortion) {
-            const updatedSubjects = await fetchSubjectsByPortions(selectedPortion);
-            setSubjects(updatedSubjects);
-          }
-          break;
-        case "chapter":
-          if (selectedSubject) {
-            const updatedChapters = await fetchChaptersBySubject(selectedSubject);
-            setChapters(updatedChapters);
-          }
-          break;
-        case "topic":
-          if (selectedChapter) {
-            const updatedTopics = await fetchChapterTopics(selectedChapter);
-            setTopics(updatedTopics);
-          }
-          break;
-        default:
-          break;
-      }
+      // Refresh data
+      const refreshData = async () => {
+        switch (type) {
+          case "portion":
+            setPortions(await fetchPortions());
+            break;
+          case "subject":
+            if (selectedPortion) setSubjects(await fetchSubjectsByPortions(selectedPortion));
+            break;
+          case "chapter":
+            if (selectedSubject) setChapters(await fetchChaptersBySubject(selectedSubject));
+            break;
+          case "topic":
+            if (selectedChapter) setTopics(await fetchChapterTopics(selectedChapter));
+            break;
+        }
+      };
       
-      toast.success(`Content ${!currentState ? 'blocked' : 'unblocked'} successfully`);
+      await refreshData();
+      toast.success(`Content ${!currentState ? 'blocked' : 'unblocked'}`);
     } catch (error) {
       toast.error("Failed to update status");
     } finally {
@@ -157,25 +134,11 @@ const BlockContentPage = () => {
   const refreshAll = async () => {
     try {
       setLoading(true);
-      const updatedPortions = await fetchPortions();
-      setPortions(updatedPortions);
-      
-      if (selectedPortion) {
-        const updatedSubjects = await fetchSubjectsByPortions(selectedPortion);
-        setSubjects(updatedSubjects);
-        
-        if (selectedSubject) {
-          const updatedChapters = await fetchChaptersBySubject(selectedSubject);
-          setChapters(updatedChapters);
-          
-          if (selectedChapter) {
-            const updatedTopics = await fetchChapterTopics(selectedChapter);
-            setTopics(updatedTopics);
-          }
-        }
-      }
-      
-      toast.success("All data refreshed");
+      setPortions(await fetchPortions());
+      if (selectedPortion) setSubjects(await fetchSubjectsByPortions(selectedPortion));
+      if (selectedSubject) setChapters(await fetchChaptersBySubject(selectedSubject));
+      if (selectedChapter) setTopics(await fetchChapterTopics(selectedChapter));
+      toast.success("Data refreshed");
     } catch (error) {
       toast.error("Failed to refresh data");
     } finally {
@@ -183,314 +146,167 @@ const BlockContentPage = () => {
     }
   };
 
-  const filteredPortions = portions.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const filteredSubjects = subjects.filter(s => 
-    s.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const filteredChapters = chapters.filter(c => 
-    c.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  const filteredTopics = topics.filter(t => 
-    t.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const navigateBack = () => {
+    if (activePanel === "topics") setActivePanel("chapters");
+    else if (activePanel === "chapters") setActivePanel("subjects");
+    else if (activePanel === "subjects") setActivePanel("portions");
+  };
+
+  // Get current path for display
+  const getCurrentPath = () => {
+    const path = [];
+    if (selectedPortion) path.push(portions.find(p => p.id === selectedPortion)?.name);
+    if (selectedSubject) path.push(subjects.find(s => s.id === selectedSubject)?.name);
+    if (selectedChapter) path.push(chapters.find(c => c.id === selectedChapter)?.name);
+    return path;
+  };
+
+  // Filtered data
+  const filteredPortions = filterItems(portions);
+  const filteredSubjects = filterItems(subjects);
+  const filteredChapters = filterItems(chapters);
+  const filteredTopics = filterItems(topics);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-4 max-w-6xl mx-auto">
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">Content Management</h2>
+        <div>
+          <h1 className="text-2xl font-bold">Content Manager</h1>
+          <p className="text-gray-600">Manage your learning materials</p>
+        </div>
         <button
           onClick={refreshAll}
           disabled={loading}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
-          {loading ? <FiRefreshCw className="animate-spin" /> : <FiRefreshCw />}
-          Refresh All
+          <FiRefreshCw className={loading ? "animate-spin" : ""} />
+          Refresh
         </button>
       </div>
 
-      <div className="mb-6 bg-white rounded-xl shadow-md p-4">
-        <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Search Content</label>
+      {/* Search */}
+      <div className="mb-6 bg-white p-4 rounded shadow">
+        <div className="flex gap-4">
+          <div className="relative flex-1">
+            <FiSearch className="absolute left-3 top-3 text-gray-400" />
             <input
               type="text"
-              placeholder="Search portions, subjects, chapters, or topics..."
+              placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Select Portion</label>
-            <select
-              onChange={(e) => handlePortionSelect(Number(e.target.value))}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={selectedPortion || ""}
+          {activePanel !== "portions" && (
+            <button
+              onClick={navigateBack}
+              className="px-4 py-2 bg-gray-100 rounded hover:bg-gray-200"
             >
-              <option value="">-- Select Portion --</option>
-              {portions.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
+              Back
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="space-y-6">
-        {/* Portions Section */}
-        <motion.div 
-          className="bg-white rounded-xl shadow-md overflow-hidden"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div 
-            className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100"
-            onClick={() => toggleSection("portions")}
-          >
-            <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-              {expandedSections.portions ? <FiChevronDown /> : <FiChevronRight />}
-              Portions
-              <span className="text-sm text-gray-500 ml-2">({portions.length})</span>
-            </h3>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-500">
-                {portions.filter(p => p.isPremium).length} blocked
-              </span>
+      {/* Breadcrumbs */}
+      {getCurrentPath().length > 0 && (
+        <div className="flex gap-2 mb-4 text-sm text-gray-600">
+          {getCurrentPath().map((item, i) => (
+            <div key={i} className="flex items-center">
+              {i > 0 && <span className="mx-1">/</span>}
+              <span>{item}</span>
             </div>
-          </div>
-          
-          <AnimatePresence>
-            {expandedSections.portions && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="p-4 border-t">
-                  {filteredPortions.length > 0 ? (
-                    <div className="space-y-2">
-                      {filteredPortions.map((p) => (
-                        <BlockItem
-                          key={p.id}
-                          label={p.name}
-                          isPremium={p.isPremium}
-                          onToggle={() => toggleBlock("portion", p.id, p.isPremium)}
-                          loading={loading}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-gray-500 text-center py-4">
-                      {searchTerm ? "No matching portions found" : "No portions available"}
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+          ))}
+        </div>
+      )}
 
-        {/* Subjects Section */}
-        {subjects.length > 0 && (
-          <motion.div 
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div 
-              className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100"
-              onClick={() => toggleSection("subjects")}
+      {/* Content Panels */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Sidebar */}
+        <div className="bg-white rounded shadow p-4">
+          <h3 className="font-medium mb-3 text-[#35095E]">Navigation</h3>
+          <nav className="space-y-2">
+            <button
+              onClick={() => setActivePanel("portions")}
+              className={`w-full text-left p-2 rounded text-white ${activePanel === "portions" ? 'bg-blue-500 text-[#35095E]' : 'hover:bg-transparent hover:shadow hover:text-[#35095E]'} `}
             >
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                {expandedSections.subjects ? <FiChevronDown /> : <FiChevronRight />}
-                Subjects
-                <span className="text-sm text-gray-500 ml-2">({subjects.length})</span>
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">
-                  {subjects.filter(s => s.isPremium).length} blocked
-                </span>
-              </div>
-            </div>
-            
-            <AnimatePresence>
-              {expandedSections.subjects && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="p-4 border-t">
-                    {filteredSubjects.length > 0 ? (
-                      <div className="space-y-3">
-                        {filteredSubjects.map((s) => (
-                          <div key={s.id} className="group">
-                            <div className="flex justify-between items-center">
-                              <BlockItem
-                                label={s.name}
-                                isPremium={s.isPremium}
-                                onToggle={() => toggleBlock("subject", s.id, s.isPremium)}
-                                loading={loading}
-                              />
-                              <button
-                                onClick={() => handleSubjectSelect(s.id)}
-                                className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors opacity-0 group-hover:opacity-100"
-                              >
-                                View Chapters
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-center py-4">
-                        {searchTerm ? "No matching subjects found" : "No subjects available"}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )}
+              Portions ({portions.length})
+            </button>
+            <button
+              onClick={() => selectedPortion && setActivePanel("subjects")}
+              disabled={!selectedPortion}
+              className={`w-full text-left p-2 rounded text-white ${activePanel === "subjects" ? 'bg-blue-500 text-[#35095E]' : 'hover:bg-transparent hover:shadow hover:text-[#35095E]'} ${!selectedPortion ? 'opacity-50' : ''}`}
+            >
+              Subjects ({subjects.length})
+            </button>
+            <button
+              onClick={() => selectedSubject && setActivePanel("chapters")}
+              disabled={!selectedSubject}
+              className={`w-full text-left p-2 rounded text-white ${activePanel === "chapters" ? 'bg-blue-500 text-[#35095E]' : 'hover:bg-transparent hover:shadow hover:text-[#35095E]'} ${!selectedSubject ? 'opacity-50' : ''}`}
+            >
+              Chapters ({chapters.length})
+            </button>
+            <button
+              onClick={() => selectedChapter && setActivePanel("topics")}
+              disabled={!selectedChapter}
+              className={`w-full text-left p-2 rounded text-white ${activePanel === "topics" ? 'bg-blue-500 text-[#35095E]' : 'hover:bg-transparent hover:shadow hover:text-[#35095E]'} ${!selectedChapter ? 'opacity-50' : ''}`}
+            >
+              Topics ({topics.length})
+            </button>
+          </nav>
+        </div>
 
-        {/* Chapters Section */}
-        {chapters.length > 0 && (
-          <motion.div 
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div 
-              className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100"
-              onClick={() => toggleSection("chapters")}
-            >
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                {expandedSections.chapters ? <FiChevronDown /> : <FiChevronRight />}
-                Chapters
-                <span className="text-sm text-gray-500 ml-2">({chapters.length})</span>
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">
-                  {chapters.filter(c => c.isPremium).length} blocked
-                </span>
-              </div>
-            </div>
-            
-            <AnimatePresence>
-              {expandedSections.chapters && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="p-4 border-t">
-                    {filteredChapters.length > 0 ? (
-                      <div className="space-y-3">
-                        {filteredChapters.map((c) => (
-                          <div key={c.id} className="group">
-                            <div className="flex justify-between items-center">
-                              <BlockItem
-                                label={c.name}
-                                isPremium={c.isPremium}
-                                onToggle={() => toggleBlock("chapter", c.id, c.isPremium)}
-                                loading={loading}
-                              />
-                              <button
-                                onClick={() => handleChapterSelect(c.id)}
-                                className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors opacity-0 group-hover:opacity-100"
-                              >
-                                View Topics
-                              </button>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-center py-4">
-                        {searchTerm ? "No matching chapters found" : "No chapters available"}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )}
+        {/* Main Content */}
+        <div className="lg:col-span-3">
+          {activePanel === "portions" && (
+            <ContentPanel
+              title="Portions"
+              items={filteredPortions}
+              onSelect={handlePortionSelect}
+              onToggleBlock={(id, isPremium) => toggleBlock("portion", id, isPremium)}
+              loading={loading}
+            />
+          )}
 
-        {/* Topics Section */}
-        {topics.length > 0 && (
-          <motion.div 
-            className="bg-white rounded-xl shadow-md overflow-hidden"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div 
-              className="flex justify-between items-center p-4 cursor-pointer bg-gray-50 hover:bg-gray-100"
-              onClick={() => toggleSection("topics")}
-            >
-              <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                {expandedSections.topics ? <FiChevronDown /> : <FiChevronRight />}
-                Topics
-                <span className="text-sm text-gray-500 ml-2">({topics.length})</span>
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">
-                  {topics.filter(t => t.isPremium).length} blocked
-                </span>
-              </div>
-            </div>
-            
-            <AnimatePresence>
-              {expandedSections.topics && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="p-4 border-t">
-                    {filteredTopics.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {filteredTopics.map((t) => (
-                          <BlockItem
-                            key={t.id}
-                            label={t.name}
-                            isPremium={t.isPremium}
-                            onToggle={() => toggleBlock("topic", t.id, t.isPremium)}
-                            loading={loading}
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-center py-4">
-                        {searchTerm ? "No matching topics found" : "No topics available"}
-                      </p>
-                    )}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )}
+          {activePanel === "subjects" && (
+            <ContentPanel
+              title="Subjects"
+              items={filteredSubjects}
+              onSelect={handleSubjectSelect}
+              onToggleBlock={(id, isPremium) => toggleBlock("subject", id, isPremium)}
+              loading={loading}
+            />
+          )}
+
+          {activePanel === "chapters" && (
+            <ContentPanel
+              title="Chapters"
+              items={filteredChapters}
+              onSelect={handleChapterSelect}
+              onToggleBlock={(id, isPremium) => toggleBlock("chapter", id, isPremium)}
+              loading={loading}
+            />
+          )}
+
+          {activePanel === "topics" && (
+            <ContentPanel
+              title="Topics"
+              items={filteredTopics}
+              onToggleBlock={(id, isPremium) => toggleBlock("topic", id, isPremium)}
+              loading={loading}
+              gridView
+            />
+          )}
+        </div>
       </div>
 
+      {/* Loading Overlay */}
       {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center">
-            <FiRefreshCw className="animate-spin text-3xl text-blue-600 mb-2" />
-            <p className="text-gray-700">Updating content...</p>
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-lg flex items-center gap-2">
+            <FiRefreshCw className="animate-spin" />
+            <span>Loading...</span>
           </div>
         </div>
       )}
@@ -498,33 +314,78 @@ const BlockContentPage = () => {
   );
 };
 
-const BlockItem = ({ label, isPremium, onToggle, loading }) => {
+// Content Panel Component
+const ContentPanel = ({ title, items, onSelect, onToggleBlock, loading, gridView = false }) => {
   return (
-    <motion.div 
-      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-      whileHover={{ scale: 1.01 }}
-    >
-      <span className="font-medium text-gray-800 truncate">{label}</span>
+    <div className="bg-white rounded shadow overflow-hidden">
+      <div className="p-4 border-b">
+        <h3 className="font-medium text-[#35095E]">{title} ({items.length})</h3>
+      </div>
+      <div className="p-4">
+        {items.length > 0 ? (
+          gridView ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {items.map(item => (
+                <BlockItem
+                  key={item.id}
+                  item={item}
+                  onToggleBlock={onToggleBlock}
+                  loading={loading}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {items.map(item => (
+                <div key={item.id} className="flex justify-between items-center gap-4 p-3 hover:bg-gray-50 rounded">
+                  <BlockItem
+                    item={item}
+                    onToggleBlock={onToggleBlock}
+                    loading={loading}
+                  />
+                  {onSelect && (
+                    <button
+                      onClick={() => onSelect(item.id)}
+                      className="px-3 py-1 text-sm bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                    >
+                      View
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )
+        ) : (
+          <div className="text-center py-8 text-gray-500">
+            No items found
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Block Item Component
+const BlockItem = ({ item, onToggleBlock, loading }) => {
+  return (
+    <div className="flex items-center justify-between flex-1">
+      <span className="truncate">{item.name}</span>
       <button
-        onClick={onToggle}
+        onClick={() => onToggleBlock(item.id, item.isPremium)}
         disabled={loading}
-        className={`px-4 py-1.5 rounded-full text-sm font-medium flex items-center gap-2 transition-colors ${
-          isPremium 
-            ? "bg-red-100 text-red-800 hover:bg-red-200" 
-            : "bg-green-100 text-green-800 hover:bg-green-200"
-        }`}
+        className={`px-3 py-1 text-sm rounded ${item.isPremium ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'} hover:opacity-80 disabled:opacity-50`}
       >
-        {isPremium ? (
+        {item.isPremium ? (
           <>
-            <FiX className="inline" /> Blocked
+            <FiX className="inline mr-1" /> Blocked
           </>
         ) : (
           <>
-            <FiCheck className="inline" /> Unblocked
+            <FiCheck className="inline mr-1" /> Unblocked
           </>
         )}
       </button>
-    </motion.div>
+    </div>
   );
 };
 

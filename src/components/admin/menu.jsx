@@ -16,6 +16,7 @@ import {
   FiChevronDown,
   FiChevronRight,
   FiLayers,
+  FiAlertCircle ,
   FiGrid,
   FiPieChart,
   FiMenu,
@@ -64,6 +65,11 @@ const navItems = [
         href: "/admin/material-upload",
       },
     ],
+  },
+   {
+    title: "Blocks",
+    icon: <FiAlertCircle  size={18} />,
+    href: "/admin/blocks",
   },
   {
     title: "News",
