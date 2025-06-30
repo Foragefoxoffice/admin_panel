@@ -25,13 +25,18 @@ __turbopack_esm__({
     "fetchSubjects": (()=>fetchSubjects),
     "fetchSubjectsByPortions": (()=>fetchSubjectsByPortions),
     "fetchTopics": (()=>fetchTopics),
-    "updateBlockStatus": (()=>updateBlockStatus)
+    "getAllWrongQuestionReports": (()=>getAllWrongQuestionReports),
+    "submitWrongQuestionReport": (()=>submitWrongQuestionReport),
+    "updateBlockStatus": (()=>updateBlockStatus),
+    "updateWrongQuestionReportStatus": (()=>updateWrongQuestionReportStatus)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
 ;
+// Axios instance with base URL
 const API = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].create({
     baseURL: "https://mitoslearning.in/api"
 });
+// Interceptor to attach the token with every request
 API.interceptors.request.use((config)=>{
     const token = localStorage.getItem("token");
     if (token) {
@@ -41,44 +46,44 @@ API.interceptors.request.use((config)=>{
 }, (error)=>Promise.reject(error));
 const fetchSubjects = async ()=>{
     try {
-        const { data } = await API.get("/subjects"); // Directly return the data
+        const { data } = await API.get("/subjects");
         return data;
     } catch (error) {
         console.error("API Error:", error);
-        throw error; // Propagate the error to the calling function
+        throw error;
     }
 };
 const fetchPortions = async ()=>{
     try {
-        const { data } = await API.get("/portions"); // Directly return the data
+        const { data } = await API.get("/portions");
         return data;
     } catch (error) {
         console.error("API Error:", error);
-        throw error; // Propagate the error to the calling function
+        throw error;
     }
 };
 const fetchSubjectsByPortions = async (portionId)=>{
     try {
-        const response = await API.get(`/subjects/subject/${portionId}`);
-        return response.data;
+        const { data } = await API.get(`/subjects/subject/${portionId}`);
+        return data;
     } catch (error) {
-        console.error("Error fetching chapter:", error);
+        console.error("Error fetching subjects by portion:", error);
         throw error;
     }
 };
 const fetchChaptersBySubject = async (subjectId)=>{
     try {
-        const response = await API.get(`/chapters/chapter/${subjectId}`);
-        return response.data;
+        const { data } = await API.get(`/chapters/chapter/${subjectId}`);
+        return data;
     } catch (error) {
-        console.error("Error fetching chapter:", error);
+        console.error("Error fetching chapters by subject:", error);
         throw error;
     }
 };
 const fetchChapter = async (subjectId)=>{
     try {
-        const response = await API.get(`/chapters/chapter/${subjectId}`);
-        return response.data;
+        const { data } = await API.get(`/chapters/chapter/${subjectId}`);
+        return data;
     } catch (error) {
         console.error("Error fetching chapter:", error);
         throw error;
@@ -86,10 +91,10 @@ const fetchChapter = async (subjectId)=>{
 };
 const fetchChapterTopics = async (chapterId)=>{
     try {
-        const response = await API.get(`/topics/chapter/${chapterId}`);
-        return response.data;
+        const { data } = await API.get(`/topics/chapter/${chapterId}`);
+        return data;
     } catch (error) {
-        console.error("Error fetching chapter:", error);
+        console.error("Error fetching topics by chapter:", error);
         throw error;
     }
 };
@@ -97,19 +102,19 @@ const fetchTopics = (chapterId)=>API.get(`/topics/topic/${chapterId}`);
 const fetchQuestionType = ()=>API.get("/question-types");
 const fetchQuestion = (topicId)=>API.get(`/questions?topicId=${topicId}`);
 const fetchQuestions = (topics)=>{
-    const topicIds = topics.join(","); // Ensure topics are serialized correctly
-    return API.get(`/questions/topics?topicIds=${topicIds}`); // Use 'topicIds' here
+    const topicIds = topics.join(",");
+    return API.get(`/questions/topics?topicIds=${topicIds}`);
 };
 const fetchQuestionsByTypes = (selectedQuestionTypes, chapterId)=>{
-    const questionTypeIds = selectedQuestionTypes.join(","); // Ensure topics are serialized correctly
-    return API.get(`/questions/questiontype?questionTypeIds=${questionTypeIds}&chapterId=${chapterId}`); // Use 'topicIds' here
+    const questionTypeIds = selectedQuestionTypes.join(",");
+    return API.get(`/questions/questiontype?questionTypeIds=${questionTypeIds}&chapterId=${chapterId}`);
 };
-const fetchFullTestQuestion = ()=>API.get(`/questions/fulltest`);
+const fetchFullTestQuestion = ()=>API.get("/questions/fulltest");
 const fetchFullTestByPortion = (portionId)=>API.get(`/questions/portion/${portionId}`);
 const fetchFullTestBySubject = (portionId, subjectId)=>API.get(`/questions/portion/${portionId}/subject/${subjectId}`);
 const fetchFullTestByChapter = (portionId, subjectId, chapterId)=>API.get(`/questions/portion/${portionId}/subject/${subjectId}/chapter/${chapterId}`);
 const fetchCustomTestQuestions = async (portionId, subjectId, chapterId, topicIds, questionCount)=>{
-    const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+    const token = localStorage.getItem("token");
     if (!token) {
         throw new Error("No token found. Please log in.");
     }
@@ -128,7 +133,7 @@ const fetchCustomTestQuestions = async (portionId, subjectId, chapterId, topicId
         })
     });
     if (!response.ok) {
-        const errorData = await response.json(); // Parse the error response
+        const errorData = await response.json();
         throw new Error(errorData.message || "Failed to fetch custom test questions");
     }
     return response.json();
@@ -136,8 +141,8 @@ const fetchCustomTestQuestions = async (portionId, subjectId, chapterId, topicId
 const fetchResultByUser = (userId)=>API.get(`/tests/${userId}`);
 const fetchLeaderBoard = async ()=>{
     try {
-        const { data } = await API.get(`/tests/a`); // Use correct endpoint
-        return data; // Directly return data
+        const { data } = await API.get(`/tests/a`);
+        return data;
     } catch (error) {
         console.error("Error fetching leaderboard:", error);
         throw error;
@@ -145,20 +150,50 @@ const fetchLeaderBoard = async ()=>{
 };
 const updateBlockStatus = async (type, id, isPremium)=>{
     try {
-        const token = localStorage.getItem("token");
         const { data } = await API.post("/block", {
             type,
             id,
             isPremium
         }, {
             headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
+                "Content-Type": "application/json"
             }
         });
         return data;
     } catch (error) {
         console.error("Error updating block status:", error);
+        throw error;
+    }
+};
+const getAllWrongQuestionReports = async ()=>{
+    try {
+        const { data } = await API.get("/wrong-reports");
+        return data;
+    } catch (error) {
+        console.error("Error fetching wrong question reports:", error);
+        throw error;
+    }
+};
+const updateWrongQuestionReportStatus = async (id, status)=>{
+    try {
+        const { data } = await API.patch(`/wrong-reports/${id}`, {
+            status
+        });
+        return data;
+    } catch (error) {
+        console.error("Error updating report status:", error);
+        throw error;
+    }
+};
+const submitWrongQuestionReport = async (questionId, reason)=>{
+    try {
+        const { data } = await API.post("/wrong-reports", {
+            questionId,
+            reason
+        });
+        return data;
+    } catch (error) {
+        console.error("Error submitting wrong question report:", error);
         throw error;
     }
 };

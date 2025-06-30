@@ -20,7 +20,8 @@ import {
   FiGrid,
   FiPieChart,
   FiMenu,
-  FiX
+  FiX,
+  
 } from "react-icons/fi";
 
 const navItems = [
@@ -70,6 +71,11 @@ const navItems = [
     title: "Blocks",
     icon: <FiAlertCircle  size={18} />,
     href: "/admin/blocks",
+  },
+    {
+    title: "Reports",
+    icon: <FiFile size={18} />,
+    href: "/admin/reports",
   },
   {
     title: "News",
