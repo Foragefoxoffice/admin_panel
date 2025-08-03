@@ -21,6 +21,7 @@ import {
   FiPieChart,
   FiMenu,
   FiX,
+  FiUser
   
 } from "react-icons/fi";
 
@@ -50,6 +51,11 @@ const navItems = [
         href: "/admin/question",
       },
     ],
+  },
+      {
+    title: "Users",
+    icon: <FiUser size={18} />,
+    href: "/admin/user",
   },
   {
     title: "Materials",

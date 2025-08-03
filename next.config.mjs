@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['lh3.googleusercontent.com', 'mitoslearning.in'],
+  },
   async redirects() {
     return [
       {
         source: "/admin",
         destination: "/admin/questions",
-        permanent: true, // Use true for 301 redirect, false for 302
+        permanent: true,
       },
     ];
   },

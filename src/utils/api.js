@@ -212,4 +212,80 @@ export const submitWrongQuestionReport = async (questionId, reason) => {
   }
 };
 
+
+// ==========================
+// User APIs
+// ==========================
+
+// ✅ Get current logged-in user profile
+export const fetchCurrentUser = async () => {
+  try {
+    const { data } = await API.get("/users/me");
+    return data;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    throw error;
+  }
+};
+
+// ✅ Update current user profile (with file upload)
+export const updateUserProfile = async (id, formData) => {
+  try {
+    const { data } = await API.put(`/users/update-profile/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+    throw error;
+  }
+};
+
+// 🔒 Admin only: Get all users
+export const fetchAllUsers = async () => {
+  try {
+    const { data } = await API.get("/users");
+    return data;
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    throw error;
+  }
+};
+
+// 🔒 Admin only: Get single user by ID
+export const fetchUserById = async (id) => {
+  try {
+    const { data } = await API.get(`/users/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw error;
+  }
+};
+
+// 🔒 Admin only: Create a new user
+export const createUser = async (userData) => {
+  try {
+    const { data } = await API.post("/users", userData);
+    return data;
+  } catch (error) {
+    console.error("Error creating user:", error);
+    throw error;
+  }
+};
+
+// 🔒 Admin only: Delete a user by ID
+export const deleteUser = async (id) => {
+  try {
+    const { data } = await API.delete(`/users/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+};
+
+
 export default API;
