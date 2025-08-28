@@ -1,9 +1,8 @@
 {
-  "/admin/user/page": "app/admin/user/page.js",
+  "/page": "app/page.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/admin/user/[id]/page": "app/admin/user/[id]/page.js",
+  "/admin/types/page": "app/admin/types/page.js",
   "/admin/questions/page": "app/admin/questions/page.js",
-  "/admin/edit/page": "app/admin/edit/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/admin/reports/page": "app/admin/reports/page.js"
+  "/admin/export/page": "app/admin/export/page.js"
 }
