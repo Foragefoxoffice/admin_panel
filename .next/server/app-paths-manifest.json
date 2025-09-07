@@ -1,8 +1,9 @@
 {
-  "/page": "app/page.js",
+  "/login/page": "app/login/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/types/page": "app/admin/types/page.js",
-  "/admin/questions/page": "app/admin/questions/page.js",
+  "/admin/blocks/page": "app/admin/blocks/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/admin/export/page": "app/admin/export/page.js"
+  "/admin/pdf-premium/page": "app/admin/pdf-premium/page.js",
+  "/admin/material-upload/page": "app/admin/material-upload/page.js"
 }

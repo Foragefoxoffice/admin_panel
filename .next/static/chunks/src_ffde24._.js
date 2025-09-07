@@ -6,10 +6,14 @@
 var { r: __turbopack_require__, f: __turbopack_module_context__, i: __turbopack_import__, s: __turbopack_esm__, v: __turbopack_export_value__, n: __turbopack_export_namespace__, c: __turbopack_cache__, M: __turbopack_modules__, l: __turbopack_load__, j: __turbopack_dynamic__, P: __turbopack_resolve_absolute_path__, U: __turbopack_relative_url__, R: __turbopack_resolve_module_id_path__, b: __turbopack_worker_blob_url__, g: global, __dirname, k: __turbopack_refresh__, m: module, z: __turbopack_require_stub__ } = __turbopack_context__;
 {
 __turbopack_esm__({
+    "createUser": (()=>createUser),
     "default": (()=>__TURBOPACK__default__export__),
+    "deleteUser": (()=>deleteUser),
+    "fetchAllUsers": (()=>fetchAllUsers),
     "fetchChapter": (()=>fetchChapter),
     "fetchChapterTopics": (()=>fetchChapterTopics),
     "fetchChaptersBySubject": (()=>fetchChaptersBySubject),
+    "fetchCurrentUser": (()=>fetchCurrentUser),
     "fetchCustomTestQuestions": (()=>fetchCustomTestQuestions),
     "fetchFullTestByChapter": (()=>fetchFullTestByChapter),
     "fetchFullTestByPortion": (()=>fetchFullTestByPortion),
@@ -25,9 +29,13 @@ __turbopack_esm__({
     "fetchSubjects": (()=>fetchSubjects),
     "fetchSubjectsByPortions": (()=>fetchSubjectsByPortions),
     "fetchTopics": (()=>fetchTopics),
+    "fetchTopicsWithPDF": (()=>fetchTopicsWithPDF),
+    "fetchUserById": (()=>fetchUserById),
     "getAllWrongQuestionReports": (()=>getAllWrongQuestionReports),
     "submitWrongQuestionReport": (()=>submitWrongQuestionReport),
     "updateBlockStatus": (()=>updateBlockStatus),
+    "updatePdfPremium": (()=>updatePdfPremium),
+    "updateUserProfile": (()=>updateUserProfile),
     "updateWrongQuestionReportStatus": (()=>updateWrongQuestionReportStatus)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$axios$2f$lib$2f$axios$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_import__("[project]/node_modules/axios/lib/axios.js [app-client] (ecmascript)");
@@ -194,6 +202,84 @@ const submitWrongQuestionReport = async (questionId, reason)=>{
         return data;
     } catch (error) {
         console.error("Error submitting wrong question report:", error);
+        throw error;
+    }
+};
+const fetchCurrentUser = async ()=>{
+    try {
+        const { data } = await API.get("/users/me");
+        return data;
+    } catch (error) {
+        console.error("Error fetching current user:", error);
+        throw error;
+    }
+};
+const updateUserProfile = async (id, formData)=>{
+    try {
+        const { data } = await API.put(`/users/update-profile/${id}`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        return data;
+    } catch (error) {
+        console.error("Error updating user profile:", error);
+        throw error;
+    }
+};
+const fetchAllUsers = async ()=>{
+    try {
+        const { data } = await API.get("/users");
+        return data;
+    } catch (error) {
+        console.error("Error fetching all users:", error);
+        throw error;
+    }
+};
+const fetchUserById = async (id)=>{
+    try {
+        const { data } = await API.get(`/users/${id}`);
+        return data;
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        throw error;
+    }
+};
+const createUser = async (userData)=>{
+    try {
+        const { data } = await API.post("/users", userData);
+        return data;
+    } catch (error) {
+        console.error("Error creating user:", error);
+        throw error;
+    }
+};
+const deleteUser = async (id)=>{
+    try {
+        const { data } = await API.delete(`/users/${id}`);
+        return data;
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        throw error;
+    }
+};
+const updatePdfPremium = async (pdfId, isPremium)=>{
+    try {
+        const { data } = await API.patch(`/pdfs/${pdfId}/premium`, {
+            isPremium
+        });
+        return data; // { message, pdf }
+    } catch (error) {
+        console.error("Error updating PDF premium flag:", error);
+        throw error;
+    }
+};
+const fetchTopicsWithPDF = async (chapterId)=>{
+    try {
+        const { data } = await API.get(`/chapters/${chapterId}/topics-with-topic-pdfs`);
+        return data; // { chapterId, topics: [...] }
+    } catch (error) {
+        console.error("Error fetching topics with PDFs:", error);
         throw error;
     }
 };

@@ -77,6 +77,11 @@ const navItems = [
         icon: <FiPlus size={16} />,
         href: "/admin/material-upload",
       },
+        {
+        title: "Materials Blocks",
+        icon: <FiAlertCircle size={16} />,
+        href: "/admin/pdf-premium",
+      },
     ],
   },
    {

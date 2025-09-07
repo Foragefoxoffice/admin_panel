@@ -287,5 +287,27 @@ export const deleteUser = async (id) => {
   }
 };
 
+// ✅ Flip a PDF's premium flag (true / false)
+export const updatePdfPremium = async (pdfId, isPremium) => {
+  try {
+    const { data } = await API.patch(`/pdf/${pdfId}/premium`, { isPremium });
+    return data; // { message, pdf }
+  } catch (error) {
+    console.error("Error updating PDF premium flag:", error);
+    throw error;
+  }
+};
+
+// ✅ Get topics that have topic-level PDFs for a chapter
+// (matches GET /chapters/:chapterId/topics-with-topic-pdfs)
+export const fetchTopicsWithPDF = async (chapterId) => {
+  try {
+    const { data } = await API.get(`/pdf/chapters/${chapterId}/topics-with-topic-pdfs`);
+    return data; // { chapterId, topics: [...] }
+  } catch (error) {
+    console.error("Error fetching topics with PDFs:", error);
+    throw error;
+  }
+};
 
 export default API;

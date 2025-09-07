@@ -130,6 +130,17 @@ const navItems = [
                     columnNumber: 15
                 }, this),
                 href: "/admin/material-upload"
+            },
+            {
+                title: "Materials Blocks",
+                icon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiAlertCircle"], {
+                    size: 16
+                }, void 0, false, {
+                    fileName: "[project]/src/components/admin/menu.jsx",
+                    lineNumber: 82,
+                    columnNumber: 15
+                }, this),
+                href: "/admin/pdf-premium"
             }
         ]
     },
@@ -139,7 +150,7 @@ const navItems = [
             size: 18
         }, void 0, false, {
             fileName: "[project]/src/components/admin/menu.jsx",
-            lineNumber: 84,
+            lineNumber: 89,
             columnNumber: 11
         }, this),
         href: "/admin/blocks"
@@ -150,7 +161,7 @@ const navItems = [
             size: 18
         }, void 0, false, {
             fileName: "[project]/src/components/admin/menu.jsx",
-            lineNumber: 89,
+            lineNumber: 94,
             columnNumber: 11
         }, this),
         href: "/admin/reports"
@@ -161,7 +172,7 @@ const navItems = [
             size: 18
         }, void 0, false, {
             fileName: "[project]/src/components/admin/menu.jsx",
-            lineNumber: 94,
+            lineNumber: 99,
             columnNumber: 11
         }, this),
         items: [
@@ -171,7 +182,7 @@ const navItems = [
                     size: 16
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 98,
+                    lineNumber: 103,
                     columnNumber: 15
                 }, this),
                 href: "/admin/news"
@@ -182,7 +193,7 @@ const navItems = [
                     size: 16
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 103,
+                    lineNumber: 108,
                     columnNumber: 15
                 }, this),
                 href: "/admin/addnews"
@@ -195,7 +206,7 @@ const navItems = [
             size: 18
         }, void 0, false, {
             fileName: "[project]/src/components/admin/menu.jsx",
-            lineNumber: 110,
+            lineNumber: 115,
             columnNumber: 11
         }, this),
         items: [
@@ -205,7 +216,7 @@ const navItems = [
                     size: 16
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 114,
+                    lineNumber: 119,
                     columnNumber: 15
                 }, this),
                 href: "/admin/banners"
@@ -216,7 +227,7 @@ const navItems = [
                     size: 16
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 119,
+                    lineNumber: 124,
                     columnNumber: 15
                 }, this),
                 href: "/admin/addbanners"
@@ -262,23 +273,23 @@ const Menu = ()=>{
                         size: 24
                     }, void 0, false, {
                         fileName: "[project]/src/components/admin/menu.jsx",
-                        lineNumber: 161,
+                        lineNumber: 166,
                         columnNumber: 33
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiMenu"], {
                         size: 24
                     }, void 0, false, {
                         fileName: "[project]/src/components/admin/menu.jsx",
-                        lineNumber: 161,
+                        lineNumber: 166,
                         columnNumber: 53
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 157,
+                    lineNumber: 162,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/admin/menu.jsx",
-                lineNumber: 156,
+                lineNumber: 161,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -306,7 +317,7 @@ const Menu = ()=>{
                                                         children: nav.icon
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                                        lineNumber: 189,
+                                                        lineNumber: 194,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -314,32 +325,32 @@ const Menu = ()=>{
                                                         children: nav.title
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                                        lineNumber: 196,
+                                                        lineNumber: 201,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/admin/menu.jsx",
-                                                lineNumber: 188,
+                                                lineNumber: 193,
                                                 columnNumber: 21
                                             }, this),
                                             expandedMenu === nav.title ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiChevronDown"], {
                                                 className: `transition-transform duration-200 ${isActive(nav.href) || nav.items.some((item)=>isActive(item.href)) ? "text-white" : "text-white"}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/admin/menu.jsx",
-                                                lineNumber: 205,
+                                                lineNumber: 210,
                                                 columnNumber: 23
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$react$2d$icons$2f$fi$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FiChevronRight"], {
                                                 className: `transition-transform duration-200 ${isActive(nav.href) || nav.items.some((item)=>isActive(item.href)) ? "text-white" : "text-white"}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/admin/menu.jsx",
-                                                lineNumber: 211,
+                                                lineNumber: 216,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                        lineNumber: 180,
+                                        lineNumber: 185,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -356,7 +367,7 @@ const Menu = ()=>{
                                                             children: item.icon
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/admin/menu.jsx",
-                                                            lineNumber: 234,
+                                                            lineNumber: 239,
                                                             columnNumber: 27
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -364,23 +375,23 @@ const Menu = ()=>{
                                                             children: item.title
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/admin/menu.jsx",
-                                                            lineNumber: 239,
+                                                            lineNumber: 244,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, item.title, true, {
                                                     fileName: "[project]/src/components/admin/menu.jsx",
-                                                    lineNumber: 224,
+                                                    lineNumber: 229,
                                                     columnNumber: 25
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/admin/menu.jsx",
-                                            lineNumber: 222,
+                                            lineNumber: 227,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                        lineNumber: 219,
+                                        lineNumber: 224,
                                         columnNumber: 19
                                     }, this)
                                 ]
@@ -394,7 +405,7 @@ const Menu = ()=>{
                                         children: nav.icon
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                        lineNumber: 259,
+                                        lineNumber: 264,
                                         columnNumber: 19
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -402,28 +413,28 @@ const Menu = ()=>{
                                         children: nav.title
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/admin/menu.jsx",
-                                        lineNumber: 264,
+                                        lineNumber: 269,
                                         columnNumber: 19
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/admin/menu.jsx",
-                                lineNumber: 250,
+                                lineNumber: 255,
                                 columnNumber: 17
                             }, this)
                         }, nav.title, false, {
                             fileName: "[project]/src/components/admin/menu.jsx",
-                            lineNumber: 177,
+                            lineNumber: 182,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/components/admin/menu.jsx",
-                    lineNumber: 175,
+                    lineNumber: 180,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/admin/menu.jsx",
-                lineNumber: 167,
+                lineNumber: 172,
                 columnNumber: 7
             }, this),
             isMobile && isMobileMenuOpen && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -431,7 +442,7 @@ const Menu = ()=>{
                 onClick: ()=>setIsMobileMenuOpen(false)
             }, void 0, false, {
                 fileName: "[project]/src/components/admin/menu.jsx",
-                lineNumber: 278,
+                lineNumber: 283,
                 columnNumber: 9
             }, this)
         ]
