@@ -34,7 +34,9 @@ export default function QuestionsPage() {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const [openAccordion, setOpenAccordion] = useState(null);
+  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalQuestions, setTotalQuestions] = useState(0);
   const [questionsPerPage] = useState(20);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -50,8 +52,7 @@ export default function QuestionsPage() {
   // Function to reset pagination to page 1
   const resetPagination = useCallback(() => {
     setCurrentPage(1);
-    router.push(`/admin/questions?page=1`, undefined, { shallow: true });
-  }, [router]);
+  }, []);
 
   // Initialize filters from testData after data is loaded
   useEffect(() => {
@@ -179,7 +180,7 @@ export default function QuestionsPage() {
     fetchTopics();
   }, [selectedChapter, token]);
 
-  // Fetch questions
+  // Fetch questions (paginated)
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
@@ -187,10 +188,26 @@ export default function QuestionsPage() {
 
       try {
         if (!token) return;
-        const response = await axios.get(`${API_BASE_URL}/questions`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setQuestions(response.data);
+
+        // Build query parameters
+        const params = new URLSearchParams();
+        params.append('page', currentPage);
+        params.append('limit', questionsPerPage);
+        
+        if (selectedSubject) params.append('subjectId', selectedSubject);
+        if (selectedChapter) params.append('chapterId', selectedChapter);
+        if (selectedTopic) params.append('topicId', selectedTopic);
+        if (selectedQuestionType) params.append('questionTypeId', selectedQuestionType);
+        if (searchTerm) params.append('search', searchTerm);
+
+        const response = await axios.get(
+          `${API_BASE_URL}/questions/paginated?${params.toString()}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setQuestions(response.data.questions);
+        setTotalPages(response.data.totalPages);
+        setTotalQuestions(response.data.total);
       } catch (error) {
         console.error("Failed to fetch questions:", error);
         setError("Failed to fetch questions.");
@@ -200,42 +217,7 @@ export default function QuestionsPage() {
     };
 
     fetchQuestions();
-  }, [token]);
-
-  // Filter questions based on selected filters and search term
-  const filteredQuestions = useMemo(() => {
-    return questions.filter((question) => {
-      // Convert all IDs to strings for consistent comparison
-      const qPortion = question.portionId?.toString() || '';
-      const qSubject = question.subjectId?.toString() || '';
-      const qChapter = question.chapterId?.toString() || '';
-      const qTopic = question.topicId?.toString() || '';
-      const qType = question.questionTypeId?.toString() || '';
-
-      const filterPortion = selectedPortion?.toString() || '';
-      const filterSubject = selectedSubject?.toString() || '';
-      const filterChapter = selectedChapter?.toString() || '';
-      const filterTopic = selectedTopic?.toString() || '';
-      const filterType = selectedQuestionType?.toString() || '';
-
-      // Search term matching logic
-      const matchesSearchTerm = searchTerm === '' || 
-        question.id.toString().includes(searchTerm.toLowerCase()) ||
-        question.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (question.subject?.name && question.subject.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (question.chapter?.name && question.chapter.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (question.topic?.name && question.topic.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
-      return (
-        (!selectedPortion || qPortion === filterPortion) &&
-        (!selectedSubject || qSubject === filterSubject) &&
-        (!selectedChapter || qChapter === filterChapter) &&
-        (!selectedTopic || qTopic === filterTopic) &&
-        (!selectedQuestionType || qType === filterType) &&
-        matchesSearchTerm
-      );
-    });
-  }, [questions, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType, searchTerm]);
+  }, [token, currentPage, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType, searchTerm, questionsPerPage]);
 
   // Delete Question
   const handleDelete = useCallback(async (id) => {
@@ -246,12 +228,13 @@ export default function QuestionsPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setQuestions(questions.filter((q) => q.id !== id));
+      // Refetch questions after deletion
+      setCurrentPage(1);
     } catch (error) {
       console.error("Failed to delete question:", error);
       alert("Failed to delete question.");
     }
-  }, [token, questions]);
+  }, [token]);
 
   // Update Question (Redirect to Update Form)
   const handleUpdate = useCallback((id) => {
@@ -271,11 +254,6 @@ export default function QuestionsPage() {
     router.push(`/admin/edit/`);
   }, [setTestData, router, currentPage, selectedPortion, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType]);
 
-  // Pagination Logic
-  const indexOfLastQuestion = currentPage * questionsPerPage;
-  const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-  const currentQuestions = filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion);
-
   // Initialize page from URL on component mount
   useEffect(() => {
     const pageParam = searchParams.get('page');
@@ -292,7 +270,6 @@ export default function QuestionsPage() {
 
   // Pagination component
   const Pagination = () => {
-    const totalPages = Math.ceil(filteredQuestions.length / questionsPerPage);
     if (totalPages <= 1) return null;
 
     const getPageNumbers = () => {
@@ -469,7 +446,7 @@ export default function QuestionsPage() {
             className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:border-[#6F13C4] focus:ring-2 focus:ring-[#6F13C4] transition-all"
             value={searchTerm}
             onChange={(e) => {
-              setSearchTerm(e.target.value.toLowerCase());
+              setSearchTerm(e.target.value);
               resetPagination();
             }}
           />
@@ -542,70 +519,75 @@ export default function QuestionsPage() {
         <div className="text-red-500 text-center">{error}</div>
       ) : (
         <div>
-          {currentQuestions.length > 0 ? (
-            <ul className="space-y-4">
-              {currentQuestions.map((question, index) => {
-                const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
+          {questions.length > 0 ? (
+            <>
+              <div className="mb-4 text-sm text-gray-600">
+                Showing {((currentPage - 1) * questionsPerPage) + 1} to {Math.min(currentPage * questionsPerPage, totalQuestions)} of {totalQuestions} questions
+              </div>
+              <ul className="space-y-4">
+                {questions.map((question, index) => {
+                  const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
 
-                return (
-                  <MathJax dynamic>
-                  <li key={question.id} className="border rounded-lg shadow-sm transition-shadow">
-                    <div
-                      className="p-4 flex justify-between items-start cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
-                      onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
-                    >
-                      <div className="flex items-start space-x-4">
-                        <span className="text-gray-600 font-bold pt-1">{serialNumber}.</span>
-                        <div>
-                          <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
-                          <div className="text-sm text-gray-500 mt-1">
-                            <span>ID: {question.id}</span>
-                            {question.subject?.name && <span> | Subject: {question.subject.name}</span>}
-                            {question.chapter?.name && <span> | Chapter: {question.chapter.name}</span>}
-                            {question.topic?.name && <span> | Topic: {question.topic.name}</span>}
+                  return (
+                    <MathJax key={question.id} dynamic>
+                      <li className="border rounded-lg shadow-sm transition-shadow">
+                        <div
+                          className="p-4 flex justify-between items-start cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
+                          onClick={() => setOpenAccordion((prev) => (prev === question.id ? null : question.id))}
+                        >
+                          <div className="flex items-start space-x-4">
+                            <span className="text-gray-600 font-bold pt-1">{serialNumber}.</span>
+                            <div>
+                              <h3 className="font-bold text-lg"><FormulaFormatter text={question.question} /></h3>
+                              <div className="text-sm text-gray-500 mt-1">
+                                <span>ID: {question.id}</span>
+                                {question.subject?.name && <span> | Subject: {question.subject.name}</span>}
+                                {question.chapter?.name && <span> | Chapter: {question.chapter.name}</span>}
+                                {question.topic?.name && <span> | Topic: {question.topic.name}</span>}
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
-                    </div>
-
-                    {openAccordion === question.id && (
-                      <div className="p-4 bg-white border-t">
-                        {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
-                        <div className="space-y-2">
-                          <p><strong>Option A:</strong>  
-                          <FormulaFormatter text={question.optionA} />
-        </p>
-                          <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
-                          <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
-                          <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
-                          <p className="text-green-600"><strong>Correct Answer:</strong> {question.correctOption}</p>
-                          {question.hint && <div className="mt-2"><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
+                          <span className="text-gray-600">{openAccordion === question.id ? "▲" : "▼"}</span>
                         </div>
 
-                        {question.hintImage && <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} className="mt-4 max-w-full" />}
+                        {openAccordion === question.id && (
+                          <div className="p-4 bg-white border-t">
+                            {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
+                            <div className="space-y-2">
+                              <p><strong>Option A:</strong>  
+                              <FormulaFormatter text={question.optionA} />
+                            </p>
+                              <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
+                              <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
+                              <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
+                              <p className="text-green-600"><strong>Correct Answer:</strong> {question.correctOption}</p>
+                              {question.hint && <div className="mt-2"><strong>Hint:</strong> <FormulaFormatter className="ProseMirror min-h-10 p-0" text={question.hint} /></div>}
+                            </div>
 
-                        <div className="flex justify-end mt-4 space-x-4">
-                          <button
-                            onClick={() => handleUpdate(question.id)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600"
-                          >
-                            <FaEdit /> <span className="text-white">Edit</span>
-                          </button>
-                          <button
-                            onClick={() => handleDelete(question.id)}
-                            className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600"
-                          >
-                            <FaTrash /> <span className="text-white" >Delete</span>
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </li>
-                  </MathJax>
-                );
-              })}
-            </ul>
+                            {question.hintImage && <img alt="" src={`https://mitoslearning.in/${question.hintImage}`} className="mt-4 max-w-full" />}
+
+                            <div className="flex justify-end mt-4 space-x-4">
+                              <button
+                                onClick={() => handleUpdate(question.id)}
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-blue-600"
+                              >
+                                <FaEdit /> <span className="text-white">Edit</span>
+                              </button>
+                              <button
+                                onClick={() => handleDelete(question.id)}
+                                className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600"
+                              >
+                                <FaTrash /> <span className="text-white" >Delete</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </li>
+                    </MathJax>
+                  );
+                })}
+              </ul>
+            </>
           ) : (
             <p className="text-gray-600 text-center">No questions match the selected filters.</p>
           )}
@@ -613,7 +595,7 @@ export default function QuestionsPage() {
       )}
 
       {/* Pagination */}
-      {filteredQuestions.length > questionsPerPage && <Pagination />}
+      {totalPages > 1 && <Pagination />}
     </div>
     </MathJaxContext>
   );

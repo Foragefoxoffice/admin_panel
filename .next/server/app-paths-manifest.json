@@ -1,9 +1,7 @@
 {
-  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/admin/types/page": "app/admin/types/page.js",
-  "/admin/blocks/page": "app/admin/blocks/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/admin/pdf-premium/page": "app/admin/pdf-premium/page.js",
-  "/admin/material-upload/page": "app/admin/material-upload/page.js"
+  "/admin/questions/page": "app/admin/questions/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
