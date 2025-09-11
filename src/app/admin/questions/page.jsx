@@ -14,7 +14,7 @@ import { MathJaxContext, MathJax } from "better-react-mathjax";
 const Select = dynamic(() => import("react-select"), { ssr: false });
 
 export default function QuestionsPage() {
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([]); // holds only current page
   const [loading, setLoading] = useState(false);
   const [topics, setTopics] = useState([]);
   const [portions, setPortions] = useState([]);
@@ -34,10 +34,10 @@ export default function QuestionsPage() {
   const [error, setError] = useState(null);
   const [token, setToken] = useState(null);
   const [openAccordion, setOpenAccordion] = useState(null);
-  const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalQuestions, setTotalQuestions] = useState(0);
   const [questionsPerPage] = useState(20);
+  const [totalQuestions, setTotalQuestions] = useState(0); // total from server
+
   const router = useRouter();
   const searchParams = useSearchParams();
   useAuth();
@@ -52,21 +52,22 @@ export default function QuestionsPage() {
   // Function to reset pagination to page 1
   const resetPagination = useCallback(() => {
     setCurrentPage(1);
-  }, []);
+    router.push(`/admin/questions?page=1`, undefined, { shallow: true });
+  }, [router]);
 
   // Initialize filters from testData after data is loaded
   useEffect(() => {
     if (testData?.filters && subjects.length > 0 && questionTypes.length > 0) {
       const filters = testData.filters;
-      
+
       if (filters.selectedSubject && subjects.some(s => s.value.toString() === filters.selectedSubject.toString())) {
         setSelectedSubject(filters.selectedSubject);
       }
-      
+
       if (filters.selectedQuestionType && questionTypes.some(qt => qt.value.toString() === filters.selectedQuestionType.toString())) {
         setSelectedQuestionType(filters.selectedQuestionType);
       }
-      
+
       if (filters.selectedPortion) {
         setSelectedPortion(filters.selectedPortion);
       }
@@ -105,10 +106,10 @@ export default function QuestionsPage() {
         ]);
 
         setPortions(portionRes.data.map((p) => ({ value: p.id, label: p.name })));
-        setSubjects(subjectRes.data.map((s) => ({ 
-          value: s.id, 
-          label: s.name, 
-          portion: s.portion?.name || 'No portion' 
+        setSubjects(subjectRes.data.map((s) => ({
+          value: s.id,
+          label: s.name,
+          portion: s.portion?.name || 'No portion'
         })));
         setQuestionTypes(questionTypeRes.data.map((qt) => ({ value: qt.id, label: qt.name })));
       } catch (error) {
@@ -134,9 +135,9 @@ export default function QuestionsPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      const chaptersData = response.data.map((c) => ({ 
-        value: c.id, 
-        label: c.name 
+      const chaptersData = response.data.map((c) => ({
+        value: c.id,
+        label: c.name
       }));
       setChapters(chaptersData);
     } catch (error) {
@@ -180,46 +181,49 @@ export default function QuestionsPage() {
     fetchTopics();
   }, [selectedChapter, token]);
 
-  // Fetch questions (paginated)
+  // Fetch questions from API with pagination + filters
+  const fetchQuestions = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      if (!token) return;
+
+      const params = {
+        page: currentPage,
+        limit: questionsPerPage,
+      };
+
+      if (selectedSubject) params.subjectId = selectedSubject;
+      if (selectedChapter) params.chapterId = selectedChapter;
+      if (selectedTopic) params.topicId = selectedTopic;
+      if (selectedQuestionType) params.questionTypeId = selectedQuestionType;
+      if (searchTerm) params.search = searchTerm;
+
+      const response = await axios.get(`${API_BASE_URL}/questions/paginated`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params,
+      });
+
+      const resp = response.data || {};
+      setQuestions(resp.data || []);
+      setTotalQuestions(resp.total || 0);
+    } catch (error) {
+      console.error("Failed to fetch questions:", error);
+      setError("Failed to fetch questions.");
+      setQuestions([]);
+      setTotalQuestions(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [token, currentPage, questionsPerPage, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType, searchTerm]);
+
+  // Call fetchQuestions when dependencies change
   useEffect(() => {
-    const fetchQuestions = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        if (!token) return;
-
-        // Build query parameters
-        const params = new URLSearchParams();
-        params.append('page', currentPage);
-        params.append('limit', questionsPerPage);
-        
-        if (selectedSubject) params.append('subjectId', selectedSubject);
-        if (selectedChapter) params.append('chapterId', selectedChapter);
-        if (selectedTopic) params.append('topicId', selectedTopic);
-        if (selectedQuestionType) params.append('questionTypeId', selectedQuestionType);
-        if (searchTerm) params.append('search', searchTerm);
-
-        const response = await axios.get(
-          `${API_BASE_URL}/questions/paginated?${params.toString()}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setQuestions(response.data.questions);
-        setTotalPages(response.data.totalPages);
-        setTotalQuestions(response.data.total);
-      } catch (error) {
-        console.error("Failed to fetch questions:", error);
-        setError("Failed to fetch questions.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchQuestions();
-  }, [token, currentPage, selectedSubject, selectedChapter, selectedTopic, selectedQuestionType, searchTerm, questionsPerPage]);
+  }, [fetchQuestions]);
 
-  // Delete Question
+  // Delete Question (refetch page after delete)
   const handleDelete = useCallback(async (id) => {
     if (!window.confirm("Are you sure you want to delete this question?")) return;
 
@@ -228,13 +232,13 @@ export default function QuestionsPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Refetch questions after deletion
-      setCurrentPage(1);
+      // refetch current page to reflect deletion & updated total
+      await fetchQuestions();
     } catch (error) {
       console.error("Failed to delete question:", error);
       alert("Failed to delete question.");
     }
-  }, [token]);
+  }, [token, fetchQuestions]);
 
   // Update Question (Redirect to Update Form)
   const handleUpdate = useCallback((id) => {
@@ -268,8 +272,9 @@ export default function QuestionsPage() {
     router.push(`/admin/questions?page=${pageNumber}`, undefined, { shallow: true });
   }, [router]);
 
-  // Pagination component
+  // Pagination component (uses totalQuestions)
   const Pagination = () => {
+    const totalPages = Math.ceil(totalQuestions / questionsPerPage);
     if (totalPages <= 1) return null;
 
     const getPageNumbers = () => {
@@ -283,7 +288,7 @@ export default function QuestionsPage() {
       } else {
         const maxPagesBeforeCurrent = Math.floor(maxVisiblePages / 2);
         const maxPagesAfterCurrent = Math.ceil(maxVisiblePages / 2) - 1;
-        
+
         if (currentPage <= maxPagesBeforeCurrent) {
           startPage = 1;
           endPage = maxVisiblePages;
@@ -326,11 +331,7 @@ export default function QuestionsPage() {
                 onClick={() => paginate(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 aria-label="Previous page"
-                className={`px-3 py-1 rounded-md ${
-                  currentPage === 1
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
-                }`}
+                className={`px-3 py-1 rounded-md ${currentPage === 1 ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"}`}
               >
                 &lt;
               </button>
@@ -345,11 +346,7 @@ export default function QuestionsPage() {
                     onClick={() => paginate(number)}
                     aria-current={currentPage === number ? "page" : undefined}
                     aria-label={`Page ${number}`}
-                    className={`px-3 py-1 rounded-md ${
-                      currentPage === number
-                        ? "bg-[#35095e] text-white"
-                        : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
-                    }`}
+                    className={`px-3 py-1 rounded-md ${currentPage === number ? "bg-[#35095e] text-white" : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"}`}
                   >
                     {number}
                   </button>
@@ -362,11 +359,7 @@ export default function QuestionsPage() {
                 onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
-                className={`px-3 py-1 rounded-md ${
-                  currentPage === totalPages
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
-                }`}
+                className={`px-3 py-1 rounded-md ${currentPage === totalPages ? "bg-gray-200 text-gray-500 cursor-not-allowed" : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"}`}
               >
                 &gt;
               </button>
@@ -426,7 +419,7 @@ export default function QuestionsPage() {
   };
 
   return (
-    <MathJaxContext config={{ 
+    <MathJaxContext config={{
       loader: { load: ["input/tex", "output/chtml"] },
       tex: {
         packages: {'[+]': ['color', 'mhchem']},
@@ -434,102 +427,98 @@ export default function QuestionsPage() {
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
       }
     }}>
-    <div className="p-4 md:px-4 max-w-7xl mx-auto">
-      <h1 className="font-bold mb-6">Questions</h1>
+      <div className="p-4 md:px-4 max-w-7xl mx-auto">
+        <h1 className="font-bold mb-6">Questions</h1>
 
-      {/* Search Bar */}
-      <div className="mb-6 relative">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search by ID, question, subject, chapter, or topic..."
-            className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:border-[#6F13C4] focus:ring-2 focus:ring-[#6F13C4] transition-all"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
+        {/* Search Bar */}
+        <div className="mb-6 relative">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search by ID, question, subject, chapter, or topic..."
+              className="w-full p-3 pl-10 rounded-lg border border-gray-300 focus:border-[#6F13C4] focus:ring-2 focus:ring-[#6F13C4] transition-all"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                resetPagination();
+              }}
+            />
+            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Select
+            options={subjects.map((s) => ({
+              value: s.value,
+              label: `${s.label} (${s.portion})`,
+            }))}
+            value={subjects.find((s) => s.value.toString() === selectedSubject?.toString()) || null}
+            onChange={(option) => {
+              setSelectedSubject(option?.value || null);
+              setSelectedChapter(null);
+              setSelectedTopic(null);
               resetPagination();
             }}
+            placeholder="Select Subject"
+            isClearable
+            styles={customStyles}
           />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <Select
+            options={chapters}
+            value={chapters.find((c) => c.value.toString() === selectedChapter?.toString()) || null}
+            onChange={(option) => {
+              setSelectedChapter(option?.value || null);
+              setSelectedTopic(null);
+              resetPagination();
+            }}
+            placeholder={!selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter"}
+            isClearable
+            isDisabled={!selectedSubject}
+            styles={customStyles}
+          />
+          <Select
+            options={topics}
+            value={topics.find((t) => t.value.toString() === selectedTopic?.toString()) || null}
+            onChange={(option) => {
+              setSelectedTopic(option?.value || null);
+              resetPagination();
+            }}
+            placeholder={!selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic"}
+            isClearable
+            isDisabled={!selectedChapter}
+            styles={customStyles}
+          />
+          <Select
+            options={questionTypes}
+            value={questionTypes.find((qt) => qt.value.toString() === selectedQuestionType?.toString()) || null}
+            onChange={(option) => {
+              setSelectedQuestionType(option?.value || null);
+              resetPagination();
+            }}
+            placeholder="Select Question Type"
+            isClearable
+            styles={customStyles}
+          />
         </div>
-      </div>
 
-      {/* Filters */}
-      <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Select
-          options={subjects.map((s) => ({
-            value: s.value,
-            label: `${s.label} (${s.portion})`,
-          }))}
-          value={subjects.find((s) => s.value.toString() === selectedSubject?.toString()) || null}
-          onChange={(option) => {
-            setSelectedSubject(option?.value || null);
-            setSelectedChapter(null);
-            setSelectedTopic(null);
-            resetPagination();
-          }}
-          placeholder="Select Subject"
-          isClearable
-          styles={customStyles}
-        />
-        <Select
-          options={chapters}
-          value={chapters.find((c) => c.value.toString() === selectedChapter?.toString()) || null}
-          onChange={(option) => {
-            setSelectedChapter(option?.value || null);
-            setSelectedTopic(null);
-            resetPagination();
-          }}
-          placeholder={!selectedSubject ? "Select subject first" : chapters.length === 0 ? "No chapters available" : "Select Chapter"}
-          isClearable
-          isDisabled={!selectedSubject}
-          styles={customStyles}
-        />
-        <Select
-          options={topics}
-          value={topics.find((t) => t.value.toString() === selectedTopic?.toString()) || null}
-          onChange={(option) => {
-            setSelectedTopic(option?.value || null);
-            resetPagination();
-          }}
-          placeholder={!selectedChapter ? "Select chapter first" : topics.length === 0 ? "No topics available" : "Select Topic"}
-          isClearable
-          isDisabled={!selectedChapter}
-          styles={customStyles}
-        />
-        <Select
-          options={questionTypes}
-          value={questionTypes.find((qt) => qt.value.toString() === selectedQuestionType?.toString()) || null}
-          onChange={(option) => {
-            setSelectedQuestionType(option?.value || null);
-            resetPagination();
-          }}
-          placeholder="Select Question Type"
-          isClearable
-          styles={customStyles}
-        />
-      </div>
-
-      {/* Questions List */}
-      {loading ? (
-        <div className="flex justify-center items-center h-40">
-          <p className="text-gray-600">Loading questions...</p>
-        </div>
-      ) : error ? (
-        <div className="text-red-500 text-center">{error}</div>
-      ) : (
-        <div>
-          {questions.length > 0 ? (
-            <>
-              <div className="mb-4 text-sm text-gray-600">
-                Showing {((currentPage - 1) * questionsPerPage) + 1} to {Math.min(currentPage * questionsPerPage, totalQuestions)} of {totalQuestions} questions
-              </div>
+        {/* Questions List */}
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <p className="text-gray-600">Loading questions...</p>
+          </div>
+        ) : error ? (
+          <div className="text-red-500 text-center">{error}</div>
+        ) : (
+          <div>
+            {questions.length > 0 ? (
               <ul className="space-y-4">
                 {questions.map((question, index) => {
                   const serialNumber = (currentPage - 1) * questionsPerPage + index + 1;
 
                   return (
-                    <MathJax key={question.id} dynamic>
+                    <MathJax dynamic key={question.id}>
                       <li className="border rounded-lg shadow-sm transition-shadow">
                         <div
                           className="p-4 flex justify-between items-start cursor-pointer bg-[#35095e20] hover:bg-[#35095e2e]"
@@ -554,9 +543,7 @@ export default function QuestionsPage() {
                           <div className="p-4 bg-white border-t">
                             {question.image && <img alt="" src={`https://mitoslearning.in/${question.image}`} className="mb-4 max-w-full" />}
                             <div className="space-y-2">
-                              <p><strong>Option A:</strong>  
-                              <FormulaFormatter text={question.optionA} />
-                            </p>
+                              <p><strong>Option A:</strong> <FormulaFormatter text={question.optionA} /></p>
                               <p><strong>Option B:</strong> <FormulaFormatter text={question.optionB} /></p>
                               <p><strong>Option C:</strong> <FormulaFormatter text={question.optionC} /></p>
                               <p><strong>Option D:</strong> <FormulaFormatter text={question.optionD} /></p>
@@ -577,7 +564,7 @@ export default function QuestionsPage() {
                                 onClick={() => handleDelete(question.id)}
                                 className="bg-red-500 text-white px-4 py-2 rounded-md flex items-center space-x-1 hover:bg-red-600"
                               >
-                                <FaTrash /> <span className="text-white" >Delete</span>
+                                <FaTrash /> <span className="text-white">Delete</span>
                               </button>
                             </div>
                           </div>
@@ -587,16 +574,15 @@ export default function QuestionsPage() {
                   );
                 })}
               </ul>
-            </>
-          ) : (
-            <p className="text-gray-600 text-center">No questions match the selected filters.</p>
-          )}
-        </div>
-      )}
+            ) : (
+              <p className="text-gray-600 text-center">No questions match the selected filters.</p>
+            )}
+          </div>
+        )}
 
-      {/* Pagination */}
-      {totalPages > 1 && <Pagination />}
-    </div>
+        {/* Pagination */}
+        {totalQuestions > questionsPerPage && <Pagination />}
+      </div>
     </MathJaxContext>
   );
 }
