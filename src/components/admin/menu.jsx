@@ -57,7 +57,39 @@ const navItems = [
   {
     title: "Users",
     icon: <FiUser size={18} />,
-    href: "/admin/user",
+    items: [
+      {
+        title: "Users",
+        icon: <FiMessageSquare size={16} />,
+        href: "/admin/user",
+      },
+      {
+        title: "Coupons",
+        icon: <FiUpload size={16} />,
+        href: "/admin/coupons",
+      },
+      {
+        title: "Payments",
+        icon: <FiPlus size={16} />,
+        href: "/admin/payments",
+      },
+    ],
+  },
+  {
+    title: "NEET Plans",
+    icon: <FiCloud size={18} />,
+    items: [
+      {
+        title: "All Plans",
+        icon: <FiGrid size={16} />,
+        href: "/admin/neet-plans",
+      },
+      {
+        title: "Create Plan",
+        icon: <FiPlus size={16} />,
+        href: "/admin/neet-plans/create",
+      },
+    ],
   },
   {
     title: "Materials",
@@ -206,7 +238,7 @@ const Menu = () => {
 
       {/* Sidebar */}
       <div
-      
+
       >
         <div className="space-y-1 pt-4">
           {navItems.map((nav) => {
@@ -222,8 +254,8 @@ const Menu = () => {
                     <button
                       onClick={() => toggleMenu(nav.title)}
                       className={`w-full flex items-center relative justify-between p-3 rounded-lg transition-all duration-200 ${isParentActive
-                          ? "bg-transparent side_bar"
-                          : "text-white hover:bg-purple-800"
+                        ? "bg-transparent side_bar"
+                        : "text-white hover:bg-purple-800"
                         }`}
                     >
                       <div className="flex items-center gap-3">
@@ -232,8 +264,8 @@ const Menu = () => {
                         </span>
                         <span
                           className={`${isParentActive
-                              ? "text-white font-medium"
-                              : "text-white"
+                            ? "text-white font-medium"
+                            : "text-white"
                             }`}
                         >
                           {nav.title}
@@ -254,8 +286,8 @@ const Menu = () => {
 
                     <div
                       className={`transition-all duration-300 ease-in-out ${expandedMenu === nav.title
-                          ? "max-h-96 opacity-100"
-                          : "max-h-0 opacity-0"
+                        ? "max-h-96 opacity-100"
+                        : "max-h-0 opacity-0"
                         }`}
                     >
                       <div className="pl-4 py-1 space-y-1">
@@ -267,22 +299,22 @@ const Menu = () => {
                               isMobile && setIsMobileMenuOpen(false)
                             }
                             className={`flex items-center gap-3 p-2 rounded-lg transition-colors duration-200 ${isActive(item.href)
-                                ? "bg-white"
-                                : "text-white hover:bg-purple-800"
+                              ? "bg-white"
+                              : "text-white hover:bg-purple-800"
                               }`}
                           >
                             <span
                               className={`${isActive(item.href)
-                                  ? "text-[#35095E]"
-                                  : "text-white"
+                                ? "text-[#35095E]"
+                                : "text-white"
                                 }`}
                             >
                               {item.icon}
                             </span>
                             <span
                               className={`${isActive(item.href)
-                                  ? "text-[#35095E] font-medium"
-                                  : "text-white"
+                                ? "text-[#35095E] font-medium"
+                                : "text-white"
                                 }`}
                             >
                               {item.title}
@@ -297,22 +329,22 @@ const Menu = () => {
                     to={nav.href}
                     onClick={() => isMobile && setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 ${isActive(nav.href)
-                        ? "bg-white"
-                        : "text-white hover:bg-purple-800"
+                      ? "bg-white"
+                      : "text-white hover:bg-purple-800"
                       }`}
                   >
                     <span
                       className={`${isActive(nav.href)
-                          ? "text-[#35095E]"
-                          : "text-white"
+                        ? "text-[#35095E]"
+                        : "text-white"
                         }`}
                     >
                       {nav.icon}
                     </span>
                     <span
                       className={`${isActive(nav.href)
-                          ? "text-[#35095E] font-medium"
-                          : "text-white"
+                        ? "text-[#35095E] font-medium"
+                        : "text-white"
                         }`}
                     >
                       {nav.title}

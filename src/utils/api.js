@@ -388,15 +388,14 @@ export const fetchMyNotifications = async () => {
   }
 };
 
-// Admin: Send notification (supports templates)
-export const sendAdminNotification = async ({ title, message, sendToAll, userId }) => {
+
+// Admin: Send notification (supports templates and multiple users)
+// Payload format:
+// - Send to all: { title, message, sendToAll: true }
+// - Send to specific users: { title, message, userIds: [1, 2, 3] }
+export const sendAdminNotification = async (payload) => {
   try {
-    const { data } = await API.post("/notifications/send", {
-      title,
-      message,
-      sendToAll,
-      userId,
-    });
+    const { data } = await API.post("/notifications/send", payload);
     return data;
   } catch (error) {
     console.error("Error sending notification:", error.response?.data || error.message);
@@ -404,5 +403,187 @@ export const sendAdminNotification = async ({ title, message, sendToAll, userId 
   }
 };
 
+/* ======================================================
+   COUPON APIs (ADMIN)
+====================================================== */
+
+// Create coupon
+export const createCoupon = async (payload) => {
+  try {
+    const { data } = await API.post("/coupons/create", payload);
+    return data;
+  } catch (error) {
+    console.error("Create Coupon Error:", error);
+    throw error;
+  }
+};
+
+// Validate coupon (used before checkout / testing)
+export const validateCoupon = async (payload) => {
+  try {
+    const { data } = await API.post("/coupons/validate", payload);
+    return data;
+  } catch (error) {
+    console.error("Validate Coupon Error:", error);
+    throw error;
+  }
+};
+
+
+// Get all coupons (admin list)
+export const fetchCoupons = async () => {
+  try {
+    const { data } = await API.get("/coupons/list");
+    return data;
+  } catch (error) {
+    console.error("Fetch Coupons Error:", error);
+    throw error;
+  }
+};
+
+// Update coupon
+export const updateCoupon = (id, payload) =>
+  API.put(`/coupons/${id}`, payload);
+
+// Toggle coupon status
+export const toggleCoupon = (id) =>
+  API.patch(`/coupons/${id}/toggle`);
+
+// Delete coupon
+export const deleteCoupon = (id) =>
+  API.delete(`/coupons/${id}`);
+
+/* ======================================================
+   PAYMENT APIs (ADMIN)
+====================================================== */
+
+// Logged-in admin – all payments
+export const fetchAllPayments = async () => {
+  try {
+    const { data } = await API.get("/payments/all");
+    return data;
+  } catch (error) {
+    console.error("Fetch Payments Error:", error);
+    throw error;
+  }
+};
+
+// Logged-in user – own payment history
+export const fetchMyPayments = async () => {
+  try {
+    const { data } = await API.get("/payments/my");
+    return data;
+  } catch (error) {
+    console.error("Fetch My Payments Error:", error);
+    throw error;
+  }
+};
+
+// Payment statistics (admin dashboard)
+export const fetchPaymentStats = async () => {
+  try {
+    const { data } = await API.get("/payments/stats");
+    return data;
+  } catch (error) {
+    console.error("Payment Stats Error:", error);
+    throw error;
+  }
+};
+
+
+/* ======================================================
+   NEET PLAN APIs (ADMIN)
+====================================================== */
+
+// Get all active NEET plans (with optional platform filter)
+export const getNeetPlans = async (platform) => {
+  try {
+    const params = platform ? `?platform=${platform}` : '';
+    const { data } = await API.get(`/neet-plans${params}`);
+    return data;
+  } catch (error) {
+    console.error("Get NEET Plans Error:", error);
+    throw error;
+  }
+};
+
+// Get single NEET plan by ID
+export const getNeetPlanById = async (id) => {
+  try {
+    const { data } = await API.get(`/neet-plans/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Get NEET Plan By ID Error:", error);
+    throw error;
+  }
+};
+
+// Create new NEET plan
+export const createNeetPlan = async (payload) => {
+  try {
+    const { data } = await API.post('/neet-plans', payload);
+    return data;
+  } catch (error) {
+    console.error("Create NEET Plan Error:", error);
+    throw error;
+  }
+};
+
+// Update existing NEET plan
+export const updateNeetPlan = async (id, payload) => {
+  try {
+    const { data } = await API.put(`/neet-plans/${id}`, payload);
+    return data;
+  } catch (error) {
+    console.error("Update NEET Plan Error:", error);
+    throw error;
+  }
+};
+
+// Add/update plan price for a platform
+export const upsertNeetPlanPrice = async (payload) => {
+  try {
+    const { data } = await API.post('/neet-plans/price', payload);
+    return data;
+  } catch (error) {
+    console.error("Upsert NEET Plan Price Error:", error);
+    throw error;
+  }
+};
+
+// Toggle plan active/inactive
+export const toggleNeetPlan = async (id) => {
+  try {
+    const { data } = await API.patch(`/neet-plans/${id}/toggle`);
+    return data;
+  } catch (error) {
+    console.error("Toggle NEET Plan Error:", error);
+    throw error;
+  }
+};
+
+// Toggle price active/inactive
+export const toggleNeetPlanPrice = async (id) => {
+  try {
+    const { data } = await API.patch(`/neet-plans/price/${id}/toggle`);
+    return data;
+  } catch (error) {
+    console.error("Toggle NEET Plan Price Error:", error);
+    throw error;
+  }
+};
+
+// Delete (disable) plan
+export const deleteNeetPlan = async (id) => {
+  try {
+    const { data } = await API.delete(`/neet-plans/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Delete NEET Plan Error:", error);
+    throw error;
+  }
+};
+
 
 export default API;
+

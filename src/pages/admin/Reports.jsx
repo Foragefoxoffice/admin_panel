@@ -4,7 +4,7 @@ import {
   updateWrongQuestionReportStatus,
 } from "@/utils/api";
 import { TestContext } from "@/contexts/TestContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Notification from "@/components/Notification";
 import {
   FiEdit2,
@@ -24,8 +24,12 @@ export default function WrongQuestionReportsPage() {
     message: "",
     type: "success",
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(() => {
+    const page = parseInt(searchParams.get('page'));
+    return page && page > 0 ? page : 1;
+  });
+  const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     status: "",
@@ -91,7 +95,6 @@ export default function WrongQuestionReportsPage() {
     }
 
     setFilteredReports(result);
-    setCurrentPage(1); // Reset to first page when filters change
   };
 
   const handleStatusUpdate = async (reportId, newStatus) => {
@@ -122,11 +125,12 @@ export default function WrongQuestionReportsPage() {
       setTestData({
         QuestionId: questionId,
         Page: "report",
+        returnPage: currentPage,
         ReportId: id,
       });
       navigate(`/admin/edit/`);
     },
-    [setTestData, navigate]
+    [setTestData, navigate, currentPage]
   );
 
   const handleFilterChange = (e) => {
@@ -135,6 +139,9 @@ export default function WrongQuestionReportsPage() {
       ...prev,
       [name]: value,
     }));
+    // Reset to page 1 when filters change
+    setCurrentPage(1);
+    setSearchParams({ page: '1' });
   };
 
   const resetFilters = () => {
@@ -145,6 +152,9 @@ export default function WrongQuestionReportsPage() {
       dateFrom: "",
       dateTo: "",
     });
+    // Reset to page 1 when filters are reset
+    setCurrentPage(1);
+    setSearchParams({ page: '1' });
   };
 
   // Pagination logic
@@ -153,7 +163,10 @@ export default function WrongQuestionReportsPage() {
   const currentItems = filteredReports.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSearchParams({ page: pageNumber.toString() });
+  };
 
   if (loading) {
     return (
@@ -298,13 +311,12 @@ export default function WrongQuestionReportsPage() {
                     <td className="px-4 py-2 border">{report.reason}</td>
                     <td className="px-4 py-2 border">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          report.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : report.status === "resolved"
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${report.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : report.status === "resolved"
                             ? "bg-green-100 text-green-700"
                             : "bg-red-100 text-red-700"
-                        }`}
+                          }`}
                       >
                         {report.status}
                       </span>
@@ -344,52 +356,206 @@ export default function WrongQuestionReportsPage() {
           </div>
 
           {/* Pagination controls */}
-          <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-gray-600">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, filteredReports.length)} of{" "}
-              {filteredReports.length} reports
+          <div className="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+            {/* Left side - Items info and per page selector */}
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-600">
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, filteredReports.length)} of{" "}
+                {filteredReports.length} reports
+              </div>
+              <div className="flex items-center gap-2">
+                <label className="text-sm text-gray-600">Show:</label>
+                <select
+                  value={itemsPerPage}
+                  onChange={(e) => {
+                    const newPerPage = Number(e.target.value);
+                    setItemsPerPage(newPerPage);
+                    setCurrentPage(1);
+                    setSearchParams({ page: '1' });
+                  }}
+                  className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
             </div>
-            <div className="flex space-x-2">
+
+            {/* Right side - Page navigation */}
+            <div className="flex items-center gap-2">
+              {/* Previous button */}
               <button
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
-                className={`px-3 py-1 rounded-md border ${
-                  currentPage === 1
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                }`}
+                className={`px-3 py-1 rounded-md border flex items-center gap-1 ${currentPage === 1
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  }`}
               >
                 <FiChevronLeft className="inline" />
+                <span className="hidden sm:inline">Previous</span>
               </button>
 
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (number) => (
-                  <button
-                    key={number}
-                    onClick={() => paginate(number)}
-                    className={`px-3 py-1 rounded-md border ${
-                      currentPage === number
-                        ? "bg-blue-500 text-white"
-                        : "bg-white text-gray-700 hover:bg-gray-50"
-                    }`}
-                  >
-                    {number}
-                  </button>
-                )
-              )}
+              {/* Page numbers with smart display */}
+              <div className="flex space-x-1">
+                {(() => {
+                  const pages = [];
+                  const maxPagesToShow = 5;
 
+                  if (totalPages <= maxPagesToShow + 2) {
+                    // Show all pages if total is small
+                    for (let i = 1; i <= totalPages; i++) {
+                      pages.push(
+                        <button
+                          key={i}
+                          onClick={() => paginate(i)}
+                          className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === i
+                            ? "bg-blue-500 text-white border-blue-500"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                            }`}
+                        >
+                          {i}
+                        </button>
+                      );
+                    }
+                  } else {
+                    // Smart pagination with ellipsis
+                    // Always show first page
+                    pages.push(
+                      <button
+                        key={1}
+                        onClick={() => paginate(1)}
+                        className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === 1
+                          ? "bg-blue-500 text-white border-blue-500"
+                          : "bg-white text-gray-700 hover:bg-gray-50"
+                          }`}
+                      >
+                        1
+                      </button>
+                    );
+
+                    // Show ellipsis or page 2
+                    if (currentPage > 3) {
+                      pages.push(
+                        <span key="ellipsis1" className="px-2 py-1 text-gray-500">
+                          ...
+                        </span>
+                      );
+                    } else if (totalPages > 1) {
+                      pages.push(
+                        <button
+                          key={2}
+                          onClick={() => paginate(2)}
+                          className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === 2
+                            ? "bg-blue-500 text-white border-blue-500"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                            }`}
+                        >
+                          2
+                        </button>
+                      );
+                    }
+
+                    // Show pages around current page
+                    const startPage = Math.max(2, currentPage - 1);
+                    const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+                    for (let i = startPage; i <= endPage; i++) {
+                      if (i !== 1 && i !== totalPages && i !== 2 && i !== totalPages - 1) {
+                        pages.push(
+                          <button
+                            key={i}
+                            onClick={() => paginate(i)}
+                            className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === i
+                              ? "bg-blue-500 text-white border-blue-500"
+                              : "bg-white text-gray-700 hover:bg-gray-50"
+                              }`}
+                          >
+                            {i}
+                          </button>
+                        );
+                      }
+                    }
+
+                    // Show ellipsis or second-to-last page
+                    if (currentPage < totalPages - 2) {
+                      pages.push(
+                        <span key="ellipsis2" className="px-2 py-1 text-gray-500">
+                          ...
+                        </span>
+                      );
+                    } else if (totalPages > 2) {
+                      pages.push(
+                        <button
+                          key={totalPages - 1}
+                          onClick={() => paginate(totalPages - 1)}
+                          className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === totalPages - 1
+                            ? "bg-blue-500 text-white border-blue-500"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                            }`}
+                        >
+                          {totalPages - 1}
+                        </button>
+                      );
+                    }
+
+                    // Always show last page
+                    if (totalPages > 1) {
+                      pages.push(
+                        <button
+                          key={totalPages}
+                          onClick={() => paginate(totalPages)}
+                          className={`px-3 py-1 rounded-md border min-w-[40px] ${currentPage === totalPages
+                            ? "bg-blue-500 text-white border-blue-500"
+                            : "bg-white text-gray-700 hover:bg-gray-50"
+                            }`}
+                        >
+                          {totalPages}
+                        </button>
+                      );
+                    }
+                  }
+
+                  return pages;
+                })()}
+              </div>
+
+              {/* Next button */}
               <button
                 onClick={() => paginate(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className={`px-3 py-1 rounded-md border ${
-                  currentPage === totalPages
-                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                    : "bg-white text-gray-700 hover:bg-gray-50"
-                }`}
+                className={`px-3 py-1 rounded-md border flex items-center gap-1 ${currentPage === totalPages
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-white text-gray-700 hover:bg-gray-50"
+                  }`}
               >
+                <span className="hidden sm:inline">Next</span>
                 <FiChevronRight className="inline" />
               </button>
+
+              {/* Jump to page */}
+              <div className="flex items-center gap-2 ml-2 pl-2 border-l">
+                <label className="text-sm text-gray-600 whitespace-nowrap">Go to:</label>
+                <input
+                  type="number"
+                  min="1"
+                  max={totalPages}
+                  placeholder={currentPage.toString()}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const page = parseInt(e.target.value);
+                      if (page >= 1 && page <= totalPages) {
+                        paginate(page);
+                        e.target.value = '';
+                      }
+                    }
+                  }}
+                  className="border border-gray-300 rounded px-2 py-1 w-16 text-sm text-center focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+              </div>
             </div>
           </div>
         </>

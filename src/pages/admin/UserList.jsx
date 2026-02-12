@@ -7,10 +7,13 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [subscriptionStatusFilter, setSubscriptionStatusFilter] = useState('all');
+  const [trialStatusFilter, setTrialStatusFilter] = useState('all');
+  const [genderFilter, setGenderFilter] = useState('all');
+  const [classFilter, setClassFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [selectedUser, setSelectedUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,25 +31,69 @@ export default function AdminUsersPage() {
     loadUsers();
   }, []);
 
+  // Helper function to determine if user is on active trial
+  const isOnActiveTrial = (user) => {
+    if (!user.trialStartedAt || !user.trialEndsAt) return false;
+    const now = new Date();
+    const trialEnd = new Date(user.trialEndsAt);
+    return now <= trialEnd;
+  };
+
+  // Helper function to get trial status
+  const getTrialStatus = (user) => {
+    if (!user.trialStartedAt || !user.trialEndsAt) return 'never';
+    return isOnActiveTrial(user) ? 'active' : 'expired';
+  };
+
+  // Get unique classes for filter
+  const uniqueClasses = useMemo(() => {
+    const classes = users.map(u => u.className).filter(Boolean);
+    return [...new Set(classes)].sort();
+  }, [users]);
+
   const filteredUsers = useMemo(() => {
     return users.filter(user => {
       const matchesSearch =
         user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.phone?.toLowerCase().includes(searchTerm.toLowerCase());
+        user.phoneNumber?.toLowerCase().includes(searchTerm.toLowerCase());
 
-      const matchesRole =
-        roleFilter === 'all' ||
-        user.role?.toLowerCase() === roleFilter.toLowerCase();
+      // Determine subscription status filter match
+      let matchesSubscriptionStatus = false;
 
-      const matchesStatus =
-        statusFilter === 'all' ||
-        (statusFilter === 'active' && user.role !== 'admin') ||
-        (statusFilter === 'admin' && user.role === 'admin');
+      if (subscriptionStatusFilter === 'all') {
+        matchesSubscriptionStatus = true;
+      } else if (subscriptionStatusFilter === 'trial') {
+        // Active trial: ONLY users with REGISTERED status who are on active trial
+        matchesSubscriptionStatus = user.status === 'REGISTERED' && isOnActiveTrial(user);
+      } else if (subscriptionStatusFilter === 'trialed') {
+        // Expired trial: users with TRIALED status OR users with expired trial dates
+        matchesSubscriptionStatus =
+          user.status === 'TRIALED' ||
+          (user.trialStartedAt && user.trialEndsAt && !isOnActiveTrial(user) && user.status !== 'PREMIUM' && user.status !== 'SUSPENDED');
+      } else if (subscriptionStatusFilter === 'registered') {
+        // Registered: REGISTERED status but NOT on active trial
+        matchesSubscriptionStatus = user.status === 'REGISTERED' && !isOnActiveTrial(user);
+      } else {
+        // Other statuses (PREMIUM, SUSPENDED)
+        matchesSubscriptionStatus = user.status?.toLowerCase() === subscriptionStatusFilter.toLowerCase();
+      }
 
-      return matchesSearch && matchesRole && matchesStatus;
+      const matchesTrialStatus =
+        trialStatusFilter === 'all' ||
+        getTrialStatus(user) === trialStatusFilter;
+
+      const matchesGender =
+        genderFilter === 'all' ||
+        user.gender?.toLowerCase() === genderFilter.toLowerCase();
+
+      const matchesClass =
+        classFilter === 'all' ||
+        user.className === classFilter;
+
+      return matchesSearch && matchesSubscriptionStatus && matchesTrialStatus && matchesGender && matchesClass;
     });
-  }, [users, searchTerm, roleFilter, statusFilter]);
+  }, [users, searchTerm, subscriptionStatusFilter, trialStatusFilter, genderFilter, classFilter]);
 
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const currentUsers = useMemo(() => {
@@ -59,6 +106,44 @@ export default function AdminUsersPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSubscriptionStatusFilter('all');
+    setTrialStatusFilter('all');
+    setGenderFilter('all');
+    setClassFilter('all');
+    setCurrentPage(1);
+  };
+
+  const getStatusBadge = (user) => {
+    // Check status field first
+    switch (user.status) {
+      case 'PREMIUM':
+        return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Premium</span>;
+      case 'TRIALED':
+        return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Trial Expired</span>;
+      case 'SUSPENDED':
+        return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Suspended</span>;
+      case 'REGISTERED':
+        // For REGISTERED users, check if they're on active trial
+        if (isOnActiveTrial(user)) {
+          return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Trial</span>;
+        }
+        return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Registered</span>;
+      default:
+        return <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Registered</span>;
+    }
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '—';
+    return new Date(dateString).toLocaleDateString('en-IN', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
@@ -66,7 +151,6 @@ export default function AdminUsersPage() {
           <div className="w-12 h-12 border-4 border-blue-300 border-t-blue-600 rounded-full animate-spin"></div>
           <p className="text-gray-500">Loading users...</p>
         </div>
-
       </div>
     );
   }
@@ -103,41 +187,93 @@ export default function AdminUsersPage() {
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-b border-gray-100 bg-gray-50">
-          <div className="flex space-x-2 mb-2 sm:mb-0 w-full sm:w-auto">
-            <select
-              className="bg-white border text-black border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
-              value={roleFilter}
-              onChange={(e) => {
-                setRoleFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              <option value="all">All Roles</option>
-              <option value="admin">Admin</option>
-              <option value="user">User</option>
-            </select>
+        {/* Filters */}
+        <div className="p-4 border-b border-gray-100 bg-gray-50">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {/* Subscription Status Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Subscription Status</label>
+              <select
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                value={subscriptionStatusFilter}
+                onChange={(e) => {
+                  setSubscriptionStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="all">All Statuses</option>
+                <option value="trial">Active Trial</option>
+                <option value="registered">Registered</option>
+                <option value="premium">Premium</option>
+                <option value="trialed">Trial Expired</option>
+                <option value="suspended">Suspended</option>
+              </select>
+            </div>
 
-            <select
-              className="bg-white border text-black border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
-              value={statusFilter}
-              onChange={(e) => {
-                setStatusFilter(e.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              <option value="all">All Statuses</option>
-              <option value="active">Active</option>
-              <option value="admin">Admin</option>
-            </select>
+            {/* Trial Status Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Trial Status</label>
+              <select
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                value={trialStatusFilter}
+                onChange={(e) => {
+                  setTrialStatusFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="all">All</option>
+                <option value="active">Active Trial</option>
+                <option value="expired">Expired Trial</option>
+                <option value="never">Never Trialed</option>
+              </select>
+            </div>
+
+            {/* Gender Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Gender</label>
+              <select
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                value={genderFilter}
+                onChange={(e) => {
+                  setGenderFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="all">All Genders</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            {/* Class Filter */}
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Class</label>
+              <select
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                value={classFilter}
+                onChange={(e) => {
+                  setClassFilter(e.target.value);
+                  setCurrentPage(1);
+                }}
+              >
+                <option value="all">All Classes</option>
+                {uniqueClasses.map(className => (
+                  <option key={className} value={className}>{className}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Clear Filters Button */}
+            <div className="flex items-end">
+              <button
+                onClick={clearFilters}
+                className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all duration-200 text-sm font-medium"
+              >
+                Clear Filters
+              </button>
+            </div>
           </div>
-
-          {/* <button className="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5">
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            Export
-          </button> */}
         </div>
 
         <div className="overflow-x-auto">
@@ -148,13 +284,16 @@ export default function AdminUsersPage() {
                   User
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Contact
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Trial Info
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Premium Expiry
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Demographics
                 </th>
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
@@ -167,7 +306,7 @@ export default function AdminUsersPage() {
                   <tr
                     key={user.id}
                     className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
-                    onClick={() => navigate(`/admin/user/${user.id}`)}
+                    onClick={() => setSelectedUser(user)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
@@ -189,46 +328,62 @@ export default function AdminUsersPage() {
                               {user.name?.charAt(0)?.toUpperCase() || "U"}
                             </div>
                           )}
-
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                          <div className="text-sm text-gray-500">{user.email}</div>
+                          <div className="text-sm font-medium text-gray-900">{user.name || 'Unnamed'}</div>
+                          <div className="text-sm text-gray-500">{user.email || user.phoneNumber}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900 capitalize">{user.role}</div>
+                      {getStatusBadge(user)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.email}</div>
-                      <div className="text-sm text-gray-500">{user.phone || '—'}</div>
+                      {user.trialStartedAt ? (
+                        <div className="text-sm">
+                          <div className="text-gray-900">
+                            {isOnActiveTrial(user) ? (
+                              <span className="text-blue-600 font-medium">Active</span>
+                            ) : (
+                              <span className="text-orange-600 font-medium">Expired</span>
+                            )}
+                          </div>
+                          <div className="text-gray-500">Ends: {formatDate(user.trialEndsAt)}</div>
+                        </div>
+                      ) : (
+                        <span className="text-sm text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.role === 'admin'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-green-100 text-green-800'
-                        }`}>
-                        {user.role === 'admin' ? 'Admin' : 'Active'}
-                      </span>
+                      <div className="text-sm text-gray-900">
+                        {user.premiumExpiry ? formatDate(user.premiumExpiry) : '—'}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm">
+                        <div className="text-gray-900">
+                          {user.className || '—'}
+                          {user.age && ` • ${user.age}y`}
+                        </div>
+                        <div className="text-gray-500 capitalize">{user.gender || '—'}</div>
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/admin/user/${user.id}`);
+                          setSelectedUser(user);
                         }}
                         className="text-blue-600 bg-transparent hover:text-blue-900 mr-3"
                       >
                         View
                       </button>
-
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="px-6 py-12 text-center">
+                  <td colSpan="6" className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center">
                       <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -317,6 +472,184 @@ export default function AdminUsersPage() {
           </div>
         )}
       </div>
+
+      {/* User Details Modal */}
+      {selectedUser && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedUser(null)}>
+          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Modal Header */}
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">User Details</h2>
+              <button
+                onClick={() => setSelectedUser(null)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-6">
+              {/* Profile Section */}
+              <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
+                <div className="flex-shrink-0">
+                  {selectedUser.profile ? (
+                    <img
+                      src={
+                        selectedUser.profile.startsWith("http")
+                          ? selectedUser.profile
+                          : `https://mitoslearning.in${selectedUser.profile}`
+                      }
+                      alt="User Profile"
+                      className="w-20 h-20 rounded-full object-cover border-4 border-blue-100"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center text-blue-600 font-bold text-2xl border-4 border-blue-100">
+                      {selectedUser.name?.charAt(0)?.toUpperCase() || "U"}
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-gray-900">{selectedUser.name || 'Unnamed User'}</h3>
+                  <p className="text-gray-600">{selectedUser.email || 'No email'}</p>
+                  <div className="mt-2">
+                    {getStatusBadge(selectedUser)}
+                  </div>
+                </div>
+              </div>
+
+              {/* Information Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Contact Information */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Contact Information</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-500">Email</p>
+                      <p className="text-sm font-medium text-gray-900">{selectedUser.email || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Phone Number</p>
+                      <p className="text-sm font-medium text-gray-900">{selectedUser.phoneNumber || '—'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Personal Information */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Personal Information</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-500">Age</p>
+                      <p className="text-sm font-medium text-gray-900">{selectedUser.age ? `${selectedUser.age} years` : '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Gender</p>
+                      <p className="text-sm font-medium text-gray-900 capitalize">{selectedUser.gender || '—'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Class</p>
+                      <p className="text-sm font-medium text-gray-900">{selectedUser.className || '—'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Subscription Information */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Subscription</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-500">Status</p>
+                      <p className="text-sm font-medium text-gray-900 capitalize">{selectedUser.status || 'REGISTERED'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Premium Expiry</p>
+                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.premiumExpiry)}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Has Used Trial</p>
+                      <p className="text-sm font-medium text-gray-900">{selectedUser.hasUsedTrial ? 'Yes' : 'No'}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Trial Information */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Trial Information</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-500">Trial Status</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {selectedUser.trialStartedAt ? (
+                          isOnActiveTrial(selectedUser) ? (
+                            <span className="text-blue-600 font-semibold">Active</span>
+                          ) : (
+                            <span className="text-orange-600 font-semibold">Expired</span>
+                          )
+                        ) : (
+                          <span className="text-gray-400">Never Started</span>
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Trial Started</p>
+                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.trialStartedAt)}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-500">Trial Ends</p>
+                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.trialEndsAt)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Account Information */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h4 className="text-sm font-semibold text-gray-700 mb-3">Account Information</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-500">User ID</p>
+                    <p className="text-sm font-medium text-gray-900 font-mono">{selectedUser.id}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Role</p>
+                    <p className="text-sm font-medium text-gray-900 capitalize">{selectedUser.role || 'user'}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Created At</p>
+                    <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.createdAt)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Last Updated</p>
+                    <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.updatedAt)}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
+              <button
+                onClick={() => setSelectedUser(null)}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  navigate(`/admin/user/${selectedUser.id}`);
+                  setSelectedUser(null);
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                View Full Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

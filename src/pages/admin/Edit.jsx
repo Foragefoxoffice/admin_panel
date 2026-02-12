@@ -259,7 +259,7 @@ export default function EditQuestionPage() {
         }
 
         if (page === "report") {
-          navigate("/admin/reports");
+          navigate(`/admin/reports?page=${returnPage}`);
         } else {
           navigate(`/admin/questions?page=${returnPage}`);
         }

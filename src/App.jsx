@@ -11,8 +11,8 @@ import AdminLayout from './layouts/AdminLayout';
 // Admin pages
 import UserList from './pages/admin/UserList';
 import UserDetail from './pages/admin/UserDetail';
-import Banners from './pages/admin/Banners';
-import AddBanners from './pages/admin/AddBanners';
+import BannerListPage from './pages/admin/BannerListPage';
+import CreateBannerPage from './pages/admin/CreateBannerPage';
 import News from './pages/admin/News';
 import NewsDetail from './pages/admin/NewsDetail';
 import NewsEdit from './pages/admin/NewsEdit';
@@ -32,6 +32,11 @@ import PdfPremium from './pages/admin/PdfPremium';
 import ViewFreeMaterials from './pages/admin/ViewFreeMaterials';
 import UploadFreeMaterial from './pages/admin/UploadFreeMaterial';
 import SendNotification from './pages/admin/SendNotification';
+import Coupons from './pages/admin/Coupons';
+import Payments from './pages/admin/Payments';
+import NeetPlansPage from './pages/admin/NeetPlansPage';
+import CreateNeetPlanPage from './pages/admin/CreateNeetPlanPage';
+import EditNeetPlanPage from './pages/admin/EditNeetPlanPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -63,8 +68,8 @@ function App() {
             <Route index element={<Navigate to="types" replace />} />
             <Route path="user" element={<UserList />} />
             <Route path="user/:id" element={<UserDetail />} />
-            <Route path="banners" element={<Banners />} />
-            <Route path="addbanners" element={<AddBanners />} />
+            <Route path="banners" element={<BannerListPage />} />
+            <Route path="addbanners" element={<CreateBannerPage />} />
             <Route path="news" element={<News />} />
             <Route path="news/:id" element={<NewsDetail />} />
             <Route path="news/edit/:id" element={<NewsEdit />} />
@@ -84,6 +89,11 @@ function App() {
             <Route path="free-materials" element={<ViewFreeMaterials />} />
             <Route path="free-material-upload" element={<UploadFreeMaterial />} />
             <Route path="send-notification" element={<SendNotification />} />
+            <Route path="coupons" element={<Coupons />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="neet-plans" element={<NeetPlansPage />} />
+            <Route path="neet-plans/create" element={<CreateNeetPlanPage />} />
+            <Route path="neet-plans/edit/:id" element={<EditNeetPlanPage />} />
           </Route>
 
           {/* Redirect root to login */}
