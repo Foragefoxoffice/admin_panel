@@ -5,6 +5,100 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Ant Design overrides ────────────────────────────────── */
+
+/* ❶ Fix: global `span { color: var(--text) }` breaks dark menu text */
+.ant-layout-sider span,
+.ant-layout-sider li,
+.ant-menu-dark span,
+.ant-menu-dark li,
+.ant-menu-submenu-popup span,
+.ant-menu-submenu-popup li {
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+/* ❷ Fix: global `button { background: var(--primery) }` breaks Ant buttons */
+.ant-btn { background: unset !important; }
+.ant-btn-primary { background: #693f86 !important; }
+.ant-btn-text { background: transparent !important; }
+
+/* ❸ Fix: global `input` style breaks Ant inputs */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector {
+  padding: unset !important;
+  border: unset !important;
+  color: unset !important;
+}
+.ant-input {
+  padding: 4px 11px !important;
+  border: 1px solid #d9d9d9 !important;
+  color: rgba(0,0,0,0.88) !important;
+}
+
+/* ❹ Fix: Ant Layout header height / flex alignment */
+.ant-layout-header {
+  line-height: normal !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Sidebar scrollbar */
+.ant-layout-sider ::-webkit-scrollbar { width: 3px; }
+.ant-layout-sider ::-webkit-scrollbar-track { background: transparent; }
+.ant-layout-sider ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 4px; }
+
+/* Menu text colours */
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-submenu-title {
+  color: rgba(255,255,255,0.72) !important;
+  font-weight: 500;
+}
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-submenu-title:hover {
+  color: #ffffff !important;
+}
+.ant-menu-dark .ant-menu-item .ant-menu-item-icon,
+.ant-menu-dark .ant-menu-submenu-title .ant-menu-item-icon,
+.ant-menu-dark .ant-menu-item .anticon,
+.ant-menu-dark .ant-menu-submenu-title .anticon {
+  color: rgba(255,255,255,0.6) !important;
+}
+.ant-menu-dark .ant-menu-item:hover .anticon,
+.ant-menu-dark .ant-menu-submenu-title:hover .anticon {
+  color: #ffffff !important;
+}
+
+/* Selected menu item — glassy white pill */
+.ant-menu-dark .ant-menu-item-selected,
+.ant-menu-dark .ant-menu-item-selected:hover {
+  background: rgba(255,255,255,0.16) !important;
+  color: #ffffff !important;
+}
+.ant-menu-dark .ant-menu-item-selected .anticon {
+  color: #ffffff !important;
+}
+
+/* Selected item left accent bar */
+.ant-menu-dark .ant-menu-item-selected::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 3px;
+  background: #ffffff;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Submenu inline background */
+.ant-menu-dark .ant-menu-sub {
+  background: rgba(0,0,0,0.2) !important;
+}
+/* Submenu popup */
+.ant-menu-submenu-popup .ant-menu {
+  background: #3d1a5c !important;
+}
+
 /* add the code bellow */
 @layer utilities {
 

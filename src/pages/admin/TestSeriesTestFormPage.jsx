@@ -1,0 +1,246 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { API_BASE_URL } from "@/utils/config";
+import toast from "react-hot-toast";
+import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
+
+const DEFAULT_SUBJECT_CONFIGS = [
+  { subjectName: "Biology", questionCount: 90 },
+  { subjectName: "Chemistry", questionCount: 45 },
+  { subjectName: "Physics", questionCount: 45 },
+];
+
+export default function TestSeriesTestFormPage() {
+  const { packageId, testId } = useParams();
+  const isEdit = Boolean(testId);
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [duration, setDuration] = useState(200);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [subjectConfigs, setSubjectConfigs] = useState(DEFAULT_SUBJECT_CONFIGS);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(isEdit);
+  const [fetchedPackageId, setFetchedPackageId] = useState(null);
+
+  const token = localStorage.getItem("token");
+  const headers = { Authorization: `Bearer ${token}` };
+
+  const totalQuestions = subjectConfigs.reduce((sum, sc) => sum + Number(sc.questionCount || 0), 0);
+
+  useEffect(() => {
+    if (!isEdit) return;
+    const fetchTest = async () => {
+      try {
+        const { data } = await axios.get(`${API_BASE_URL}/test-series/tests/${testId}`, { headers });
+        setName(data.name);
+        setDuration(data.duration);
+        setVideoUrl(data.videoUrl || "");
+        setFetchedPackageId(data.packageId);
+        setSubjectConfigs(
+          data.subjectConfigs.length > 0
+            ? data.subjectConfigs.map((sc) => ({
+                subjectName: sc.subjectName,
+                questionCount: sc.questionCount,
+              }))
+            : DEFAULT_SUBJECT_CONFIGS
+        );
+      } catch {
+        toast.error("Failed to load test");
+      } finally {
+        setFetching(false);
+      }
+    };
+    fetchTest();
+  }, [testId]);
+
+  const updateConfig = (idx, field, value) => {
+    setSubjectConfigs((prev) =>
+      prev.map((sc, i) => (i === idx ? { ...sc, [field]: value } : sc))
+    );
+  };
+
+  const addSubjectConfig = () => {
+    setSubjectConfigs((prev) => [...prev, { subjectName: "", questionCount: 0 }]);
+  };
+
+  const removeSubjectConfig = (idx) => {
+    setSubjectConfigs((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) return toast.error("Test name is required");
+    if (subjectConfigs.some((sc) => !sc.subjectName.trim())) {
+      return toast.error("All subject names are required");
+    }
+    if (totalQuestions === 0) return toast.error("Total questions must be greater than 0");
+
+    setLoading(true);
+    try {
+      const payload = { name, duration: Number(duration), totalQuestions, subjectConfigs, videoUrl: videoUrl.trim() || null };
+
+      if (isEdit) {
+        await axios.put(`${API_BASE_URL}/test-series/tests/${testId}`, payload, { headers });
+        toast.success("Test updated");
+        navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`);
+      } else {
+        const { data } = await axios.post(
+          `${API_BASE_URL}/test-series/packages/${packageId}/tests`,
+          payload,
+          { headers }
+        );
+        toast.success("Test created");
+        navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`);
+      }
+    } catch {
+      toast.error("Failed to save test");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (fetching) {
+    return (
+      <div className="flex justify-center items-center h-48">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-700" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 max-w-2xl mx-auto">
+      <button
+        onClick={() => navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`)}
+        className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-6"
+      >
+        <ArrowLeft size={16} />
+        Back to Tests
+      </button>
+
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        {isEdit ? "Edit Test" : "Create Test"}
+      </h1>
+
+      <form onSubmit={handleSubmit} className="space-y-6 bg-white border border-gray-200 rounded-xl p-6">
+        {/* Test Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Test Name *</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="e.g. NEET Mock Test 1"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+        </div>
+
+        {/* Duration */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Duration (minutes) *</label>
+          <input
+            type="number"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+            min={1}
+            placeholder="200"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+        </div>
+
+        {/* Video Explanation URL */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Video Explanation URL
+            <span className="ml-2 text-xs text-gray-400 font-normal">(YouTube link — optional)</span>
+          </label>
+          <input
+            type="url"
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="https://www.youtube.com/watch?v=..."
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+          />
+          {videoUrl && (
+            <p className="mt-1 text-xs text-green-600">✓ Video URL set — users will see a "Video" button after attempting the test</p>
+          )}
+        </div>
+
+        {/* Subject Distribution */}
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <label className="text-sm font-medium text-gray-700">Subject Distribution *</label>
+            <button
+              type="button"
+              onClick={addSubjectConfig}
+              className="flex items-center gap-1 text-xs text-purple-700 hover:text-purple-900 font-medium"
+            >
+              <Plus size={14} />
+              Add Subject
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            {subjectConfigs.map((sc, idx) => (
+              <div key={idx} className="flex items-center gap-3">
+                <input
+                  type="text"
+                  value={sc.subjectName}
+                  onChange={(e) => updateConfig(idx, "subjectName", e.target.value)}
+                  placeholder="Subject name"
+                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+                <div className="flex items-center gap-2 w-36">
+                  <input
+                    type="number"
+                    value={sc.questionCount}
+                    onChange={(e) => updateConfig(idx, "questionCount", Number(e.target.value))}
+                    min={0}
+                    placeholder="Questions"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  />
+                  <span className="text-xs text-gray-400 whitespace-nowrap">Qs</span>
+                </div>
+                {subjectConfigs.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeSubjectConfig(idx)}
+                    className="p-1.5 text-gray-400 hover:text-red-500"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between text-sm">
+            <span className="text-gray-500">Total Questions</span>
+            <span
+              className={`font-semibold ${
+                totalQuestions === 180 ? "text-green-600" : "text-orange-500"
+              }`}
+            >
+              {totalQuestions}
+              {totalQuestions !== 180 && " (NEET standard: 180)"}
+            </span>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full flex items-center justify-center gap-2 py-2.5 bg-purple-700 text-white rounded-lg hover:bg-purple-800 font-medium text-sm disabled:opacity-60"
+        >
+          {loading ? (
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+          ) : (
+            <Save size={16} />
+          )}
+          {isEdit ? "Save Changes" : "Create Test"}
+        </button>
+      </form>
+    </div>
+  );
+}

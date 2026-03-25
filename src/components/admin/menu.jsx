@@ -20,9 +20,31 @@ import {
   FiX,
   FiUser,
   FiDownload,
+  FiClipboard,
 } from "react-icons/fi";
 
 const navItems = [
+  {
+    title: "Test Series",
+    icon: <FiClipboard size={18} />,
+    items: [
+      {
+        title: "Packages",
+        icon: <FiGrid size={16} />,
+        href: "/admin/test-series",
+      },
+      {
+        title: "Purchases",
+        icon: <FiUser size={16} />,
+        href: "/admin/test-series/purchases",
+      },
+      {
+        title: "Banners",
+        icon: <FiImage size={16} />,
+        href: "/admin/test-series/banners",
+      },
+    ],
+  },
   {
     title: "Types",
     icon: <FiLayers size={18} />,

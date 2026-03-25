@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Trash2, Globe, Smartphone, Monitor, Filter, AlertCircle, Check, Loader2 } from 'lucide-react';
+import { API_BASE_URL } from '@/utils/config';
 
 export default function BannerListPage() {
     const [banners, setBanners] = useState([]);
@@ -15,7 +16,7 @@ export default function BannerListPage() {
 
     const fetchBanners = async () => {
         try {
-            const res = await fetch('https://mitoslearning.in/api/banners');
+            const res = await fetch(`${API_BASE_URL}/banners`);
             const data = await res.json();
             setBanners(data.map(b => ({ ...b, _id: b.id })));
         } catch (err) {
@@ -32,7 +33,7 @@ export default function BannerListPage() {
         try {
             const formData = new FormData();
             formData.append('isActive', (!current).toString());
-            await fetch(`https://mitoslearning.in/api/banners/${id}`, {
+            await fetch(`${API_BASE_URL}/banners/${id}`, {
                 method: 'PUT',
                 body: formData,
             });
@@ -42,11 +43,23 @@ export default function BannerListPage() {
         }
     };
 
+    const changeSection = async (id, currentSection, newSection) => {
+        setBanners(prev => prev.map(b => b._id === id ? { ...b, section: newSection } : b));
+        try {
+            const formData = new FormData();
+            formData.append('section', newSection);
+            const res = await fetch(`${API_BASE_URL}/banners/${id}`, { method: 'PUT', body: formData });
+            if (!res.ok) throw new Error('Failed');
+        } catch {
+            setBanners(prev => prev.map(b => b._id === id ? { ...b, section: currentSection } : b));
+        }
+    };
+
     const deleteBanner = async (id) => {
         if (!confirm('Are you sure you want to delete this banner?')) return;
 
         setBanners(prev => prev.filter(b => b._id !== id));
-        await fetch(`https://mitoslearning.in/api/banners/${id}`, { method: 'DELETE' });
+        await fetch(`${API_BASE_URL}/banners/${id}`, { method: 'DELETE' });
     };
 
     const filteredBanners = banners.filter(b => {
@@ -129,7 +142,7 @@ export default function BannerListPage() {
                                     {/* Image Area */}
                                     <div className="relative aspect-[2/1] overflow-hidden bg-gray-100">
                                         <img
-                                            src={`https://mitoslearning.in${banner.imageUrl}`}
+                                            src={`${API_BASE_URL.replace('/api', '')}${banner.imageUrl}`}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                             alt={banner.title}
                                         />
@@ -148,7 +161,17 @@ export default function BannerListPage() {
                                                 {getPlatformIcon(banner.platform)}
                                                 {banner.platform?.replace('WEB_', '')}
                                             </span>
-                                            <span className="text-xs text-gray-400">Pr: {banner.priority}</span>
+                                            <div className="flex items-center gap-1.5">
+                                                <select
+                                                    value={banner.section || 'HOME'}
+                                                    onChange={(e) => changeSection(banner._id, banner.section, e.target.value)}
+                                                    className={`text-[11px] font-bold px-2 py-0.5 rounded-full border-0 cursor-pointer outline-none ${banner.section === 'TEST_SERIES' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'}`}
+                                                >
+                                                    <option value="HOME">Home</option>
+                                                    <option value="TEST_SERIES">Test Series</option>
+                                                </select>
+                                                <span className="text-xs text-gray-400">Pr: {banner.priority}</span>
+                                            </div>
                                         </div>
 
                                         <h3 className="font-bold text-gray-900 line-clamp-1 mb-1">{banner.title}</h3>

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, X, Layout, Smartphone, Globe, CheckCircle, ArrowRight, Loader2, Image as ImageIcon } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { API_BASE_URL } from '@/utils/config';
 
 const PlatformCard = ({ icon: Icon, label, value, selected, onClick }) => (
     <motion.div
@@ -40,14 +41,17 @@ const UserTargetCard = ({ label, value, description, selected, onClick }) => (
 
 export default function CreateBannerPage() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const defaultSection = searchParams.get('section') || 'HOME';
     const [loading, setLoading] = useState(false);
     const [form, setForm] = useState({
         title: '',
         redirectUrl: '',
         isActive: true,
-        platform: 'WEB_DESKTOP',
+        platform: 'MOBILE_APP',
         targetUser: 'ALL',
         priority: 0,
+        section: defaultSection,
         image: null,
     });
 
@@ -75,7 +79,7 @@ export default function CreateBannerPage() {
             const formData = new FormData();
             Object.entries(form).forEach(([key, value]) => formData.append(key, value));
 
-            const res = await fetch('https://mitoslearning.in/api/banners', {
+            const res = await fetch(`${API_BASE_URL}/banners`, {
                 method: 'POST',
                 body: formData,
             });
@@ -83,7 +87,8 @@ export default function CreateBannerPage() {
             if (!res.ok) throw new Error('Failed to create banner');
 
             setShowSuccess(true);
-            setTimeout(() => navigate('/admin/banners'), 2000);
+            const redirectTo = defaultSection === 'TEST_SERIES' ? '/admin/test-series/banners' : '/admin/banners';
+            setTimeout(() => navigate(redirectTo), 2000);
         } catch (err) {
             alert(err.message);
         } finally {
@@ -194,6 +199,25 @@ export default function CreateBannerPage() {
                                         selected={form.platform === 'MOBILE_APP'}
                                         onClick={(v) => setForm({ ...form, platform: v })}
                                     />
+                                </div>
+                            </div>
+
+                            {/* Section */}
+                            <div className="space-y-3">
+                                <label className="text-sm font-semibold text-gray-700">Banner Section</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { value: 'HOME', label: 'Home Screen' },
+                                        { value: 'TEST_SERIES', label: 'Test Series' },
+                                    ].map(opt => (
+                                        <div
+                                            key={opt.value}
+                                            onClick={() => setForm({ ...form, section: opt.value })}
+                                            className={`cursor-pointer p-3 rounded-xl border-2 text-center transition-all duration-200 ${form.section === opt.value ? 'border-blue-500 bg-blue-50 text-blue-600 font-semibold' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
+                                        >
+                                            {opt.label}
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 

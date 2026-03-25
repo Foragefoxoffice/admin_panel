@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ConfigProvider } from 'antd';
 import { TestProvider } from './contexts/TestContext.jsx';
 import './index.css';
 
@@ -37,6 +38,14 @@ import Payments from './pages/admin/Payments';
 import NeetPlansPage from './pages/admin/NeetPlansPage';
 import CreateNeetPlanPage from './pages/admin/CreateNeetPlanPage';
 import EditNeetPlanPage from './pages/admin/EditNeetPlanPage';
+import TestSeriesPage from './pages/admin/TestSeriesPage';
+import TestSeriesPackageFormPage from './pages/admin/TestSeriesPackageFormPage';
+import TestSeriesTestsPage from './pages/admin/TestSeriesTestsPage';
+import TestSeriesTestFormPage from './pages/admin/TestSeriesTestFormPage';
+import ManageTestQuestionsPage from './pages/admin/ManageTestQuestionsPage';
+import TestSeriesQuestionFormPage from './pages/admin/TestSeriesQuestionFormPage';
+import TestSeriesPurchasesPage from './pages/admin/TestSeriesPurchasesPage';
+import TestSeriesBannersPage from './pages/admin/TestSeriesBannersPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -51,6 +60,40 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
+    <ConfigProvider theme={{
+      token: {
+        colorPrimary: '#693f86',
+        colorLink: '#693f86',
+        borderRadius: 8,
+        fontFamily: "'Satoshi', 'Segoe UI', sans-serif",
+        colorBgContainer: '#ffffff',
+      },
+      components: {
+        Menu: {
+          darkItemBg: 'transparent',
+          darkSubMenuItemBg: 'rgba(0,0,0,0.18)',
+          darkItemSelectedBg: 'rgba(255,255,255,0.16)',
+          darkItemSelectedColor: '#ffffff',
+          darkItemColor: 'rgba(255,255,255,0.65)',
+          darkItemHoverBg: 'rgba(255,255,255,0.08)',
+          darkItemHoverColor: '#ffffff',
+          itemHeight: 40,
+          itemMarginInline: 0,
+          itemBorderRadius: 8,
+          subMenuItemBorderRadius: 6,
+          collapsedIconSize: 18,
+          iconSize: 15,
+          fontSize: 13,
+        },
+        Layout: {
+          siderBg: 'transparent',
+          bodyBg: '#f4f5f7',
+        },
+        Button: {
+          borderRadius: 8,
+        },
+      },
+    }}>
     <BrowserRouter>
       <TestProvider>
         <Routes>
@@ -94,6 +137,17 @@ function App() {
             <Route path="neet-plans" element={<NeetPlansPage />} />
             <Route path="neet-plans/create" element={<CreateNeetPlanPage />} />
             <Route path="neet-plans/edit/:id" element={<EditNeetPlanPage />} />
+
+            {/* Test Series */}
+            <Route path="test-series" element={<TestSeriesPage />} />
+            <Route path="test-series/purchases" element={<TestSeriesPurchasesPage />} />
+            <Route path="test-series/banners" element={<TestSeriesBannersPage />} />
+            <Route path="test-series/create" element={<TestSeriesPackageFormPage />} />
+            <Route path="test-series/:packageId/edit" element={<TestSeriesPackageFormPage />} />
+            <Route path="test-series/:packageId/tests" element={<TestSeriesTestsPage />} />
+            <Route path="test-series/:packageId/tests/create" element={<TestSeriesTestFormPage />} />
+            <Route path="test-series/tests/:testId/edit" element={<TestSeriesTestFormPage />} />
+            <Route path="test-series/tests/:testId/manage-questions" element={<ManageTestQuestionsPage />} />
           </Route>
 
           {/* Redirect root to login */}
@@ -104,6 +158,7 @@ function App() {
         </Routes>
       </TestProvider>
     </BrowserRouter>
+    </ConfigProvider>
   );
 }
 
