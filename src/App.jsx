@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
+import { Toaster } from 'react-hot-toast';
 import { TestProvider } from './contexts/TestContext.jsx';
 import './index.css';
 
@@ -43,9 +44,12 @@ import TestSeriesPackageFormPage from './pages/admin/TestSeriesPackageFormPage';
 import TestSeriesTestsPage from './pages/admin/TestSeriesTestsPage';
 import TestSeriesTestFormPage from './pages/admin/TestSeriesTestFormPage';
 import ManageTestQuestionsPage from './pages/admin/ManageTestQuestionsPage';
+import TestSeriesQuestionsPage from './pages/admin/TestSeriesQuestionsPage';
 import TestSeriesQuestionFormPage from './pages/admin/TestSeriesQuestionFormPage';
 import TestSeriesPurchasesPage from './pages/admin/TestSeriesPurchasesPage';
 import TestSeriesBannersPage from './pages/admin/TestSeriesBannersPage';
+import SubscriptionFeaturesPage from './pages/admin/SubscriptionFeaturesPage';
+import AppSettings from './pages/admin/AppSettings';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -60,6 +64,8 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
+    <>
+    <Toaster position="top-right" />
     <ConfigProvider theme={{
       token: {
         colorPrimary: '#693f86',
@@ -142,12 +148,21 @@ function App() {
             <Route path="test-series" element={<TestSeriesPage />} />
             <Route path="test-series/purchases" element={<TestSeriesPurchasesPage />} />
             <Route path="test-series/banners" element={<TestSeriesBannersPage />} />
+            <Route path="test-series/questions" element={<TestSeriesQuestionsPage />} />
+            <Route path="test-series/questions/add" element={<TestSeriesQuestionFormPage />} />
+            <Route path="test-series/questions/edit/:questionId" element={<TestSeriesQuestionFormPage />} />
             <Route path="test-series/create" element={<TestSeriesPackageFormPage />} />
             <Route path="test-series/:packageId/edit" element={<TestSeriesPackageFormPage />} />
             <Route path="test-series/:packageId/tests" element={<TestSeriesTestsPage />} />
             <Route path="test-series/:packageId/tests/create" element={<TestSeriesTestFormPage />} />
             <Route path="test-series/tests/:testId/edit" element={<TestSeriesTestFormPage />} />
             <Route path="test-series/tests/:testId/manage-questions" element={<ManageTestQuestionsPage />} />
+
+            {/* Subscription Features */}
+            <Route path="subscription-features" element={<SubscriptionFeaturesPage />} />
+
+            {/* App Settings */}
+            <Route path="settings" element={<AppSettings />} />
           </Route>
 
           {/* Redirect root to login */}
@@ -159,6 +174,7 @@ function App() {
       </TestProvider>
     </BrowserRouter>
     </ConfigProvider>
+    </>
   );
 }
 
