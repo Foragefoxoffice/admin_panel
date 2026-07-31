@@ -21,6 +21,7 @@ import {
   FiUser,
   FiDownload,
   FiClipboard,
+  FiSettings,
 } from "react-icons/fi";
 
 const navItems = [
@@ -114,6 +115,11 @@ const navItems = [
     ],
   },
   {
+    title: "Plan Features",
+    icon: <FiFile size={18} />,
+    href: "/admin/subscription-features",
+  },
+  {
     title: "Materials",
     icon: <FiBook size={18} />,
     items: [
@@ -160,6 +166,11 @@ const navItems = [
     title: "Blocks",
     icon: <FiAlertCircle size={18} />,
     href: "/admin/blocks",
+  },
+  {
+    title: "App Settings",
+    icon: <FiSettings size={18} />,
+    href: "/admin/settings",
   },
   {
     title: "Reports",

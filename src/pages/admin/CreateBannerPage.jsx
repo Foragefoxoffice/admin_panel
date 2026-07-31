@@ -19,22 +19,23 @@ const PlatformCard = ({ icon: Icon, label, value, selected, onClick }) => (
     </motion.div>
 );
 
-const UserTargetCard = ({ label, value, description, selected, onClick }) => (
+const UserTargetCard = ({ label, value, checked, onChange }) => (
     <div
-        onClick={() => onClick(value)}
+        onClick={() => onChange(value)}
         className={`
-      cursor-pointer p-3 rounded-lg border transition-all duration-200
-      ${selected ? 'border-blue-500 bg-blue-50' : 'border-gray-100 hover:bg-gray-50'}
+      cursor-pointer p-3 rounded-lg border transition-all duration-200 select-none
+      ${checked ? 'border-blue-500 bg-blue-50' : 'border-gray-100 hover:bg-gray-50'}
     `}
     >
         <div className="flex items-center gap-3">
-            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${selected ? 'border-blue-500' : 'border-gray-300'}`}>
-                {selected && <div className="w-2 h-2 rounded-full bg-blue-500" />}
+            <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 ${checked ? 'border-blue-500 bg-blue-500' : 'border-gray-300'}`}>
+                {checked && (
+                    <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                )}
             </div>
-            <div>
-                <h4 className={`text-sm font-medium ${selected ? 'text-blue-700' : 'text-gray-700'}`}>{label}</h4>
-                {description && <p className="text-xs text-gray-500">{description}</p>}
-            </div>
+            <span className={`text-sm font-medium ${checked ? 'text-blue-700' : 'text-gray-700'}`}>{label}</span>
         </div>
     </div>
 );
@@ -49,7 +50,7 @@ export default function CreateBannerPage() {
         redirectUrl: '',
         isActive: true,
         platform: 'MOBILE_APP',
-        targetUser: 'ALL',
+        targetUsers: ['ALL'],
         priority: 0,
         section: defaultSection,
         image: null,
@@ -68,6 +69,17 @@ export default function CreateBannerPage() {
         reader.readAsDataURL(file);
     };
 
+    const handleTargetToggle = (value) => {
+        setForm(prev => {
+            if (value === 'ALL') {
+                return { ...prev, targetUsers: ['ALL'] };
+            }
+            const without = prev.targetUsers.filter(v => v !== 'ALL' && v !== value);
+            const added = prev.targetUsers.includes(value) ? without : [...without, value];
+            return { ...prev, targetUsers: added.length === 0 ? ['ALL'] : added };
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -77,7 +89,13 @@ export default function CreateBannerPage() {
 
         try {
             const formData = new FormData();
-            Object.entries(form).forEach(([key, value]) => formData.append(key, value));
+            Object.entries(form).forEach(([key, value]) => {
+                if (key === 'targetUsers') {
+                    formData.append('targetUsers', JSON.stringify(value));
+                } else {
+                    formData.append(key, value);
+                }
+            });
 
             const res = await fetch(`${API_BASE_URL}/banners`, {
                 method: 'POST',
@@ -87,8 +105,7 @@ export default function CreateBannerPage() {
             if (!res.ok) throw new Error('Failed to create banner');
 
             setShowSuccess(true);
-            const redirectTo = defaultSection === 'TEST_SERIES' ? '/admin/test-series/banners' : '/admin/banners';
-            setTimeout(() => navigate(redirectTo), 2000);
+            setTimeout(() => navigate('/admin/banners'), 2000);
         } catch (err) {
             alert(err.message);
         } finally {
@@ -205,25 +222,34 @@ export default function CreateBannerPage() {
                             {/* Section */}
                             <div className="space-y-3">
                                 <label className="text-sm font-semibold text-gray-700">Banner Section</label>
-                                <div className="grid grid-cols-2 gap-3">
+                                <div className="grid grid-cols-3 gap-3">
                                     {[
                                         { value: 'HOME', label: 'Home Screen' },
                                         { value: 'TEST_SERIES', label: 'Test Series' },
+                                        { value: 'UPSELL', label: 'Upsell Screen' },
                                     ].map(opt => (
                                         <div
                                             key={opt.value}
                                             onClick={() => setForm({ ...form, section: opt.value })}
-                                            className={`cursor-pointer p-3 rounded-xl border-2 text-center transition-all duration-200 ${form.section === opt.value ? 'border-blue-500 bg-blue-50 text-blue-600 font-semibold' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
+                                            className={`cursor-pointer p-3 rounded-xl border-2 text-center text-sm transition-all duration-200 ${form.section === opt.value ? 'border-blue-500 bg-blue-50 text-blue-600 font-semibold' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
                                         >
                                             {opt.label}
                                         </div>
                                     ))}
                                 </div>
+                                {form.section === 'UPSELL' && (
+                                    <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                                        Upsell banners show at the top of the upgrade screen. Select the user segment below to target specific audiences.
+                                    </p>
+                                )}
                             </div>
 
                             {/* Target Users */}
                             <div className="space-y-3">
-                                <label className="text-sm font-semibold text-gray-700">Target Audience</label>
+                                <label className="text-sm font-semibold text-gray-700">
+                                    Target Audience
+                                    <span className="ml-2 text-xs font-normal text-gray-400">(select multiple)</span>
+                                </label>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
                                         { value: 'ALL', label: 'All' },
@@ -238,8 +264,8 @@ export default function CreateBannerPage() {
                                             key={type.value}
                                             label={type.label}
                                             value={type.value}
-                                            selected={form.targetUser === type.value}
-                                            onClick={(v) => setForm({ ...form, targetUser: v })}
+                                            checked={form.targetUsers.includes(type.value)}
+                                            onChange={handleTargetToggle}
                                         />
                                     ))}
                                 </div>

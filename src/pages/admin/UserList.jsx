@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
-import { fetchAllUsers } from '@/utils/api';
+import { fetchAllUsers, updateUserSubscription } from '@/utils/api';
+import toast from 'react-hot-toast';
 
 
 export default function AdminUsersPage() {
@@ -14,7 +15,44 @@ export default function AdminUsersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [editingSub, setEditingSub] = useState(false);
+  const [subForm, setSubForm] = useState({});
+  const [subSaving, setSubSaving] = useState(false);
   const navigate = useNavigate();
+
+  const openSubEdit = (user) => {
+    setSubForm({
+      status: user.status || 'REGISTERED',
+      premiumExpiry: user.premiumExpiry ? new Date(user.premiumExpiry).toISOString().slice(0, 10) : '',
+      trialStartedAt: user.trialStartedAt ? new Date(user.trialStartedAt).toISOString().slice(0, 10) : '',
+      trialEndsAt: user.trialEndsAt ? new Date(user.trialEndsAt).toISOString().slice(0, 10) : '',
+      hasUsedTrial: user.hasUsedTrial ?? false,
+    });
+    setEditingSub(true);
+  };
+
+  const handleSaveSubscription = async () => {
+    setSubSaving(true);
+    try {
+      const payload = {
+        status: subForm.status,
+        premiumExpiry: subForm.premiumExpiry || null,
+        trialStartedAt: subForm.trialStartedAt || null,
+        trialEndsAt: subForm.trialEndsAt || null,
+        hasUsedTrial: subForm.hasUsedTrial,
+      };
+      const res = await updateUserSubscription(selectedUser.id, payload);
+      // update local list
+      setUsers(prev => prev.map(u => u.id === selectedUser.id ? { ...u, ...res.user } : u));
+      setSelectedUser(prev => ({ ...prev, ...res.user }));
+      setEditingSub(false);
+      toast.success('Subscription updated');
+    } catch {
+      toast.error('Failed to update subscription');
+    } finally {
+      setSubSaving(false);
+    }
+  };
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -475,13 +513,13 @@ export default function AdminUsersPage() {
 
       {/* User Details Modal */}
       {selectedUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedUser(null)}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => { setSelectedUser(null); setEditingSub(false); }}>
           <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             {/* Modal Header */}
             <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900">User Details</h2>
               <button
-                onClick={() => setSelectedUser(null)}
+                onClick={() => { setSelectedUser(null); setEditingSub(false); }}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -556,52 +594,176 @@ export default function AdminUsersPage() {
                   </div>
                 </div>
 
-                {/* Subscription Information */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Subscription</h4>
-                  <div className="space-y-2">
-                    <div>
-                      <p className="text-xs text-gray-500">Status</p>
-                      <p className="text-sm font-medium text-gray-900 capitalize">{selectedUser.status || 'REGISTERED'}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Premium Expiry</p>
-                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.premiumExpiry)}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Has Used Trial</p>
-                      <p className="text-sm font-medium text-gray-900">{selectedUser.hasUsedTrial ? 'Yes' : 'No'}</p>
-                    </div>
+                {/* Subscription Control */}
+                <div className="md:col-span-2 rounded-xl border-2 border-purple-200 bg-purple-50/40 p-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-sm font-bold text-purple-800 flex items-center gap-2">
+                      <span>🔑</span> Subscription Control
+                    </h4>
+                    {!editingSub ? (
+                      <button
+                        onClick={() => openSubEdit(selectedUser)}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-600 text-white text-xs font-semibold rounded-lg hover:bg-purple-700"
+                      >
+                        ✏️ Edit
+                      </button>
+                    ) : (
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleSaveSubscription}
+                          disabled={subSaving}
+                          className="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-600 text-white text-xs font-semibold rounded-lg hover:bg-emerald-700 disabled:opacity-50"
+                        >
+                          {subSaving ? 'Saving…' : '✓ Save'}
+                        </button>
+                        <button
+                          onClick={() => setEditingSub(false)}
+                          className="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
                   </div>
-                </div>
 
-                {/* Trial Information */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Trial Information</h4>
-                  <div className="space-y-2">
-                    <div>
-                      <p className="text-xs text-gray-500">Trial Status</p>
-                      <p className="text-sm font-medium text-gray-900">
-                        {selectedUser.trialStartedAt ? (
-                          isOnActiveTrial(selectedUser) ? (
-                            <span className="text-blue-600 font-semibold">Active</span>
-                          ) : (
-                            <span className="text-orange-600 font-semibold">Expired</span>
-                          )
-                        ) : (
-                          <span className="text-gray-400">Never Started</span>
-                        )}
-                      </p>
+                  {!editingSub ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Status</p>
+                        <div>{getStatusBadge(selectedUser)}</div>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Premium Expiry</p>
+                        <p className="text-sm font-semibold text-gray-800">{formatDate(selectedUser.premiumExpiry)}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Trial Status</p>
+                        <p className="text-sm font-semibold">
+                          {selectedUser.trialStartedAt ? (
+                            isOnActiveTrial(selectedUser)
+                              ? <span className="text-blue-600">Active</span>
+                              : <span className="text-orange-500">Expired</span>
+                          ) : <span className="text-gray-400">Never</span>}
+                        </p>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Trial Starts</p>
+                        <p className="text-sm font-semibold text-gray-800">{formatDate(selectedUser.trialStartedAt)}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Trial Ends</p>
+                        <p className="text-sm font-semibold text-gray-800">{formatDate(selectedUser.trialEndsAt)}</p>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-gray-100">
+                        <p className="text-xs text-gray-500 mb-1">Has Used Trial</p>
+                        <p className="text-sm font-semibold text-gray-800">{selectedUser.hasUsedTrial ? 'Yes' : 'No'}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Trial Started</p>
-                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.trialStartedAt)}</p>
+                  ) : (
+                    <div className="space-y-4">
+                      {/* Status selector — always visible */}
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-600 mb-1">Status</label>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                          {[
+                            { value: 'REGISTERED', label: 'Registered', color: 'border-gray-400 text-gray-700 bg-gray-50', active: 'border-gray-600 bg-gray-600 text-white' },
+                            { value: 'TRIALED',    label: 'Trial',      color: 'border-blue-400 text-blue-700 bg-blue-50',  active: 'border-blue-600 bg-blue-600 text-white' },
+                            { value: 'PREMIUM',    label: 'Premium',    color: 'border-purple-400 text-purple-700 bg-purple-50', active: 'border-purple-600 bg-purple-600 text-white' },
+                            { value: 'SUSPENDED',  label: 'Suspended',  color: 'border-red-400 text-red-700 bg-red-50',    active: 'border-red-600 bg-red-600 text-white' },
+                          ].map(opt => (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => setSubForm(f => ({ ...f, status: opt.value }))}
+                              className={`py-2 px-3 rounded-lg border-2 text-sm font-semibold transition-all ${subForm.status === opt.value ? opt.active : opt.color}`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* PREMIUM: show expiry date only */}
+                      {subForm.status === 'PREMIUM' && (
+                        <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                          <p className="text-xs font-bold text-purple-700 mb-3 uppercase tracking-wide">Premium Access</p>
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Premium Expiry Date</label>
+                            <input
+                              type="date"
+                              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                              value={subForm.premiumExpiry}
+                              onChange={(e) => setSubForm(f => ({ ...f, premiumExpiry: e.target.value }))}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* TRIALED: show trial start + end dates */}
+                      {subForm.status === 'TRIALED' && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                          <p className="text-xs font-bold text-blue-700 mb-3 uppercase tracking-wide">Trial Dates</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="block text-xs font-semibold text-gray-600 mb-1">Trial Start Date</label>
+                              <input
+                                type="date"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                value={subForm.trialStartedAt}
+                                onChange={(e) => setSubForm(f => ({ ...f, trialStartedAt: e.target.value }))}
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-semibold text-gray-600 mb-1">Trial End Date</label>
+                              <input
+                                type="date"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                value={subForm.trialEndsAt}
+                                onChange={(e) => setSubForm(f => ({ ...f, trialEndsAt: e.target.value }))}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* SUSPENDED: show expiry for reference */}
+                      {subForm.status === 'SUSPENDED' && (
+                        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                          <p className="text-xs font-bold text-red-700 mb-3 uppercase tracking-wide">Suspension Details</p>
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-600 mb-1">Premium Expiry Date</label>
+                            <input
+                              type="date"
+                              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+                              value={subForm.premiumExpiry}
+                              onChange={(e) => setSubForm(f => ({ ...f, premiumExpiry: e.target.value }))}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Has Used Trial — always visible */}
+                      <div className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200">
+                        <span className="text-sm font-medium text-gray-700">Has Used Trial</span>
+                        <div className="flex gap-2">
+                          {['No', 'Yes'].map((label, i) => (
+                            <button
+                              key={label}
+                              type="button"
+                              onClick={() => setSubForm(f => ({ ...f, hasUsedTrial: i === 1 }))}
+                              className={`px-4 py-1.5 rounded-lg text-sm font-semibold border-2 transition-all ${
+                                subForm.hasUsedTrial === (i === 1)
+                                  ? 'bg-purple-600 border-purple-600 text-white'
+                                  : 'bg-white border-gray-300 text-gray-600'
+                              }`}
+                            >
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-xs text-gray-500">Trial Ends</p>
-                      <p className="text-sm font-medium text-gray-900">{formatDate(selectedUser.trialEndsAt)}</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
 
@@ -632,7 +794,7 @@ export default function AdminUsersPage() {
             {/* Modal Footer */}
             <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex justify-end gap-3">
               <button
-                onClick={() => setSelectedUser(null)}
+                onClick={() => { setSelectedUser(null); setEditingSub(false); }}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
               >
                 Close

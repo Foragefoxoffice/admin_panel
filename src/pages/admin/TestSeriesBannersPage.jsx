@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Trash2, Smartphone, Loader2, Filter, Image } from 'lucide-react';
+import { Plus, Trash2, Smartphone, Loader2, Filter, Image, CreditCard } from 'lucide-react';
 import { API_BASE_URL } from '@/utils/config';
+
+const getToken = () => localStorage.getItem('token');
 
 export default function TestSeriesBannersPage() {
     const [banners, setBanners] = useState([]);
@@ -10,9 +12,145 @@ export default function TestSeriesBannersPage() {
     const [successMessage, setSuccessMessage] = useState(null);
     const [deleteError, setDeleteError] = useState(null);
 
+    // Bundle purchase screen banners
+    const [bundleBanners, setBundleBanners] = useState([]);
+    const [bundleUploading, setBundleUploading] = useState(false);
+    const bundleFileRef = useRef(null);
+
+    // Per-package purchase screen banners
+    const [packages, setPackages] = useState([]);
+    const [selectedPkgId, setSelectedPkgId] = useState('');
+    const [pkgBanners, setPkgBanners] = useState([]);
+    const [pkgUploading, setPkgUploading] = useState(false);
+    const pkgFileRef = useRef(null);
+
     useEffect(() => {
         fetchBanners();
+        fetchBundleBanners();
+        fetchPackages();
     }, []);
+
+    const fetchBundleBanners = async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/test-series/bundle/price`, {
+                headers: { Authorization: `Bearer ${getToken()}` },
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const raw = Array.isArray(data.bannerImages) ? data.bannerImages : [];
+            setBundleBanners(raw.map(b => typeof b === 'string' ? { imageUrl: b } : b));
+        } catch {}
+    };
+
+    const handleBundleBannerUpload = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+        setBundleUploading(true);
+        try {
+            const formData = new FormData();
+            files.forEach(f => formData.append('banners', f));
+            const res = await fetch(`${API_BASE_URL}/test-series/bundle/banner`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${getToken()}` },
+                body: formData,
+            });
+            const data = await res.json();
+            const raw = Array.isArray(data.bannerImages) ? data.bannerImages : [];
+            setBundleBanners(raw.map(b => typeof b === 'string' ? { imageUrl: b } : b));
+            setSuccessMessage('Bundle banner uploaded!');
+            setTimeout(() => setSuccessMessage(null), 3000);
+        } catch {
+            setDeleteError('Upload failed');
+            setTimeout(() => setDeleteError(null), 3000);
+        } finally {
+            setBundleUploading(false);
+            if (bundleFileRef.current) bundleFileRef.current.value = '';
+        }
+    };
+
+    const handleDeleteBundleBanner = async (imageUrl) => {
+        if (!confirm('Delete this bundle banner?')) return;
+        try {
+            await fetch(`${API_BASE_URL}/test-series/bundle/banner`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bannerUrl: imageUrl }),
+            });
+            setBundleBanners(prev => prev.filter(b => b.imageUrl !== imageUrl));
+            setSuccessMessage('Banner deleted');
+            setTimeout(() => setSuccessMessage(null), 3000);
+        } catch {
+            setDeleteError('Delete failed');
+            setTimeout(() => setDeleteError(null), 3000);
+        }
+    };
+
+    const fetchPackages = async () => {
+        try {
+            const res = await fetch(`${API_BASE_URL}/test-series/packages`, {
+                headers: { Authorization: `Bearer ${getToken()}` },
+            });
+            const data = await res.json();
+            setPackages(Array.isArray(data) ? data : []);
+        } catch {}
+    };
+
+    const handleSelectPackage = (pkgId) => {
+        setSelectedPkgId(pkgId);
+        if (!pkgId) { setPkgBanners([]); return; }
+        const pkg = packages.find(p => String(p.id) === String(pkgId));
+        if (!pkg) return;
+        const raw = Array.isArray(pkg.bannerImages) ? pkg.bannerImages : (pkg.bannerImage ? [{ imageUrl: pkg.bannerImage }] : []);
+        setPkgBanners(raw.map(b => typeof b === 'string' ? { imageUrl: b } : b));
+    };
+
+    const handlePkgBannerUpload = async (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length || !selectedPkgId) return;
+        setPkgUploading(true);
+        try {
+            const formData = new FormData();
+            files.forEach(f => formData.append('banners', f));
+            const res = await fetch(`${API_BASE_URL}/test-series/packages/${selectedPkgId}/banner`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${getToken()}` },
+                body: formData,
+            });
+            const data = await res.json();
+            const raw = Array.isArray(data.bannerImages) ? data.bannerImages : [];
+            const normalized = raw.map(b => typeof b === 'string' ? { imageUrl: b } : b);
+            setPkgBanners(normalized);
+            // Update local packages state too
+            setPackages(prev => prev.map(p => String(p.id) === String(selectedPkgId)
+                ? { ...p, bannerImages: raw }
+                : p));
+            setSuccessMessage('Banner uploaded!');
+            setTimeout(() => setSuccessMessage(null), 3000);
+        } catch {
+            setDeleteError('Upload failed');
+            setTimeout(() => setDeleteError(null), 3000);
+        } finally {
+            setPkgUploading(false);
+            if (pkgFileRef.current) pkgFileRef.current.value = '';
+        }
+    };
+
+    const handleDeletePkgBanner = async (imageUrl) => {
+        if (!confirm('Delete this banner?')) return;
+        try {
+            await fetch(`${API_BASE_URL}/test-series/packages/${selectedPkgId}/banner`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bannerUrl: imageUrl }),
+            });
+            setPkgBanners(prev => prev.filter(b => b.imageUrl !== imageUrl));
+            setSuccessMessage('Banner deleted');
+            setTimeout(() => setSuccessMessage(null), 3000);
+        } catch {
+            setDeleteError('Delete failed');
+            setTimeout(() => setDeleteError(null), 3000);
+        }
+    };
 
     const fetchBanners = async () => {
         try {
@@ -165,6 +303,116 @@ export default function TestSeriesBannersPage() {
                         </AnimatePresence>
                     </motion.div>
                 )}
+                {/* ─── Per-Package Purchase Screen Banners ─── */}
+                <div className="mt-10">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                <CreditCard size={20} className="text-indigo-500" />
+                                Individual Package Purchase Banners
+                            </h2>
+                            <p className="text-gray-500 text-sm mt-1">Select a package to manage its purchase screen banners</p>
+                        </div>
+                        {selectedPkgId && (
+                            <label className="cursor-pointer bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-medium shadow flex items-center gap-2 w-fit transition-all">
+                                {pkgUploading ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
+                                {pkgUploading ? 'Uploading…' : 'Upload Banner'}
+                                <input ref={pkgFileRef} type="file" accept="image/*" multiple className="hidden"
+                                    onChange={handlePkgBannerUpload} disabled={pkgUploading} />
+                            </label>
+                        )}
+                    </div>
+
+                    <select
+                        value={selectedPkgId}
+                        onChange={e => handleSelectPackage(e.target.value)}
+                        className="w-full max-w-sm border border-gray-300 rounded-xl px-4 py-2.5 text-sm mb-5 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    >
+                        <option value="">— Select a package —</option>
+                        {packages.map(p => (
+                            <option key={p.id} value={p.id}>{p.title}</option>
+                        ))}
+                    </select>
+
+                    {selectedPkgId && (
+                        pkgBanners.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-10 text-center bg-white rounded-2xl border border-gray-100">
+                                <p className="text-gray-500 text-sm">No banners for this package yet. Upload one above.</p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {pkgBanners.map((b, i) => {
+                                    const fullUrl = b.imageUrl?.startsWith('http')
+                                        ? b.imageUrl
+                                        : `${API_BASE_URL.replace('/api', '')}${b.imageUrl}`;
+                                    return (
+                                        <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group">
+                                            <div className="relative aspect-[2/1] overflow-hidden bg-gray-100">
+                                                <img src={fullUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={`pkg-banner-${i}`} />
+                                            </div>
+                                            <div className="p-3 flex justify-end">
+                                                <button onClick={() => handleDeletePkgBanner(b.imageUrl)}
+                                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )
+                    )}
+                </div>
+
+                {/* ─── Bundle Purchase Screen Banners ─── */}
+                <div className="mt-10">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                        <div>
+                            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                <CreditCard size={20} className="text-purple-500" />
+                                Purchase Screen Banners
+                            </h2>
+                            <p className="text-gray-500 text-sm mt-1">Banners shown on the "Purchase Test Series" screen (individual + bundle)</p>
+                        </div>
+                        <label className="cursor-pointer bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-purple-500/30 flex items-center gap-2 w-fit transition-all">
+                            {bundleUploading ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
+                            {bundleUploading ? 'Uploading…' : 'Upload Banner'}
+                            <input ref={bundleFileRef} type="file" accept="image/*" multiple className="hidden"
+                                onChange={handleBundleBannerUpload} disabled={bundleUploading} />
+                        </label>
+                    </div>
+
+                    {bundleBanners.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center py-12 text-center bg-white rounded-2xl border border-gray-100">
+                            <div className="w-16 h-16 bg-purple-50 rounded-full flex items-center justify-center mb-3">
+                                <CreditCard className="text-purple-300" size={28} />
+                            </div>
+                            <p className="text-gray-500 text-sm">No purchase screen banners yet. Upload one above.</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {bundleBanners.map((b, i) => {
+                                const fullUrl = b.imageUrl?.startsWith('http')
+                                    ? b.imageUrl
+                                    : `${API_BASE_URL.replace('/api', '')}${b.imageUrl}`;
+                                return (
+                                    <div key={i} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group">
+                                        <div className="relative aspect-[2/1] overflow-hidden bg-gray-100">
+                                            <img src={fullUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt={`banner-${i}`} />
+                                        </div>
+                                        <div className="p-3 flex justify-end">
+                                            <button onClick={() => handleDeleteBundleBanner(b.imageUrl)}
+                                                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+
             </div>
         </div>
     );

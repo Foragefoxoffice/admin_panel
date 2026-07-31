@@ -3,17 +3,32 @@ import { sendAdminNotification, fetchAllUsers } from "../../utils/api";
 
 const SendNotification = () => {
     const [users, setUsers] = useState([]);
-    const [sendType, setSendType] = useState('all'); // 'all', 'status', 'specific'
+    const [sendType, setSendType] = useState('all'); // 'all', 'status', 'date', 'specific'
     const [subscriptionStatus, setSubscriptionStatus] = useState('ALL');
+    const [dateFilter, setDateFilter] = useState({ field: 'trialEndsAt', condition: 'in_next', days: 3 });
     const [selectedUsers, setSelectedUsers] = useState([]); // Changed to array for multiple selection
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
-    const [preview, setPreview] = useState({ title: "", message: "" }); // Object for title and message preview
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+    const [preview, setPreview] = useState({ title: "", message: "" });
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState({ type: "", text: "" });
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        setImageFile(file);
+        setImagePreview(URL.createObjectURL(file));
+    };
+
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+    };
 
     // Load all users when page loads
     useEffect(() => {
@@ -75,6 +90,28 @@ const SendNotification = () => {
         setPreview({ title: replacedTitle, message: replacedMessage });
     };
 
+    // Compute users matching the date filter
+    const getDateFilteredUserIds = () => {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+        const { field, condition, days } = dateFilter;
+        return users
+            .filter(u => {
+                const raw = u[field];
+                if (!raw) return false;
+                const d = new Date(raw);
+                d.setHours(0, 0, 0, 0);
+                const diffDays = Math.round((d - now) / 86400000); // positive = future
+                if (condition === 'in_next') return diffDays >= 0 && diffDays <= days;
+                if (condition === 'expired_within') return diffDays < 0 && diffDays >= -days;
+                if (condition === 'today') return diffDays === 0;
+                return false;
+            })
+            .map(u => u.id);
+    };
+
+    const dateFilteredCount = sendType === 'date' ? getDateFilteredUserIds().length : 0;
+
     // Handle send
     const handleSend = async () => {
         if (!title.trim() || !message.trim()) {
@@ -85,6 +122,14 @@ const SendNotification = () => {
         if (sendType === 'specific' && selectedUsers.length === 0) {
             setAlert({ type: "error", text: "Please select at least one user." });
             return;
+        }
+
+        if (sendType === 'date') {
+            const ids = getDateFilteredUserIds();
+            if (ids.length === 0) {
+                setAlert({ type: "error", text: "No users match the selected date filter." });
+                return;
+            }
         }
 
         setLoading(true);
@@ -100,15 +145,19 @@ const SendNotification = () => {
                 payload.sendToAll = true;
             } else if (sendType === 'status') {
                 payload.subscriptionStatus = subscriptionStatus;
+            } else if (sendType === 'date') {
+                payload.userIds = getDateFilteredUserIds();
             } else {
-                payload.userIds = selectedUsers; // Array of user IDs
+                payload.userIds = selectedUsers;
             }
 
-            await sendAdminNotification(payload);
+            await sendAdminNotification(payload, imageFile);
 
             setAlert({ type: "success", text: "Notification sent successfully!" });
             setTitle("");
             setMessage("");
+            setImageFile(null);
+            setImagePreview(null);
             setPreview({ title: "", message: "" });
             setSelectedUsers([]);
             setSearchQuery("");
@@ -193,11 +242,45 @@ const SendNotification = () => {
                     </div>
                 </div>
 
+                {/* Image Attachment */}
+                <div>
+                    <label className="block text-sm font-bold text-[#35095E] mb-2">
+                        Image Attachment <span className="text-gray-400 font-normal">(optional)</span>
+                    </label>
+                    {!imagePreview ? (
+                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-purple-300 rounded-xl cursor-pointer bg-purple-50 hover:bg-purple-100 transition-colors">
+                            <div className="flex flex-col items-center gap-1 text-purple-500">
+                                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <span className="text-sm font-medium">Click to upload image</span>
+                                <span className="text-xs text-gray-400">PNG, JPG, WEBP — max 5 MB</span>
+                            </div>
+                            <input type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                        </label>
+                    ) : (
+                        <div className="relative inline-block">
+                            <img src={imagePreview} alt="preview" className="h-40 rounded-xl object-cover border-2 border-purple-200" />
+                            <button
+                                type="button"
+                                onClick={removeImage}
+                                className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 shadow-md"
+                            >
+                                ✕
+                            </button>
+                            <p className="text-xs text-gray-500 mt-1">{imageFile?.name}</p>
+                        </div>
+                    )}
+                </div>
+
                 {/* Preview Output */}
                 {(preview.title || preview.message) && (
                     <div className="bg-purple-50 border-2 border-[#51216E] rounded-lg p-5">
                         <h3 className="font-bold text-[#35095E] mb-3">Preview Output</h3>
                         <div className="bg-white rounded-lg p-4 space-y-3">
+                            {imagePreview && (
+                                <img src={imagePreview} alt="notification" className="w-full max-h-48 object-cover rounded-lg" />
+                            )}
                             {preview.title && (
                                 <div>
                                     <p className="text-xs text-gray-500 mb-1">Title:</p>
@@ -218,7 +301,7 @@ const SendNotification = () => {
                 <div className="bg-gray-50 rounded-lg p-5 space-y-4">
                     <h3 className="font-bold text-[#35095E]">Select Recipients</h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {/* All Users Option */}
                         <label className="cursor-pointer">
                             <input
@@ -260,6 +343,27 @@ const SendNotification = () => {
                                     <div>
                                         <p className="font-bold text-[#35095E]">By Status</p>
                                         <p className="text-xs text-gray-500">Filter by subscription</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
+
+                        {/* By Date Option */}
+                        <label className="cursor-pointer">
+                            <input
+                                type="radio"
+                                checked={sendType === 'date'}
+                                onChange={() => setSendType('date')}
+                                className="peer sr-only"
+                            />
+                            <div className="p-4 border-2 border-gray-200 rounded-lg peer-checked:border-[#51216E] peer-checked:bg-purple-50 transition-all hover:border-[#51216E] h-full">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center flex-shrink-0">
+                                        {sendType === 'date' && <div className="w-2 h-2 bg-[#51216E] rounded-full"></div>}
+                                    </div>
+                                    <div>
+                                        <p className="font-bold text-[#35095E]">By Date</p>
+                                        <p className="text-xs text-gray-500">Trial / Premium dates</p>
                                     </div>
                                 </div>
                             </div>
@@ -315,6 +419,125 @@ const SendNotification = () => {
                                 {subscriptionStatus === 'SUSPENDED' && 'Send to suspended users'}
                                 {subscriptionStatus === 'TRIALED' && 'Send to users whose trial has expired'}
                             </p>
+                        </div>
+                    )}
+
+                    {/* Date-based filter */}
+                    {sendType === 'date' && (
+                        <div className="mt-4 space-y-4">
+                            {/* Quick preset chips */}
+                            <div>
+                                <label className="block text-sm font-bold text-[#35095E] mb-2">Quick Presets</label>
+                                <div className="flex flex-wrap gap-2">
+                                    {[
+                                        { label: '🔔 Trial ending in 1 day',   field: 'trialEndsAt',    condition: 'in_next',        days: 1 },
+                                        { label: '🔔 Trial ending in 3 days',   field: 'trialEndsAt',    condition: 'in_next',        days: 3 },
+                                        { label: '📅 Trial starts today',        field: 'trialStartedAt', condition: 'today',          days: 0 },
+                                        { label: '⏰ Premium expiring in 7 days', field: 'premiumExpiry',  condition: 'in_next',        days: 7 },
+                                        { label: '⏰ Premium expiring in 3 days', field: 'premiumExpiry',  condition: 'in_next',        days: 3 },
+                                        { label: '💔 Trial expired today',        field: 'trialEndsAt',    condition: 'expired_within', days: 1 },
+                                        { label: '💔 Premium expired today',      field: 'premiumExpiry',  condition: 'expired_within', days: 1 },
+                                    ].map((p) => {
+                                        const active = dateFilter.field === p.field && dateFilter.condition === p.condition && dateFilter.days === p.days;
+                                        return (
+                                            <button
+                                                key={p.label}
+                                                type="button"
+                                                onClick={() => setDateFilter({ field: p.field, condition: p.condition, days: p.days })}
+                                                className={`px-3 py-1.5 rounded-full text-xs font-semibold border-2 transition-all ${active ? 'bg-[#51216E] border-[#51216E] text-white' : 'bg-white border-gray-300 text-gray-700 hover:border-[#51216E]'}`}
+                                            >
+                                                {p.label}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Custom filter */}
+                            <div className="bg-white border-2 border-purple-200 rounded-xl p-4 space-y-3">
+                                <p className="text-xs font-bold text-purple-700 uppercase tracking-wide">Custom Filter</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    {/* Field */}
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-600 mb-1">Date Field</label>
+                                        <select
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                            value={dateFilter.field}
+                                            onChange={e => setDateFilter(f => ({ ...f, field: e.target.value }))}
+                                        >
+                                            <option value="trialStartedAt">Trial Start Date</option>
+                                            <option value="trialEndsAt">Trial End Date</option>
+                                            <option value="premiumExpiry">Premium Expiry Date</option>
+                                        </select>
+                                    </div>
+                                    {/* Condition */}
+                                    <div>
+                                        <label className="block text-xs font-semibold text-gray-600 mb-1">Condition</label>
+                                        <select
+                                            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                            value={dateFilter.condition}
+                                            onChange={e => setDateFilter(f => ({ ...f, condition: e.target.value }))}
+                                        >
+                                            {dateFilter.field === 'trialStartedAt' ? (
+                                                <>
+                                                    <option value="in_next">Starts in next N days</option>
+                                                    <option value="expired_within">Started within last N days</option>
+                                                    <option value="today">Is today</option>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <option value="in_next">Expires in next N days</option>
+                                                    <option value="expired_within">Expired within last N days</option>
+                                                    <option value="today">Is today</option>
+                                                </>
+                                            )}
+                                        </select>
+                                    </div>
+                                    {/* Days */}
+                                    {dateFilter.condition !== 'today' && (
+                                        <div>
+                                            <label className="block text-xs font-semibold text-gray-600 mb-1">Days (N)</label>
+                                            <input
+                                                type="number"
+                                                min={1}
+                                                max={365}
+                                                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
+                                                value={dateFilter.days}
+                                                onChange={e => setDateFilter(f => ({ ...f, days: Math.max(1, Number(e.target.value)) }))}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Matching users count */}
+                            <div className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 ${dateFilteredCount > 0 ? 'bg-emerald-50 border-emerald-300' : 'bg-red-50 border-red-300'}`}>
+                                <span className="text-2xl font-bold" style={{ color: dateFilteredCount > 0 ? '#059669' : '#dc2626' }}>
+                                    {dateFilteredCount}
+                                </span>
+                                <div>
+                                    <p className={`text-sm font-semibold ${dateFilteredCount > 0 ? 'text-emerald-700' : 'text-red-700'}`}>
+                                        {dateFilteredCount > 0 ? `user${dateFilteredCount !== 1 ? 's' : ''} match this filter` : 'No users match this filter'}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {dateFilter.condition === 'in_next' && (
+                                            dateFilter.field === 'trialStartedAt'
+                                                ? `Trial starting in the next ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                                : dateFilter.field === 'premiumExpiry'
+                                                    ? `Premium expiring in the next ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                                    : `Trial expiring in the next ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                        )}
+                                        {dateFilter.condition === 'expired_within' && (
+                                            dateFilter.field === 'trialStartedAt'
+                                                ? `Trial started within the last ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                                : dateFilter.field === 'premiumExpiry'
+                                                    ? `Premium expired within the last ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                                    : `Trial expired within the last ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
+                                        )}
+                                        {dateFilter.condition === 'today' && `${dateFilter.field === 'trialStartedAt' ? 'Trial started' : dateFilter.field === 'trialEndsAt' ? 'Trial ends' : 'Premium expires'} today`}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     )}
 

@@ -287,6 +287,16 @@ export const deleteUser = async (id) => {
   }
 };
 
+export const updateUserSubscription = async (id, payload) => {
+  try {
+    const { data } = await API.put(`/users/${id}/subscription`, payload);
+    return data;
+  } catch (error) {
+    console.error("Error updating user subscription:", error);
+    throw error;
+  }
+};
+
 // ✅ Flip a PDF's premium flag (true / false)
 export const updatePdfPremium = async (pdfId, isPremium) => {
   try {
@@ -393,9 +403,29 @@ export const fetchMyNotifications = async () => {
 // Payload format:
 // - Send to all: { title, message, sendToAll: true }
 // - Send to specific users: { title, message, userIds: [1, 2, 3] }
-export const sendAdminNotification = async (payload) => {
+// Always upload images to production so mobile can reach them
+const PROD_API = axios.create({ baseURL: "https://mitoslearning.in/api" });
+PROD_API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+export const sendAdminNotification = async (payload, imageFile) => {
   try {
-    const { data } = await API.post("/notifications/send", payload);
+    let finalPayload = { ...payload };
+
+    // Upload image to production first so the URL is publicly accessible
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      const { data: uploadData } = await PROD_API.post("/notifications/upload-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      finalPayload.imageUrl = uploadData.imageUrl;
+    }
+
+    const { data } = await API.post("/notifications/send", finalPayload);
     return data;
   } catch (error) {
     console.error("Error sending notification:", error.response?.data || error.message);
@@ -584,6 +614,90 @@ export const deleteNeetPlan = async (id) => {
   }
 };
 
+
+// ================================
+//  SUBSCRIPTION FEATURE APIs (ADMIN)
+// ================================
+
+export const getSubscriptionFeaturesAdmin = async () => {
+  try {
+    const { data } = await API.get("/subscription-features/admin");
+    return data;
+  } catch (error) {
+    console.error("Fetch subscription features error:", error);
+    throw error;
+  }
+};
+
+export const createFeatureCategory = async (payload) => {
+  try {
+    const { data } = await API.post("/subscription-features/categories", payload);
+    return data;
+  } catch (error) {
+    console.error("Create category error:", error);
+    throw error;
+  }
+};
+
+export const updateFeatureCategory = async (id, payload) => {
+  try {
+    const { data } = await API.put(`/subscription-features/categories/${id}`, payload);
+    return data;
+  } catch (error) {
+    console.error("Update category error:", error);
+    throw error;
+  }
+};
+
+export const deleteFeatureCategory = async (id) => {
+  try {
+    const { data } = await API.delete(`/subscription-features/categories/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Delete category error:", error);
+    throw error;
+  }
+};
+
+export const createSubscriptionFeature = async (payload) => {
+  try {
+    const { data } = await API.post("/subscription-features/features", payload);
+    return data;
+  } catch (error) {
+    console.error("Create feature error:", error);
+    throw error;
+  }
+};
+
+export const updateSubscriptionFeature = async (id, payload) => {
+  try {
+    const { data } = await API.put(`/subscription-features/features/${id}`, payload);
+    return data;
+  } catch (error) {
+    console.error("Update feature error:", error);
+    throw error;
+  }
+};
+
+export const deleteSubscriptionFeature = async (id) => {
+  try {
+    const { data } = await API.delete(`/subscription-features/features/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Delete feature error:", error);
+    throw error;
+  }
+};
+
+export const fetchSettings = async () => {
+  const { data } = await API.get("/settings");
+  return data;
+};
+
+export const updateSetting = async (key, value) => {
+  const { data } = await API.put(`/settings/${key}`, { value });
+  return data;
+};
 
 export default API;
 

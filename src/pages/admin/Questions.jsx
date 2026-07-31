@@ -417,8 +417,8 @@ export default function QuestionsPage() {
                 disabled={currentPage === 1}
                 aria-label="Previous page"
                 className={`px-3 py-1 rounded-md ${currentPage === 1
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
                   }`}
               >
                 &lt;
@@ -437,8 +437,8 @@ export default function QuestionsPage() {
                     aria-current={currentPage === number ? "page" : undefined}
                     aria-label={`Page ${number}`}
                     className={`px-3 py-1 rounded-md ${currentPage === number
-                        ? "bg-[#35095e] text-white"
-                        : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                      ? "bg-[#35095e] text-white"
+                      : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
                       }`}
                   >
                     {number}
@@ -455,8 +455,8 @@ export default function QuestionsPage() {
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
                 className={`px-3 py-1 rounded-md ${currentPage === totalPages
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
+                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                  : "bg-[#35095e2e] text-gray-700 hover:bg-[#35095e4d]"
                   }`}
               >
                 &gt;

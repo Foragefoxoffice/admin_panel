@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Select from "react-select";
 import { FaQuestion, FaListUl, FaCheck, FaLightbulb, FaPlus, FaTrash } from "react-icons/fa6";
+import { ArrowLeft } from "lucide-react";
 import useAuth from "@/contexts/useAuth";
 import { API_BASE_URL, BASE_URL } from "@/utils/config";
+import { updateWrongQuestionReportStatus } from "@/utils/api";
 import RichTextEditor from "@/components/Tiptap";
 import { MathJaxContext } from "better-react-mathjax";
 
@@ -12,6 +14,8 @@ export default function TestSeriesQuestionFormPage() {
   const { questionId } = useParams();
   const isEdit = Boolean(questionId);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { fromReport, reportId, returnPage } = location.state || {};
 
   // Cascade selects
   const [subjects, setSubjects] = useState([]);
@@ -245,7 +249,16 @@ export default function TestSeriesQuestionFormPage() {
 
       if (isEdit) {
         setMessage("Question updated successfully!");
-        setTimeout(() => navigate("/admin/test-series/questions"), 1500);
+        if (fromReport && reportId) {
+          try {
+            await updateWrongQuestionReportStatus(reportId, "resolved");
+          } catch (e) {
+            console.error("Failed to auto-resolve report:", e);
+          }
+          setTimeout(() => navigate(`/admin/reports?page=${returnPage || 1}`, { state: { activeTab: "test-series" } }), 1000);
+        } else {
+          setTimeout(() => navigate("/admin/test-series/questions"), 1500);
+        }
       } else {
         setMessage("Question added to Test Series bank!");
         // Reset form for next entry
@@ -331,6 +344,19 @@ export default function TestSeriesQuestionFormPage() {
       <div className="relative h-screen overflow-hidden">
         {/* Fixed Top Nav */}
         <nav className="top-0 left-0 right-0 bg-white z-40 py-3 px-6 border-b border-gray-200">
+          {fromReport && (
+            <div className="flex items-center gap-3 mb-2 py-2 px-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <span className="text-amber-700 text-xs font-semibold">Editing from Report #{reportId}</span>
+              <span className="text-amber-600 text-xs">— Saving will auto-mark the report as Resolved and return you to Reports.</span>
+              <button
+                type="button"
+                onClick={() => navigate(`/admin/reports?page=${returnPage || 1}`, { state: { activeTab: "test-series" } })}
+                className="ml-auto flex items-center gap-1 text-xs text-amber-700 hover:text-amber-900 font-semibold"
+              >
+                <ArrowLeft size={14} /> Back to Reports
+              </button>
+            </div>
+          )}
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <h1 className="font-bold text-xl text-purple-800">

@@ -4,11 +4,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Trash2, Globe, Smartphone, Monitor, Filter, AlertCircle, Check, Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '@/utils/config';
 
+const SEGMENT_LABELS = {
+    ALL: 'All Users',
+    REGISTERED: 'Registered',
+    PREMIUM: 'Premium',
+    TRIALED: 'Trialed',
+    ACTIVE_TRIAL: 'Active Trial',
+    TRIAL_EXPIRED: 'Trial Expired',
+    SUSPENDED: 'Suspended',
+};
+
+const SEGMENT_COLORS = {
+    ALL: 'bg-gray-100 text-gray-600',
+    REGISTERED: 'bg-blue-100 text-blue-700',
+    PREMIUM: 'bg-yellow-100 text-yellow-700',
+    TRIALED: 'bg-purple-100 text-purple-700',
+    ACTIVE_TRIAL: 'bg-green-100 text-green-700',
+    TRIAL_EXPIRED: 'bg-red-100 text-red-700',
+    SUSPENDED: 'bg-orange-100 text-orange-700',
+};
+
 export default function BannerListPage() {
     const [banners, setBanners] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('ALL');
+    const [sectionTab, setSectionTab] = useState('HOME');
 
     useEffect(() => {
         fetchBanners();
@@ -65,7 +86,8 @@ export default function BannerListPage() {
     const filteredBanners = banners.filter(b => {
         const matchesSearch = b.title.toLowerCase().includes(search.toLowerCase());
         const matchesFilter = filter === 'ALL' || b.platform === filter;
-        return matchesSearch && matchesFilter;
+        const matchesSection = b.section === sectionTab;
+        return matchesSearch && matchesFilter && matchesSection;
     });
 
     const getPlatformIcon = (platform) => {
@@ -88,13 +110,42 @@ export default function BannerListPage() {
                         <p className="text-gray-500 mt-1">Manage, track, and optimize your promotional banners</p>
                     </div>
                     <Link
-                        to="/admin/addbanners"
+                        to={`/admin/addbanners?section=${sectionTab}`}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium shadow-lg shadow-blue-500/30 active:scale-95 transition-all flex items-center gap-2"
                     >
                         <Plus size={20} />
                         Create Banner
                     </Link>
                 </div>
+
+                {/* Section Tabs */}
+                <div className="flex gap-2 border-b border-gray-200 pb-0">
+                    {[
+                        { key: 'HOME', label: 'Home Screen' },
+                        { key: 'TEST_SERIES', label: 'Test Series' },
+                        { key: 'UPSELL', label: 'Upsell Screen' },
+                    ].map(({ key, label }) => (
+                        <button
+                            key={key}
+                            onClick={() => setSectionTab(key)}
+                            className={`px-5 py-2.5 text-sm font-semibold rounded-t-lg transition-colors border-b-2 ${sectionTab === key
+                                ? 'border-blue-600 text-blue-600 bg-blue-50'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                            }`}
+                        >
+                            {label}
+                            <span className="ml-2 text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                                {banners.filter(b => b.section === key).length}
+                            </span>
+                        </button>
+                    ))}
+                </div>
+
+                {sectionTab === 'UPSELL' && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-800">
+                        These banners appear at the top of the upgrade/upsell screen. Each banner targets a specific user segment (e.g. Trial Expired, Registered). Upload different banners per segment for personalized messaging.
+                    </div>
+                )}
 
                 {/* Controls Bar */}
                 <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-2">
@@ -165,14 +216,32 @@ export default function BannerListPage() {
                                                 <select
                                                     value={banner.section || 'HOME'}
                                                     onChange={(e) => changeSection(banner._id, banner.section, e.target.value)}
-                                                    className={`text-[11px] font-bold px-2 py-0.5 rounded-full border-0 cursor-pointer outline-none ${banner.section === 'TEST_SERIES' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'}`}
+                                                    className={`text-[11px] font-bold px-2 py-0.5 rounded-full border-0 cursor-pointer outline-none ${
+                                                        banner.section === 'TEST_SERIES' ? 'bg-purple-100 text-purple-700'
+                                                        : banner.section === 'UPSELL' ? 'bg-rose-100 text-rose-700'
+                                                        : 'bg-gray-100 text-gray-600'
+                                                    }`}
                                                 >
                                                     <option value="HOME">Home</option>
                                                     <option value="TEST_SERIES">Test Series</option>
+                                                    <option value="UPSELL">Upsell</option>
                                                 </select>
                                                 <span className="text-xs text-gray-400">Pr: {banner.priority}</span>
                                             </div>
                                         </div>
+                                        {(() => {
+                                            const targets = Array.isArray(banner.targetUsers)
+                                                ? banner.targetUsers
+                                                : (() => { try { return JSON.parse(banner.targetUsers || '["ALL"]'); } catch { return ['ALL']; } })();
+                                            return targets.map(t => (
+                                                <span
+                                                    key={t}
+                                                    className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-full mr-1 mb-1 ${SEGMENT_COLORS[t] || 'bg-gray-100 text-gray-600'}`}
+                                                >
+                                                    {SEGMENT_LABELS[t] || t}
+                                                </span>
+                                            ));
+                                        })()}
 
                                         <h3 className="font-bold text-gray-900 line-clamp-1 mb-1">{banner.title}</h3>
                                         <p className="text-xs text-gray-500 truncate mb-4">{banner.redirectUrl}</p>

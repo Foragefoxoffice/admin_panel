@@ -26,6 +26,7 @@ import {
   CrownOutlined,
   InboxOutlined,
   AppstoreOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import useAuth from '@/contexts/useAuth.jsx';
 
@@ -47,6 +48,7 @@ function buildMenuItems(navigate) {
       label: 'Test Series',
       children: [
         { key: '/admin/test-series',           label: 'Packages',  icon: <InboxOutlined />,   onClick: go('/admin/test-series') },
+        { key: '/admin/test-series/questions', label: 'Questions', icon: <QuestionCircleOutlined />, onClick: go('/admin/test-series/questions') },
         { key: '/admin/test-series/purchases', label: 'Purchases', icon: <ShoppingOutlined />, onClick: go('/admin/test-series/purchases') },
         { key: '/admin/test-series/banners',   label: 'Banners',   icon: <PictureOutlined />,  onClick: go('/admin/test-series/banners') },
       ],
@@ -80,6 +82,7 @@ function buildMenuItems(navigate) {
       children: [
         { key: '/admin/neet-plans',        label: 'All Plans',    icon: <UnorderedListOutlined />, onClick: go('/admin/neet-plans') },
         { key: '/admin/neet-plans/create', label: 'Create Plan',  icon: <PlusOutlined />,          onClick: go('/admin/neet-plans/create') },
+        { key: '/admin/Plan Features', label: 'Plan Features',  icon: <QuestionCircleOutlined />,          onClick: go('/admin/subscription-features') },
       ],
     },
     {
@@ -102,8 +105,9 @@ function buildMenuItems(navigate) {
       ],
     },
     { key: '/admin/send-notification', icon: <SendOutlined />,   label: 'Notifications', onClick: go('/admin/send-notification') },
-    { key: '/admin/blocks',            icon: <StopOutlined />,   label: 'Blocks',        onClick: go('/admin/blocks') },
-    { key: '/admin/reports',           icon: <BarChartOutlined />, label: 'Reports',     onClick: go('/admin/reports') },
+    { key: '/admin/blocks',            icon: <StopOutlined />,     label: 'Blocks',        onClick: go('/admin/blocks') },
+    { key: '/admin/settings',          icon: <SettingOutlined />,  label: 'App Settings',  onClick: go('/admin/settings') },
+    { key: '/admin/reports',           icon: <BarChartOutlined />, label: 'Reports',       onClick: go('/admin/reports') },
     {
       key: 'news-group',
       icon: <BellOutlined />,
@@ -128,6 +132,7 @@ function buildMenuItems(navigate) {
 /* ─── Route → selected key ──────────────────────────────────────────────────── */
 function getSelectedKey(pathname) {
   if (pathname === '/admin/test-series')           return '/admin/test-series';
+  if (pathname === '/admin/test-series/questions') return '/admin/test-series/questions';
   if (pathname === '/admin/test-series/purchases') return '/admin/test-series/purchases';
   if (pathname === '/admin/test-series/banners')   return '/admin/test-series/banners';
   if (pathname === '/admin/neet-plans')            return '/admin/neet-plans';
@@ -174,6 +179,7 @@ const PAGE_LABELS = {
   '/admin/banners':             { label: 'Banners',             icon: <PictureOutlined /> },
   '/admin/addbanners':          { label: 'Add Banner',          icon: <PlusOutlined /> },
   '/admin/test-series':         { label: 'Test Series — Packages',  icon: <SnippetsOutlined /> },
+  '/admin/test-series/questions': { label: 'Test Series — Questions', icon: <QuestionCircleOutlined /> },
   '/admin/test-series/purchases':{ label: 'Test Series — Purchases', icon: <ShoppingOutlined /> },
   '/admin/test-series/banners':  { label: 'Test Series — Banners',  icon: <PictureOutlined /> },
   '/admin/test-series/create':  { label: 'Test Series — New Package', icon: <PlusOutlined /> },

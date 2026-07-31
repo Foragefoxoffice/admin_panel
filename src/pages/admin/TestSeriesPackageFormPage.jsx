@@ -5,7 +5,7 @@ import { API_BASE_URL } from "@/utils/config";
 import toast from "react-hot-toast";
 import {
   ArrowLeft, Save, Smartphone, Package, Plus, X,
-  Type, FileText, Tag, Star,
+  Type, FileText, Tag, Star, Image, Trash2, Upload,
 } from "lucide-react";
 
 export default function TestSeriesPackageFormPage() {
@@ -23,6 +23,10 @@ export default function TestSeriesPackageFormPage() {
   const [paymentSubtitle, setPaymentSubtitle] = useState("");
   const [features, setFeatures] = useState([]);
   const [newFeature, setNewFeature] = useState("");
+  const [bannerImages, setBannerImages] = useState([]); // current saved URLs
+  const [bannerFiles, setBannerFiles] = useState([]);   // new files to upload
+  const [bannerPreviews, setBannerPreviews] = useState([]);
+  const [bannerUploading, setBannerUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(isEdit);
 
@@ -43,6 +47,8 @@ export default function TestSeriesPackageFormPage() {
         setPhysicalMrp(data.physicalMrp ?? "");
         setPaymentSubtitle(data.paymentSubtitle || "");
         setFeatures(Array.isArray(data.features) ? data.features : []);
+        const rawBanners = data.bannerImages || (data.bannerImage ? [data.bannerImage] : []);
+        setBannerImages(rawBanners.map(b => (typeof b === 'string' ? { imageUrl: b, redirectUrl: "" } : b)));
       } catch { toast.error("Failed to load package"); }
       finally { setFetching(false); }
     };
@@ -60,6 +66,82 @@ export default function TestSeriesPackageFormPage() {
     setFeatures((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleBannerSelect = (e) => {
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    
+    if (isEdit) {
+      // Immediate upload for existing packages
+      handleBannerUpload(packageId, files);
+    } else {
+      // Store for upload after creation for new packages
+      setBannerFiles(prev => [...prev, ...files]);
+      const newPreviews = files.map(file => ({
+        file,
+        url: URL.createObjectURL(file)
+      }));
+      setBannerPreviews(prev => [...prev, ...newPreviews]);
+    }
+    // Reset input so same file can be chose again
+    e.target.value = '';
+  };
+
+  const handleBannerUpload = async (pkgId, filesToUpload = bannerFiles) => {
+    if (filesToUpload.length === 0) return;
+    setBannerUploading(true);
+    try {
+      const form = new FormData();
+      filesToUpload.forEach(file => {
+        form.append("banners", file);
+      });
+      const { data } = await axios.post(
+        `${API_BASE_URL}/test-series/packages/${pkgId}/banner`,
+        form,
+        { headers: { ...headers, "Content-Type": "multipart/form-data" } }
+      );
+      const uploaded = data.bannerImages.map(b => (typeof b === 'string' ? { imageUrl: b, redirectUrl: "" } : b));
+      setBannerImages(uploaded);
+      if (isEdit) {
+        toast.success("Banner(s) uploaded");
+      } else {
+        setBannerFiles([]);
+        setBannerPreviews([]);
+      }
+    } catch (err) { 
+      console.error("Banner upload error:", err);
+      toast.error("Failed to upload banners"); 
+    }
+    finally { setBannerUploading(false); }
+  };
+
+  const handleBannerDelete = async (bannerUrl) => {
+    if (!packageId) return;
+    const urlToDelete = typeof bannerUrl === 'string' ? bannerUrl : bannerUrl?.imageUrl;
+    if (!urlToDelete) {
+      console.warn("handleBannerDelete: No valid banner URL found", bannerUrl);
+      return;
+    }
+
+    try {
+      await axios.delete(`${API_BASE_URL}/test-series/packages/${packageId}/banner`, { 
+        headers,
+        data: { bannerUrl: urlToDelete }
+      });
+      setBannerImages(prev => prev.filter(b => (typeof b === 'string' ? b : b.imageUrl) !== urlToDelete));
+      toast.success("Banner removed");
+    } catch (err) { 
+      console.error("Banner remove error:", err);
+      toast.error("Failed to remove banner"); 
+    }
+  };
+
+  const handleRemovePreview = (index) => {
+    const preview = bannerPreviews[index];
+    URL.revokeObjectURL(preview.url);
+    setBannerPreviews(prev => prev.filter((_, i) => i !== index));
+    setBannerFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) return toast.error("Title is required");
@@ -71,6 +153,7 @@ export default function TestSeriesPackageFormPage() {
       physicalMrp: physicalMrp !== "" ? Number(physicalMrp) : null,
       paymentSubtitle: paymentSubtitle.trim() || null,
       features: features.length > 0 ? features : null,
+      bannerImages: bannerImages, // Include banner images with their redirect URLs
     };
     setLoading(true);
     try {
@@ -78,7 +161,8 @@ export default function TestSeriesPackageFormPage() {
         await axios.put(`${API_BASE_URL}/test-series/packages/${packageId}`, payload, { headers });
         toast.success("Package updated");
       } else {
-        await axios.post(`${API_BASE_URL}/test-series/packages`, payload, { headers });
+        const { data: newPkg } = await axios.post(`${API_BASE_URL}/test-series/packages`, payload, { headers });
+        if (bannerFiles.length > 0) await handleBannerUpload(newPkg.id, bannerFiles);
         toast.success("Package created");
       }
       navigate("/admin/test-series");
@@ -93,35 +177,30 @@ export default function TestSeriesPackageFormPage() {
 
   if (fetching) {
     return (
-      <div className="min-h-screen bg-gray-50/60 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-700" />
+      <div className="flex items-center justify-center h-48">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-700" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/60">
-      {/* ── Hero Header ─────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-[#3d1a5c] via-[#512878] to-[#693f86] px-8 pt-6 pb-10">
-        <div className="max-w-3xl mx-auto">
-          <button
-            onClick={() => navigate("/admin/test-series")}
-            className="flex items-center gap-2 text-purple-300 hover:text-white text-sm mb-4 transition-colors"
-          >
-            <ArrowLeft size={15} />
-            Back to Packages
-          </button>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">
-            {isEdit ? "Edit Package" : "New Package"}
-          </h1>
-          <p className="text-purple-200 text-sm mt-1">
-            {isEdit ? "Update the package details below" : "Fill in the details to create a new test series package"}
-          </p>
-        </div>
+    <div className="max-w-3xl space-y-1">
+      {/* ── Page Header ─────────────────────────────────────── */}
+      <div className="mb-5">
+        <button
+          onClick={() => navigate("/admin/test-series")}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-2 transition-colors"
+        >
+          <ArrowLeft size={14} />
+          Back to Packages
+        </button>
+        <h1 className="text-xl font-bold text-gray-800">{isEdit ? "Edit Package" : "New Package"}</h1>
+        <p className="text-sm text-gray-400 mt-0.5">
+          {isEdit ? "Update the package details below" : "Fill in the details to create a new package"}
+        </p>
       </div>
 
-      <div className="max-w-3xl mx-auto px-8 -mt-4 pb-10">
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
 
           {/* ── Basic Info ────────────────────────────────────── */}
           <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-4">
@@ -189,10 +268,10 @@ export default function TestSeriesPackageFormPage() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              {/* E-Test */}
+              {/* Online Test */}
               <div className="bg-purple-50/60 border border-purple-100 rounded-xl p-4">
                 <div className="flex items-center gap-1.5 text-xs font-bold text-purple-700 mb-3 uppercase tracking-wide">
-                  <Smartphone size={12} /> E-Test Series
+                  <Smartphone size={12} /> Online Test Series
                 </div>
                 <div className="space-y-3">
                   <div>
@@ -229,7 +308,7 @@ export default function TestSeriesPackageFormPage() {
                 <div className="flex items-center gap-1.5 text-xs font-bold text-orange-700 mb-1 uppercase tracking-wide">
                   <Package size={12} /> Physical Print
                 </div>
-                <p className="text-xs text-orange-400 mb-3">Includes E-Test · leave blank to disable</p>
+                <p className="text-xs text-orange-400 mb-3">Includes Online Test · leave blank to disable</p>
                 <div className="space-y-3">
                   <div>
                     <label className="text-xs font-semibold text-gray-600 mb-1 block">Selling Price (₹)</label>
@@ -301,6 +380,100 @@ export default function TestSeriesPackageFormPage() {
             <p className="text-xs text-gray-400 mt-2">Press Enter or click Add. These replace the default feature list on the payment screen.</p>
           </div>
 
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-7 h-7 rounded-lg bg-blue-100 flex items-center justify-center">
+                <Image size={14} className="text-blue-600" />
+              </div>
+              <h2 className="font-bold text-gray-800 text-sm uppercase tracking-wide">Package Banners</h2>
+            </div>
+            <p className="text-xs text-gray-400">Shown in the app. Recommended: 16:9 ratio, max 5MB each. You can add multiple banners.</p>
+
+            {/* Current Saved Banners */}
+            {bannerImages.length > 0 && (
+              <div className="space-y-3">
+                {bannerImages.map((b, idx) => (
+                  <div key={idx} className="flex gap-4 p-3 bg-gray-50 border border-gray-100 rounded-2xl group">
+                    <div className="relative w-32 aspect-video rounded-lg overflow-hidden border border-gray-200 shrink-0">
+                      <img
+                        src={`${API_BASE_URL.replace('/api', '')}${b.imageUrl}`}
+                        alt={`Banner ${idx}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleBannerDelete(b)}
+                        className="absolute top-1 right-1 p-1 bg-red-500 hover:bg-red-600 text-white rounded-md shadow opacity-0 group-hover:opacity-100 transition"
+                        title="Remove"
+                      >
+                        <Trash2 size={12} />
+                      </button>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                       <label className="text-[11px] font-bold text-gray-400 uppercase tracking-tight">Redirect URL / App Screen</label>
+                       <input 
+                         type="text"
+                         value={b.redirectUrl || ""}
+                         onChange={(e) => {
+                           const updated = [...bannerImages];
+                           updated[idx] = { ...updated[idx], redirectUrl: e.target.value };
+                           setBannerImages(updated);
+                         }}
+                         placeholder="e.g. https://google.com or Subscription"
+                         className="w-full border border-gray-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-purple-400 bg-white"
+                       />
+                       <p className="text-[10px] text-gray-400">Enter a website URL or an app screen name.</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Previews (New uploads) */}
+            {bannerPreviews.length > 0 && (
+              <div className="grid grid-cols-2 gap-3">
+                {bannerPreviews.map((p, idx) => (
+                  <div key={idx} className="relative rounded-xl overflow-hidden border border-amber-200 bg-amber-50 aspect-video group">
+                    <img
+                      src={p.url}
+                      alt={`Preview ${idx}`}
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemovePreview(idx)}
+                      className="absolute top-2 right-2 p-1.5 bg-red-400 hover:bg-red-500 text-white rounded-lg shadow opacity-0 group-hover:opacity-100 transition"
+                    >
+                      <X size={14} />
+                    </button>
+                    <span className="absolute bottom-2 left-2 text-[10px] bg-amber-500 text-white px-2 py-0.5 rounded-full">New — Save to upload</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <label className="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-100 rounded-xl p-6 cursor-pointer hover:border-purple-300 hover:bg-purple-50/30 transition-all group">
+              <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-purple-100 transition-colors">
+                {bannerUploading ? (
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600" />
+                ) : (
+                  <Plus size={20} className="text-gray-400 group-hover:text-purple-600" />
+                )}
+              </div>
+              <span className="text-sm text-gray-500 font-medium group-hover:text-purple-700">
+                {bannerUploading ? "Uploading..." : "Click to upload banner"}
+              </span>
+              <input 
+                type="file" 
+                accept="image/*" 
+                multiple={!isEdit} 
+                className="hidden" 
+                onChange={handleBannerSelect} 
+                disabled={bannerUploading}
+              />
+            </label>
+          </div>
+
           {/* ── Submit ─────────────────────────────────────────── */}
           <div className="flex gap-3">
             <button type="button" onClick={() => navigate("/admin/test-series")}
@@ -317,8 +490,7 @@ export default function TestSeriesPackageFormPage() {
               {isEdit ? "Save Changes" : "Create Package"}
             </button>
           </div>
-        </form>
-      </div>
+      </form>
     </div>
   );
 }

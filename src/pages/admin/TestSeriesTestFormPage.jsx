@@ -19,6 +19,7 @@ export default function TestSeriesTestFormPage() {
   const [name, setName] = useState("");
   const [duration, setDuration] = useState(200);
   const [videoUrl, setVideoUrl] = useState("");
+  const [syllabus, setSyllabus] = useState("");
   const [subjectConfigs, setSubjectConfigs] = useState(DEFAULT_SUBJECT_CONFIGS);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(isEdit);
@@ -37,6 +38,7 @@ export default function TestSeriesTestFormPage() {
         setName(data.name);
         setDuration(data.duration);
         setVideoUrl(data.videoUrl || "");
+        setSyllabus(data.syllabus || "");
         setFetchedPackageId(data.packageId);
         setSubjectConfigs(
           data.subjectConfigs.length > 0
@@ -79,7 +81,7 @@ export default function TestSeriesTestFormPage() {
 
     setLoading(true);
     try {
-      const payload = { name, duration: Number(duration), totalQuestions, subjectConfigs, videoUrl: videoUrl.trim() || null };
+      const payload = { name, duration: Number(duration), totalQuestions, subjectConfigs, videoUrl: videoUrl.trim() || null, syllabus: syllabus.trim() || null };
 
       if (isEdit) {
         await axios.put(`${API_BASE_URL}/test-series/tests/${testId}`, payload, { headers });
@@ -103,27 +105,26 @@ export default function TestSeriesTestFormPage() {
 
   if (fetching) {
     return (
-      <div className="flex justify-center items-center h-48">
+      <div className="flex items-center justify-center h-48">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-700" />
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <button
-        onClick={() => navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`)}
-        className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 mb-6"
-      >
-        <ArrowLeft size={16} />
-        Back to Tests
-      </button>
+    <div className="max-w-2xl space-y-1">
+      <div className="mb-5">
+        <button
+          onClick={() => navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`)}
+          className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-700 mb-2 transition-colors"
+        >
+          <ArrowLeft size={14} />
+          Back to Tests
+        </button>
+        <h1 className="text-xl font-bold text-gray-800">{isEdit ? "Edit Test" : "Create Test"}</h1>
+      </div>
 
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        {isEdit ? "Edit Test" : "Create Test"}
-      </h1>
-
-      <form onSubmit={handleSubmit} className="space-y-6 bg-white border border-gray-200 rounded-xl p-6">
+      <form onSubmit={handleSubmit} className="space-y-5 bg-white border border-gray-200 rounded-xl p-6">
         {/* Test Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Test Name *</label>
@@ -132,7 +133,7 @@ export default function TestSeriesTestFormPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. NEET Mock Test 1"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
 
@@ -145,7 +146,7 @@ export default function TestSeriesTestFormPage() {
             onChange={(e) => setDuration(e.target.value)}
             min={1}
             placeholder="200"
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
         </div>
 
@@ -160,11 +161,27 @@ export default function TestSeriesTestFormPage() {
             value={videoUrl}
             onChange={(e) => setVideoUrl(e.target.value)}
             placeholder="https://www.youtube.com/watch?v=..."
-            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
           {videoUrl && (
             <p className="mt-1 text-xs text-green-600">✓ Video URL set — users will see a "Video" button after attempting the test</p>
           )}
+        </div>
+
+        {/* Syllabus */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Syllabus
+            <span className="ml-2 text-xs text-gray-400 font-normal">(optional — shown as expandable section on test card)</span>
+          </label>
+          <textarea
+            value={syllabus}
+            onChange={(e) => setSyllabus(e.target.value)}
+            rows={4}
+            placeholder={"Physics: Basic Mathematics\nChemistry: Some Basic Concept of Chemistry\nBiology: Plant Kingdom"}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+          />
+          <p className="mt-1 text-xs text-gray-400">One topic per line, e.g. "Physics: Laws of Motion"</p>
         </div>
 
         {/* Subject Distribution */}
@@ -231,7 +248,7 @@ export default function TestSeriesTestFormPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-2.5 bg-purple-700 text-white rounded-lg hover:bg-purple-800 font-medium text-sm disabled:opacity-60"
+          className="w-full flex items-center justify-center gap-2 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-800 font-semibold text-sm disabled:opacity-60 transition-all"
         >
           {loading ? (
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
@@ -240,7 +257,7 @@ export default function TestSeriesTestFormPage() {
           )}
           {isEdit ? "Save Changes" : "Create Test"}
         </button>
-      </form>
+    </form>
     </div>
   );
 }

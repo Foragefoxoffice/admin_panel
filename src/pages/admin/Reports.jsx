@@ -4,7 +4,7 @@ import {
   updateWrongQuestionReportStatus,
 } from "@/utils/api";
 import { TestContext } from "@/contexts/TestContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import Notification from "@/components/Notification";
 import {
   FiEdit2,
@@ -31,6 +31,7 @@ export default function WrongQuestionReportsPage() {
   });
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [showFilters, setShowFilters] = useState(false);
+  const [activeTab, setActiveTab] = useState("mock");
   const [filters, setFilters] = useState({
     status: "",
     questionId: "",
@@ -40,7 +41,15 @@ export default function WrongQuestionReportsPage() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
   const { setTestData } = useContext(TestContext);
+
+  // Return from TS question edit — restore correct tab
+  useEffect(() => {
+    if (location.state?.activeTab) {
+      setActiveTab(location.state.activeTab);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -61,10 +70,10 @@ export default function WrongQuestionReportsPage() {
 
   useEffect(() => {
     applyFilters();
-  }, [filters, reports]);
+  }, [filters, reports, activeTab]);
 
   const applyFilters = () => {
-    let result = [...reports];
+    let result = [...reports].filter((r) => (r.sourceType || "mock") === activeTab);
 
     if (filters.status) {
       result = result.filter((report) => report.status === filters.status);
@@ -121,14 +130,20 @@ export default function WrongQuestionReportsPage() {
   };
 
   const handleUpdate = useCallback(
-    (questionId, id) => {
-      setTestData({
-        QuestionId: questionId,
-        Page: "report",
-        returnPage: currentPage,
-        ReportId: id,
-      });
-      navigate(`/admin/edit/`);
+    (questionId, id, sourceType) => {
+      if (sourceType === "test-series") {
+        navigate(`/admin/test-series/questions/edit/${questionId}`, {
+          state: { fromReport: true, reportId: id, returnPage: currentPage },
+        });
+      } else {
+        setTestData({
+          QuestionId: questionId,
+          Page: "report",
+          returnPage: currentPage,
+          ReportId: id,
+        });
+        navigate(`/admin/edit/`);
+      }
     },
     [setTestData, navigate, currentPage]
   );
@@ -183,6 +198,30 @@ export default function WrongQuestionReportsPage() {
       <h1 className="text-3xl font-semibold mb-6 text-gray-800">
         ⚠️ Wrong Question Reports
       </h1>
+
+      {/* Tabs */}
+      <div className="flex border-b border-gray-200 mb-6">
+        <button
+          className={`px-4 py-2 font-medium ${
+            activeTab === "mock"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+          onClick={() => { setActiveTab("mock"); setCurrentPage(1); setSearchParams({ page: '1' }); }}
+        >
+          Practice Test Reports
+        </button>
+        <button
+          className={`px-4 py-2 font-medium ${
+            activeTab === "test-series"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-gray-700"
+          }`}
+          onClick={() => { setActiveTab("test-series"); setCurrentPage(1); setSearchParams({ page: '1' }); }}
+        >
+          Test Series Reports
+        </button>
+      </div>
 
       {/* Filter controls */}
       <div className="mb-6">
@@ -340,7 +379,7 @@ export default function WrongQuestionReportsPage() {
 
                         <button
                           onClick={() =>
-                            handleUpdate(report.questionId, report.id)
+                            handleUpdate(report.questionId, report.id, report.sourceType || "mock")
                           }
                           className="text-white p-1 px-2 rounded-sm flex gap-2 hover:text-white transition"
                           title="Edit Question"
