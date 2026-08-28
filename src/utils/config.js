@@ -1,2 +1,2 @@
-export const API_BASE_URL = "https://mitoslearning.in/api";
-export const BASE_URL = "https://mitoslearning.in";
+export const API_BASE_URL = "http://localhost:5008/api";
+export const BASE_URL = "http://localhost:5008";

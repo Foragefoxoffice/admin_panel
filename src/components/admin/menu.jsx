@@ -22,6 +22,7 @@ import {
   FiDownload,
   FiClipboard,
   FiSettings,
+  FiCpu,
 } from "react-icons/fi";
 
 const navItems = [
@@ -171,6 +172,11 @@ const navItems = [
     title: "App Settings",
     icon: <FiSettings size={18} />,
     href: "/admin/settings",
+  },
+  {
+    title: "AI Dictionary",
+    icon: <FiCpu size={18} />,
+    href: "/admin/ai/dictionary",
   },
   {
     title: "Reports",

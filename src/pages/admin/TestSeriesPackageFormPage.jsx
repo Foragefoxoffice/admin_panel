@@ -16,6 +16,7 @@ export default function TestSeriesPackageFormPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isActive, setIsActive] = useState(true);
+  const [isDailyChallenge, setIsDailyChallenge] = useState(false);
   const [price, setPrice] = useState(0);
   const [mrp, setMrp] = useState("");
   const [physicalPrice, setPhysicalPrice] = useState("");
@@ -41,6 +42,7 @@ export default function TestSeriesPackageFormPage() {
         setTitle(data.title);
         setDescription(data.description || "");
         setIsActive(data.isActive);
+        setIsDailyChallenge(!!data.isDailyChallenge);
         setPrice(data.price ?? 0);
         setMrp(data.mrp ?? "");
         setPhysicalPrice(data.physicalPrice ?? "");
@@ -146,7 +148,7 @@ export default function TestSeriesPackageFormPage() {
     e.preventDefault();
     if (!title.trim()) return toast.error("Title is required");
     const payload = {
-      title, description, isActive,
+      title, description, isActive, isDailyChallenge,
       price: Number(price) || 0,
       mrp: mrp !== "" ? Number(mrp) : null,
       physicalPrice: physicalPrice !== "" ? Number(physicalPrice) : null,
@@ -253,6 +255,22 @@ export default function TestSeriesPackageFormPage() {
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} className="sr-only peer" />
+                <div className="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600 shadow-inner" />
+              </label>
+            </div>
+
+            {/* Daily Challenge flag */}
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <div>
+                <p className="text-sm font-semibold text-gray-700">Daily Challenge Package</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {isDailyChallenge
+                    ? "This package's newest test powers the Home screen's \"Today's Test\" card"
+                    : "Only one package can be flagged — enabling this unflags any other"}
+                </p>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked={isDailyChallenge} onChange={(e) => setIsDailyChallenge(e.target.checked)} className="sr-only peer" />
                 <div className="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600 shadow-inner" />
               </label>
             </div>

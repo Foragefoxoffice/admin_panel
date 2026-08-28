@@ -1,6 +1,14 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from "react-router-dom";
-import { fetchAllUsers, updateUserSubscription } from '@/utils/api';
+import {
+  fetchAllUsers,
+  updateUserSubscription,
+  fetchUserTSAccess,
+  grantUserTSPackage,
+  revokeUserTSPackage,
+  grantUserTSBundle,
+  revokeUserTSBundle,
+} from '@/utils/api';
 import toast from 'react-hot-toast';
 
 
@@ -18,7 +26,84 @@ export default function AdminUsersPage() {
   const [editingSub, setEditingSub] = useState(false);
   const [subForm, setSubForm] = useState({});
   const [subSaving, setSubSaving] = useState(false);
+  const [tsAccess, setTsAccess] = useState(null);
+  const [tsLoading, setTsLoading] = useState(false);
+  // Tracks which single control is mid-request — 'bundle' or a packageId —
+  // so only that one button shows a busy state, not the whole section.
+  const [tsActionLoading, setTsActionLoading] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!selectedUser?.id) {
+      setTsAccess(null);
+      return;
+    }
+    let cancelled = false;
+    setTsLoading(true);
+    fetchUserTSAccess(selectedUser.id)
+      .then((data) => { if (!cancelled) setTsAccess(data); })
+      .catch(() => { if (!cancelled) setTsAccess(null); })
+      .finally(() => { if (!cancelled) setTsLoading(false); });
+    return () => { cancelled = true; };
+  }, [selectedUser?.id]);
+
+  const handleGrantBundle = async () => {
+    setTsActionLoading('bundle');
+    try {
+      await grantUserTSBundle(selectedUser.id);
+      setTsAccess((prev) => ({ ...prev, hasBundleAccess: true, bundlePurchasedAt: new Date().toISOString() }));
+      toast.success('Overall Test Series access granted');
+    } catch {
+      toast.error('Failed to grant overall access');
+    } finally {
+      setTsActionLoading(null);
+    }
+  };
+
+  const handleRevokeBundle = async () => {
+    setTsActionLoading('bundle');
+    try {
+      await revokeUserTSBundle(selectedUser.id);
+      setTsAccess((prev) => ({ ...prev, hasBundleAccess: false, bundlePurchasedAt: null }));
+      toast.success('Overall access revoked');
+    } catch {
+      toast.error('Failed to revoke overall access');
+    } finally {
+      setTsActionLoading(null);
+    }
+  };
+
+  const handleGrantPackage = async (pkg) => {
+    setTsActionLoading(pkg.id);
+    try {
+      await grantUserTSPackage(selectedUser.id, pkg.id);
+      setTsAccess((prev) => ({
+        ...prev,
+        packages: prev.packages.map((p) => (p.id === pkg.id ? { ...p, hasAccess: true, purchasedAt: new Date().toISOString() } : p)),
+      }));
+      toast.success(`Access to "${pkg.title}" granted`);
+    } catch {
+      toast.error('Failed to grant access');
+    } finally {
+      setTsActionLoading(null);
+    }
+  };
+
+  const handleRevokePackage = async (pkg) => {
+    setTsActionLoading(pkg.id);
+    try {
+      await revokeUserTSPackage(selectedUser.id, pkg.id);
+      setTsAccess((prev) => ({
+        ...prev,
+        packages: prev.packages.map((p) => (p.id === pkg.id ? { ...p, hasAccess: false, purchasedAt: null } : p)),
+      }));
+      toast.success(`Access to "${pkg.title}" revoked`);
+    } catch {
+      toast.error('Failed to revoke access');
+    } finally {
+      setTsActionLoading(null);
+    }
+  };
 
   const openSubEdit = (user) => {
     setSubForm({
@@ -761,6 +846,78 @@ export default function AdminUsersPage() {
                             </button>
                           ))}
                         </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Test Series Access — independent of Premium/trial above;
+                    access is purchase-row existence, not a status field. */}
+                <div className="md:col-span-2 rounded-xl border-2 border-indigo-200 bg-indigo-50/40 p-4">
+                  <h4 className="text-sm font-bold text-indigo-800 flex items-center gap-2 mb-4">
+                    <span>🎫</span> Test Series Access
+                  </h4>
+
+                  {tsLoading ? (
+                    <p className="text-sm text-gray-500">Loading…</p>
+                  ) : !tsAccess ? (
+                    <p className="text-sm text-gray-500">Failed to load access state.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between bg-white rounded-lg p-3 border-2 border-indigo-300">
+                        <div>
+                          <p className="text-sm font-semibold text-gray-800">Overall Access (all packages)</p>
+                          <p className="text-xs text-gray-500">
+                            {tsAccess.hasBundleAccess
+                              ? `Granted — covers every package, present and future`
+                              : 'Not granted — access is per-package below'}
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => (tsAccess.hasBundleAccess ? handleRevokeBundle() : handleGrantBundle())}
+                          disabled={tsActionLoading === 'bundle'}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold border-2 transition-all disabled:opacity-50 ${
+                            tsAccess.hasBundleAccess
+                              ? 'border-red-400 text-red-700 bg-red-50 hover:bg-red-100'
+                              : 'border-indigo-600 bg-indigo-600 text-white hover:bg-indigo-700'
+                          }`}
+                        >
+                          {tsActionLoading === 'bundle' ? '…' : tsAccess.hasBundleAccess ? 'Revoke' : 'Grant Overall'}
+                        </button>
+                      </div>
+
+                      <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-100 max-h-64 overflow-y-auto">
+                        {tsAccess.packages.length === 0 ? (
+                          <p className="text-sm text-gray-400 p-3">No Test Series packages exist yet.</p>
+                        ) : (
+                          tsAccess.packages.map((pkg) => {
+                            const effectiveAccess = tsAccess.hasBundleAccess || pkg.hasAccess;
+                            return (
+                              <div key={pkg.id} className="flex items-center justify-between px-3 py-2 gap-3">
+                                <div className="min-w-0">
+                                  <p className="text-sm text-gray-800 truncate">{pkg.title}</p>
+                                  <p className="text-xs text-gray-400">₹{pkg.price}{!pkg.isActive && ' · inactive'}</p>
+                                </div>
+                                <button
+                                  onClick={() => (pkg.hasAccess ? handleRevokePackage(pkg) : handleGrantPackage(pkg))}
+                                  disabled={tsActionLoading === pkg.id || (tsAccess.hasBundleAccess && !pkg.hasAccess)}
+                                  title={tsAccess.hasBundleAccess && !pkg.hasAccess ? 'Already covered by overall access' : ''}
+                                  className={`shrink-0 px-3 py-1 rounded-lg text-xs font-semibold border-2 transition-all disabled:opacity-40 ${
+                                    effectiveAccess
+                                      ? 'border-emerald-400 text-emerald-700 bg-emerald-50'
+                                      : 'border-gray-300 text-gray-600 bg-white hover:bg-gray-50'
+                                  } ${pkg.hasAccess ? 'hover:bg-red-50 hover:border-red-400 hover:text-red-700' : ''}`}
+                                >
+                                  {tsActionLoading === pkg.id
+                                    ? '…'
+                                    : effectiveAccess
+                                    ? (pkg.hasAccess ? '✓ Revoke' : '✓ Included')
+                                    : 'Grant'}
+                                </button>
+                              </div>
+                            );
+                          })
+                        )}
                       </div>
                     </div>
                   )}

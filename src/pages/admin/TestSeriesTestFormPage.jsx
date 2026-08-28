@@ -25,6 +25,11 @@ export default function TestSeriesTestFormPage() {
   const [fetching, setFetching] = useState(isEdit);
   const [fetchedPackageId, setFetchedPackageId] = useState(null);
 
+  const [notesUrl, setNotesUrl] = useState("");
+  const [notesFileName, setNotesFileName] = useState("");
+  const [pendingNotesFile, setPendingNotesFile] = useState(null); // create mode — uploaded after the test itself is saved
+  const [notesUploading, setNotesUploading] = useState(false);
+
   const token = localStorage.getItem("token");
   const headers = { Authorization: `Bearer ${token}` };
 
@@ -39,6 +44,8 @@ export default function TestSeriesTestFormPage() {
         setDuration(data.duration);
         setVideoUrl(data.videoUrl || "");
         setSyllabus(data.syllabus || "");
+        setNotesUrl(data.notesUrl || "");
+        setNotesFileName(data.notesFileName || "");
         setFetchedPackageId(data.packageId);
         setSubjectConfigs(
           data.subjectConfigs.length > 0
@@ -71,6 +78,51 @@ export default function TestSeriesTestFormPage() {
     setSubjectConfigs((prev) => prev.filter((_, i) => i !== idx));
   };
 
+  const handleNotesUpload = async (id, file) => {
+    setNotesUploading(true);
+    try {
+      const form = new FormData();
+      form.append("notes", file);
+      const { data } = await axios.post(`${API_BASE_URL}/test-series/tests/${id}/notes`, form, { headers });
+      setNotesUrl(data.notesUrl);
+      setNotesFileName(data.notesFileName);
+      toast.success("Notes uploaded");
+    } catch {
+      toast.error("Failed to upload notes");
+    } finally {
+      setNotesUploading(false);
+    }
+  };
+
+  const handleNotesSelect = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    if (file.type !== "application/pdf") return toast.error("Only PDF files are allowed");
+
+    if (isEdit) {
+      handleNotesUpload(testId, file);
+    } else {
+      setPendingNotesFile(file);
+      setNotesFileName(file.name);
+    }
+  };
+
+  const handleNotesDelete = async () => {
+    if (isEdit) {
+      try {
+        await axios.delete(`${API_BASE_URL}/test-series/tests/${testId}/notes`, { headers });
+        toast.success("Notes removed");
+      } catch {
+        toast.error("Failed to remove notes");
+        return;
+      }
+    }
+    setNotesUrl("");
+    setNotesFileName("");
+    setPendingNotesFile(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim()) return toast.error("Test name is required");
@@ -93,6 +145,7 @@ export default function TestSeriesTestFormPage() {
           payload,
           { headers }
         );
+        if (pendingNotesFile) await handleNotesUpload(data.id, pendingNotesFile);
         toast.success("Test created");
         navigate(`/admin/test-series/${packageId || fetchedPackageId}/tests`);
       }
@@ -182,6 +235,50 @@ export default function TestSeriesTestFormPage() {
             className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
           />
           <p className="mt-1 text-xs text-gray-400">One topic per line, e.g. "Physics: Laws of Motion"</p>
+        </div>
+
+        {/* Test Notes (PDF) */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Test Notes (PDF)
+            <span className="ml-2 text-xs text-gray-400 font-normal">(optional — students can view/download this)</span>
+          </label>
+
+          {notesFileName ? (
+            <div className="flex items-center justify-between border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50">
+              <div className="flex items-center gap-2 min-w-0">
+                {notesUrl ? (
+                  <a
+                    href={`${API_BASE_URL.replace(/\/api$/, "")}${notesUrl}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-purple-700 hover:underline truncate"
+                  >
+                    {notesFileName}
+                  </a>
+                ) : (
+                  <span className="text-sm text-gray-700 truncate">{notesFileName}</span>
+                )}
+                {pendingNotesFile && <span className="text-xs text-orange-500 flex-shrink-0">(will upload on save)</span>}
+              </div>
+              <button
+                type="button"
+                onClick={handleNotesDelete}
+                className="p-1.5 text-gray-400 hover:text-red-500 flex-shrink-0"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          ) : (
+            <label className="flex items-center justify-center gap-2 border-2 border-dashed border-gray-200 rounded-lg px-3 py-4 text-sm text-gray-400 hover:border-purple-300 hover:text-purple-600 cursor-pointer transition-colors">
+              {notesUploading ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-500" />
+              ) : (
+                <>Click to upload PDF notes</>
+              )}
+              <input type="file" accept="application/pdf" onChange={handleNotesSelect} disabled={notesUploading} className="hidden" />
+            </label>
+          )}
         </div>
 
         {/* Subject Distribution */}

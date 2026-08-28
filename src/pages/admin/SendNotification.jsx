@@ -1,6 +1,63 @@
 import React, { useEffect, useState } from "react";
 import { sendAdminNotification, fetchAllUsers } from "../../utils/api";
 
+// Keep in sync with renderTemplate in
+// backend/src/controllers/notificationController.js. The Mark Booster
+// group falls back to friendly generic phrasing (e.g. "your weak
+// subjects") for any recipient who hasn't taken a test yet, so these are
+// safe to use even on a "send to all users" blast.
+const BASIC_VARIABLES = ["{{name}}", "{{email}}", "{{phone}}"];
+const MARK_BOOSTER_VARIABLES = [
+    "{{weakSubject}}",
+    "{{weakSubjectAccuracy}}",
+    "{{weakChapter}}",
+    "{{weakChapterAccuracy}}",
+    "{{weakTopic}}",
+    "{{weakTopicAccuracy}}",
+    "{{overallAccuracy}}",
+    "{{lastScore}}",
+    "{{lastAccuracy}}",
+    "{{totalTestsTaken}}",
+];
+
+// value = the React Navigation route name the app should open on tap.
+// Keep in sync with the resolver in mitoslearning's App.jsx (the three
+// marked routes live inside the bottom tab navigator and need the nested
+// { screen: 'DashboardTabs', params: { screen } } shape — everything else
+// is directly reachable). "" means no deep link, just open the app.
+const DEEP_LINK_SCREENS = [
+    { value: "", label: "No deep link — just open the app" },
+    { value: "Home", label: "Home" },
+    { value: "PracticeHome", label: "Practice" },
+    { value: "TestHome", label: "Test" },
+    { value: "UserAnalytics", label: "Mark Booster / Analytics" },
+    { value: "TestSeriesPackages", label: "Test Series" },
+    { value: "Leaderboard", label: "Leaderboard" },
+    { value: "FavoriteQuestions", label: "Favorite Questions" },
+    { value: "MyTests", label: "Past Tests" },
+    { value: "ErrorBook", label: "Error Book" },
+    { value: "StudyHome", label: "Study Material" },
+    { value: "Notifications", label: "Notifications" },
+    { value: "Subscription", label: "Subscription / Upgrade" },
+];
+
+const VariableHints = () => (
+    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-2 space-y-1.5">
+        <p className="text-xs text-[#51216E] font-medium">
+            💡 Use variables:{" "}
+            {BASIC_VARIABLES.map((v) => (
+                <code key={v} className="bg-white px-2 py-0.5 rounded mr-1">{v}</code>
+            ))}
+        </p>
+        <p className="text-xs text-[#51216E] font-medium">
+            Mark Booster:{" "}
+            {MARK_BOOSTER_VARIABLES.map((v) => (
+                <code key={v} className="bg-white px-2 py-0.5 rounded mr-1">{v}</code>
+            ))}
+        </p>
+    </div>
+);
+
 const SendNotification = () => {
     const [users, setUsers] = useState([]);
     const [sendType, setSendType] = useState('all'); // 'all', 'status', 'date', 'specific'
@@ -12,6 +69,7 @@ const SendNotification = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
+    const [deepLinkScreen, setDeepLinkScreen] = useState("");
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [preview, setPreview] = useState({ title: "", message: "" });
@@ -69,25 +127,27 @@ const SendNotification = () => {
         setShowDropdown(false);
     };
 
-    // Preview message with dummy user
+    // Preview message with dummy user — mirrors renderTemplate in
+    // backend/src/controllers/notificationController.js; keep both in sync
+    // if the variable list changes.
+    const applyPreviewVariables = (text) =>
+        text
+            .replace(/{{name}}/g, "Student")
+            .replace(/{{email}}/g, "student@example.com")
+            .replace(/{{phone}}/g, "+91 9876543210")
+            .replace(/{{weakSubject}}/g, "11th Chemistry")
+            .replace(/{{weakSubjectAccuracy}}/g, "22%")
+            .replace(/{{weakChapter}}/g, "Hydrocarbons")
+            .replace(/{{weakChapterAccuracy}}/g, "22%")
+            .replace(/{{weakTopic}}/g, "Assertion & Reason Questions")
+            .replace(/{{weakTopicAccuracy}}/g, "46%")
+            .replace(/{{overallAccuracy}}/g, "82%")
+            .replace(/{{lastScore}}/g, "335")
+            .replace(/{{lastAccuracy}}/g, "91%")
+            .replace(/{{totalTestsTaken}}/g, "6");
+
     const updatePreview = () => {
-        const fakeUser = {
-            name: "Student",
-            email: "student@example.com",
-            phoneNumber: "+91 9876543210",
-        };
-
-        const replacedTitle = title
-            .replace(/{{name}}/g, fakeUser.name)
-            .replace(/{{email}}/g, fakeUser.email)
-            .replace(/{{phone}}/g, fakeUser.phoneNumber);
-
-        const replacedMessage = message
-            .replace(/{{name}}/g, fakeUser.name)
-            .replace(/{{email}}/g, fakeUser.email)
-            .replace(/{{phone}}/g, fakeUser.phoneNumber);
-
-        setPreview({ title: replacedTitle, message: replacedMessage });
+        setPreview({ title: applyPreviewVariables(title), message: applyPreviewVariables(message) });
     };
 
     // Compute users matching the date filter
@@ -139,6 +199,7 @@ const SendNotification = () => {
             const payload = {
                 title,
                 message,
+                ...(deepLinkScreen ? { deepLinkScreen } : {}),
             };
 
             if (sendType === 'all') {
@@ -146,18 +207,45 @@ const SendNotification = () => {
             } else if (sendType === 'status') {
                 payload.subscriptionStatus = subscriptionStatus;
             } else if (sendType === 'date') {
-                payload.userIds = getDateFilteredUserIds();
+                // The backend recomputes the matching user set itself, fresh,
+                // from dateField/condition/days at the moment Send is clicked
+                // — it does NOT use a client-computed id list. `users` here
+                // is only ever as fresh as whenever this page last loaded, so
+                // trusting it for the actual send meant a stale tab left open
+                // for a while could target the wrong set. getDateFilteredUserIds()
+                // is still used above just to show the live "N users match"
+                // count as you adjust the filter.
+                payload.dateField = dateFilter.field;
+                payload.condition = dateFilter.condition;
+                payload.days = dateFilter.days;
+                // Tells the backend this is a recurring-style campaign — it
+                // now always skips anyone who already received this exact
+                // same title+message before (not just for date-mode sends),
+                // plus a daily per-user cap, regardless of recipientMode. Kept
+                // here for backward-compat clarity in request logs.
+                payload.recipientMode = 'date';
             } else {
                 payload.userIds = selectedUsers;
             }
 
-            await sendAdminNotification(payload, imageFile);
+            const result = await sendAdminNotification(payload, imageFile);
 
-            setAlert({ type: "success", text: "Notification sent successfully!" });
+            const skippedParts = [];
+            if (result?.skippedAlreadyNotified) skippedParts.push(`${result.skippedAlreadyNotified} already notified`);
+            if (result?.skippedDailyCap) skippedParts.push(`${result.skippedDailyCap} hit today's cap`);
+            const skippedNote = skippedParts.length ? ` (skipped: ${skippedParts.join(", ")})` : "";
+
+            setAlert({
+                type: "success",
+                text: result?.totalUsers > 0
+                    ? `Notification sent to ${result.totalUsers} user${result.totalUsers !== 1 ? 's' : ''}${skippedNote}.`
+                    : (result?.message || "Nothing to send — everyone matching already received this.") + skippedNote,
+            });
             setTitle("");
             setMessage("");
             setImageFile(null);
             setImagePreview(null);
+            setDeepLinkScreen("");
             setPreview({ title: "", message: "" });
             setSelectedUsers([]);
             setSearchQuery("");
@@ -194,13 +282,7 @@ const SendNotification = () => {
                     <label className="block text-sm font-bold text-[#35095E] mb-2">
                         Notification Title
                     </label>
-                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-2">
-                        <p className="text-xs text-[#51216E] font-medium">
-                            💡 Use variables: <code className="bg-white px-2 py-0.5 rounded">{"{{name}}"}</code>{" "}
-                            <code className="bg-white px-2 py-0.5 rounded">{"{{email}}"}</code>{" "}
-                            <code className="bg-white px-2 py-0.5 rounded">{"{{phone}}"}</code>
-                        </p>
-                    </div>
+                    <VariableHints />
                     <input
                         className="w-full px-4 py-3 border-2 border-[#282C35] rounded-lg focus:border-[#51216E] focus:ring-2 focus:ring-purple-200 transition-all outline-none"
                         placeholder="e.g., Hello {{name}}, New Update!"
@@ -214,13 +296,7 @@ const SendNotification = () => {
                     <label className="block text-sm font-bold text-[#35095E] mb-2">
                         Message Content
                     </label>
-                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-2">
-                        <p className="text-xs text-[#51216E] font-medium">
-                            💡 Use variables: <code className="bg-white px-2 py-0.5 rounded">{"{{name}}"}</code>{" "}
-                            <code className="bg-white px-2 py-0.5 rounded">{"{{email}}"}</code>{" "}
-                            <code className="bg-white px-2 py-0.5 rounded">{"{{phone}}"}</code>
-                        </p>
-                    </div>
+                    <VariableHints />
                     <textarea
                         className="w-full p-4 border-2 border-[#282C35] rounded-lg focus:border-[#51216E] focus:ring-2 focus:ring-purple-200 transition-all outline-none resize-none"
                         rows={6}
@@ -240,6 +316,25 @@ const SendNotification = () => {
                             Preview
                         </button>
                     </div>
+                </div>
+
+                {/* Deep Link */}
+                <div>
+                    <label className="block text-sm font-bold text-[#35095E] mb-2">
+                        Open Screen on Tap <span className="text-gray-400 font-normal">(optional)</span>
+                    </label>
+                    <select
+                        className="w-full px-4 py-3 border-2 border-[#282C35] rounded-lg focus:border-[#51216E] focus:ring-2 focus:ring-purple-200 transition-all outline-none bg-white"
+                        value={deepLinkScreen}
+                        onChange={(e) => setDeepLinkScreen(e.target.value)}
+                    >
+                        {DEEP_LINK_SCREENS.map((s) => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                        ))}
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                        Tapping the notification (push or in the app's notification list) opens this screen instead of just launching the app.
+                    </p>
                 </div>
 
                 {/* Image Attachment */}

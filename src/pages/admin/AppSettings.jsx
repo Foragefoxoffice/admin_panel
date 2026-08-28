@@ -32,6 +32,10 @@ const AppSettings = () => {
   const [telegramLink, setTelegramLink] = useState("");
   const [trialDays, setTrialDays] = useState("10");
   const [modal, setModal] = useState(DEFAULT_MODAL);
+  const [aiChatDailyCap, setAiChatDailyCap] = useState("100");
+  const [aiChatTrialCap, setAiChatTrialCap] = useState("10");
+  const [aiChatUpgradeMessage, setAiChatUpgradeMessage] = useState("Upgrade to Premium and get 3,000 AI credits every month.");
+  const [notificationDailyCap, setNotificationDailyCap] = useState("5");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -46,6 +50,10 @@ const AppSettings = () => {
           setModal({ ...DEFAULT_MODAL, ...parsed, features: parsed.features ?? DEFAULT_MODAL.features });
         } catch {}
       }
+      if (s.ai_chat_daily_cap) setAiChatDailyCap(s.ai_chat_daily_cap);
+      if (s.ai_chat_trial_cap) setAiChatTrialCap(s.ai_chat_trial_cap);
+      if (s.ai_chat_upgrade_message) setAiChatUpgradeMessage(s.ai_chat_upgrade_message);
+      if (s.notification_daily_cap_per_user) setNotificationDailyCap(s.notification_daily_cap_per_user);
     }).finally(() => setLoading(false));
   }, []);
 
@@ -75,6 +83,10 @@ const AppSettings = () => {
         updateSetting("telegram_link", telegramLink),
         updateSetting("trial_days", trialDays),
         updateSetting("trial_modal", JSON.stringify(modal)),
+        updateSetting("ai_chat_daily_cap", aiChatDailyCap),
+        updateSetting("ai_chat_trial_cap", aiChatTrialCap),
+        updateSetting("ai_chat_upgrade_message", aiChatUpgradeMessage),
+        updateSetting("notification_daily_cap_per_user", notificationDailyCap),
       ]);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
@@ -105,6 +117,32 @@ const AppSettings = () => {
         </Field>
         <Field label="Free Trial Duration (days)" hint="Number shown in the trial popup.">
           <input type="number" min="1" max="365" value={trialDays} onChange={e => setTrialDays(e.target.value)}
+            className={inputCls} style={{ maxWidth: 120 }} />
+        </Field>
+      </div>
+
+      {/* AI Chat Credits */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm mb-6">
+        <h2 className="text-base font-bold text-gray-700 mb-4">AI Chat Credits</h2>
+        <Field label="Premium Daily Credit" hint="How many AI Chat messages a Premium user can send per day. Resets every day.">
+          <input type="number" min="1" value={aiChatDailyCap} onChange={e => setAiChatDailyCap(e.target.value)}
+            className={inputCls} style={{ maxWidth: 120 }} />
+        </Field>
+        <Field label="Trial Total Credit" hint="How many AI Chat messages a Trial user gets for their entire trial. Never resets.">
+          <input type="number" min="1" value={aiChatTrialCap} onChange={e => setAiChatTrialCap(e.target.value)}
+            className={inputCls} style={{ maxWidth: 120 }} />
+        </Field>
+        <Field label="Upgrade Message" hint="Shown to non-Premium users on the AI Chat lock screen.">
+          <input type="text" value={aiChatUpgradeMessage} onChange={e => setAiChatUpgradeMessage(e.target.value)}
+            className={inputCls} />
+        </Field>
+      </div>
+
+      {/* Notifications */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm mb-6">
+        <h2 className="text-base font-bold text-gray-700 mb-4">Notifications</h2>
+        <Field label="Daily Notification Cap Per User" hint="Max push notifications a single user can receive in a rolling 24 hours, across all sends (By Status, By Date, etc). Extra matching users are skipped, not queued.">
+          <input type="number" min="1" value={notificationDailyCap} onChange={e => setNotificationDailyCap(e.target.value)}
             className={inputCls} style={{ maxWidth: 120 }} />
         </Field>
       </div>

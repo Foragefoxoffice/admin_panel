@@ -50,6 +50,10 @@ import TestSeriesPurchasesPage from './pages/admin/TestSeriesPurchasesPage';
 import TestSeriesBannersPage from './pages/admin/TestSeriesBannersPage';
 import SubscriptionFeaturesPage from './pages/admin/SubscriptionFeaturesPage';
 import AppSettings from './pages/admin/AppSettings';
+import AiDictionary from './pages/admin/AiDictionary';
+import TestSeriesAiDictionary from './pages/admin/TestSeriesAiDictionary';
+import AiDictionaryEntries from './pages/admin/AiDictionaryEntries';
+import AiChatUsage from './pages/admin/AiChatUsage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -163,6 +167,12 @@ function App() {
 
             {/* App Settings */}
             <Route path="settings" element={<AppSettings />} />
+
+            {/* AI */}
+            <Route path="ai/dictionary" element={<AiDictionary />} />
+            <Route path="ai/test-series-dictionary" element={<TestSeriesAiDictionary />} />
+            <Route path="ai/dictionary/entries" element={<AiDictionaryEntries />} />
+            <Route path="ai/chat-usage" element={<AiChatUsage />} />
           </Route>
 
           {/* Redirect root to login */}

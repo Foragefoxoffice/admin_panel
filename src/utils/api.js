@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios instance with base URL
 const API = axios.create({
-  baseURL: "https://mitoslearning.in/api",
+  baseURL: "http://localhost:5008/api",
 });
 
 // Interceptor to attach the token with every request
@@ -293,6 +293,57 @@ export const updateUserSubscription = async (id, payload) => {
     return data;
   } catch (error) {
     console.error("Error updating user subscription:", error);
+    throw error;
+  }
+};
+
+// Admin: manually grant/revoke a user's Test Series access
+export const fetchUserTSAccess = async (userId) => {
+  try {
+    const { data } = await API.get(`/test-series/admin/users/${userId}/access`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user TS access:", error);
+    throw error;
+  }
+};
+
+export const grantUserTSPackage = async (userId, packageId) => {
+  try {
+    const { data } = await API.post(`/test-series/admin/users/${userId}/grant-package`, { packageId });
+    return data;
+  } catch (error) {
+    console.error("Error granting TS package access:", error);
+    throw error;
+  }
+};
+
+export const revokeUserTSPackage = async (userId, packageId) => {
+  try {
+    const { data } = await API.delete(`/test-series/admin/users/${userId}/package/${packageId}`);
+    return data;
+  } catch (error) {
+    console.error("Error revoking TS package access:", error);
+    throw error;
+  }
+};
+
+export const grantUserTSBundle = async (userId) => {
+  try {
+    const { data } = await API.post(`/test-series/admin/users/${userId}/grant-bundle`);
+    return data;
+  } catch (error) {
+    console.error("Error granting TS bundle access:", error);
+    throw error;
+  }
+};
+
+export const revokeUserTSBundle = async (userId) => {
+  try {
+    const { data } = await API.delete(`/test-series/admin/users/${userId}/bundle`);
+    return data;
+  } catch (error) {
+    console.error("Error revoking TS bundle access:", error);
     throw error;
   }
 };
@@ -685,6 +736,137 @@ export const deleteSubscriptionFeature = async (id) => {
     return data;
   } catch (error) {
     console.error("Delete feature error:", error);
+    throw error;
+  }
+};
+
+/* ======================================================
+   AI DICTIONARY (ADMIN) — batch generation, run in small
+   chunks, repeatable over time as new questions get added.
+====================================================== */
+
+export const runDictionaryBatch = async (batchSize) => {
+  try {
+    const { data } = await API.post("/ai/dictionary/generate-batch", { batchSize });
+    return data;
+  } catch (error) {
+    console.error("Run Dictionary Batch Error:", error);
+    throw error;
+  }
+};
+
+export const fetchDictionaryProgress = async () => {
+  try {
+    const { data } = await API.get("/ai/dictionary/progress");
+    return data;
+  } catch (error) {
+    console.error("Fetch Dictionary Progress Error:", error);
+    throw error;
+  }
+};
+
+export const startDictionaryAutoRun = async () => {
+  try {
+    const { data } = await API.post("/ai/dictionary/auto/start");
+    return data;
+  } catch (error) {
+    console.error("Start Dictionary Auto Run Error:", error);
+    throw error;
+  }
+};
+
+export const stopDictionaryAutoRun = async () => {
+  try {
+    const { data } = await API.post("/ai/dictionary/auto/stop");
+    return data;
+  } catch (error) {
+    console.error("Stop Dictionary Auto Run Error:", error);
+    throw error;
+  }
+};
+
+export const fetchDictionaryEntries = async (params) => {
+  try {
+    const { data } = await API.get("/ai/dictionary/entries", { params });
+    return data;
+  } catch (error) {
+    console.error("Fetch Dictionary Entries Error:", error);
+    throw error;
+  }
+};
+
+export const retryDictionaryTerm = async (term) => {
+  try {
+    const { data } = await API.post("/ai/dictionary/retry", { term });
+    return data;
+  } catch (error) {
+    console.error("Retry Dictionary Term Error:", error);
+    throw error;
+  }
+};
+
+export const retryFailedDictionaryTerms = async (limit) => {
+  try {
+    const { data } = await API.post("/ai/dictionary/retry-failed", { limit });
+    return data;
+  } catch (error) {
+    console.error("Retry Failed Dictionary Terms Error:", error);
+    throw error;
+  }
+};
+
+/* ======================================================
+   AI DICTIONARY — TEST SERIES — same shape as the regular
+   AI Dictionary batch generation above, separate job reading
+   from the Test Series question bank instead.
+====================================================== */
+
+export const runTestSeriesDictionaryBatch = async (batchSize) => {
+  try {
+    const { data } = await API.post("/ai/test-series-dictionary/generate-batch", { batchSize });
+    return data;
+  } catch (error) {
+    console.error("Run Test Series Dictionary Batch Error:", error);
+    throw error;
+  }
+};
+
+export const fetchTestSeriesDictionaryProgress = async () => {
+  try {
+    const { data } = await API.get("/ai/test-series-dictionary/progress");
+    return data;
+  } catch (error) {
+    console.error("Fetch Test Series Dictionary Progress Error:", error);
+    throw error;
+  }
+};
+
+export const startTestSeriesDictionaryAutoRun = async () => {
+  try {
+    const { data } = await API.post("/ai/test-series-dictionary/auto/start");
+    return data;
+  } catch (error) {
+    console.error("Start Test Series Dictionary Auto Run Error:", error);
+    throw error;
+  }
+};
+
+export const stopTestSeriesDictionaryAutoRun = async () => {
+  try {
+    const { data } = await API.post("/ai/test-series-dictionary/auto/stop");
+    return data;
+  } catch (error) {
+    console.error("Stop Test Series Dictionary Auto Run Error:", error);
+    throw error;
+  }
+};
+
+export const fetchChatUsage = async () => {
+  try {
+    const { data } = await API.get("/ai/chat/usage");
+    return data;
+  } catch (error) {
+    console.error("Fetch Chat Usage Error:", error);
     throw error;
   }
 };

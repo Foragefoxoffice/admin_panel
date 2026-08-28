@@ -27,6 +27,8 @@ import {
   InboxOutlined,
   AppstoreOutlined,
   SettingOutlined,
+  RobotOutlined,
+  DollarCircleOutlined,
 } from '@ant-design/icons';
 import useAuth from '@/contexts/useAuth.jsx';
 
@@ -107,6 +109,17 @@ function buildMenuItems(navigate) {
     { key: '/admin/send-notification', icon: <SendOutlined />,   label: 'Notifications', onClick: go('/admin/send-notification') },
     { key: '/admin/blocks',            icon: <StopOutlined />,     label: 'Blocks',        onClick: go('/admin/blocks') },
     { key: '/admin/settings',          icon: <SettingOutlined />,  label: 'App Settings',  onClick: go('/admin/settings') },
+    {
+      key: 'ai-group',
+      icon: <RobotOutlined />,
+      label: 'AI Tools',
+      children: [
+        { key: '/admin/ai/dictionary',         label: 'Batch Generation', icon: <PlusOutlined />,           onClick: go('/admin/ai/dictionary') },
+        { key: '/admin/ai/test-series-dictionary', label: 'Test Series Batch Generation', icon: <PlusOutlined />, onClick: go('/admin/ai/test-series-dictionary') },
+        { key: '/admin/ai/dictionary/entries', label: 'View Entries',    icon: <UnorderedListOutlined />, onClick: go('/admin/ai/dictionary/entries') },
+        { key: '/admin/ai/chat-usage',         label: 'Chat Usage',      icon: <DollarCircleOutlined />,  onClick: go('/admin/ai/chat-usage') },
+      ],
+    },
     { key: '/admin/reports',           icon: <BarChartOutlined />, label: 'Reports',       onClick: go('/admin/reports') },
     {
       key: 'news-group',
@@ -151,6 +164,7 @@ function getOpenKey(pathname) {
   if (['/admin/free-materials','/admin/free-material-upload'].some(p => pathname.startsWith(p))) return 'free-group';
   if (['/admin/news','/admin/addnews'].some(p => pathname.startsWith(p))) return 'news-group';
   if (['/admin/banners','/admin/addbanners'].some(p => pathname.startsWith(p))) return 'banners-group';
+  if (['/admin/ai/dictionary', '/admin/ai/test-series-dictionary', '/admin/ai/chat-usage'].some(p => pathname.startsWith(p))) return 'ai-group';
   return null;
 }
 
@@ -178,6 +192,10 @@ const PAGE_LABELS = {
   '/admin/addnews':             { label: 'Add News',            icon: <PlusOutlined /> },
   '/admin/banners':             { label: 'Banners',             icon: <PictureOutlined /> },
   '/admin/addbanners':          { label: 'Add Banner',          icon: <PlusOutlined /> },
+  '/admin/ai/dictionary':         { label: 'AI Dictionary — Batch', icon: <RobotOutlined /> },
+  '/admin/ai/test-series-dictionary': { label: 'AI Dictionary — Test Series Batch', icon: <RobotOutlined /> },
+  '/admin/ai/dictionary/entries': { label: 'AI Dictionary — Entries', icon: <UnorderedListOutlined /> },
+  '/admin/ai/chat-usage':        { label: 'AI Chat — Usage & Cost',  icon: <DollarCircleOutlined /> },
   '/admin/test-series':         { label: 'Test Series — Packages',  icon: <SnippetsOutlined /> },
   '/admin/test-series/questions': { label: 'Test Series — Questions', icon: <QuestionCircleOutlined /> },
   '/admin/test-series/purchases':{ label: 'Test Series — Purchases', icon: <ShoppingOutlined /> },
