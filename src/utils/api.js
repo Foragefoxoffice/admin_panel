@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios instance with base URL
 const API = axios.create({
-  baseURL: "http://localhost:5008/api",
+  baseURL: "https://mitoslearning.in/api",
 });
 
 // Interceptor to attach the token with every request
