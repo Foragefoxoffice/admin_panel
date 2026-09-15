@@ -861,6 +861,52 @@ export const stopTestSeriesDictionaryAutoRun = async () => {
   }
 };
 
+/* ======================================================
+   REGIONAL LANGUAGE TRANSLATION (ADMIN) — mirrors the AI
+   Dictionary section above; one controller/job handles both
+   `practice` and `test_series` sources via a `source` param.
+====================================================== */
+
+export const runTranslationBatch = async (source, batchSize) => {
+  try {
+    const { data } = await API.post("/ai/translation/generate-batch", { source, batchSize });
+    return data;
+  } catch (error) {
+    console.error("Run Translation Batch Error:", error);
+    throw error;
+  }
+};
+
+export const fetchTranslationProgress = async () => {
+  try {
+    const { data } = await API.get("/ai/translation/progress");
+    return data;
+  } catch (error) {
+    console.error("Fetch Translation Progress Error:", error);
+    throw error;
+  }
+};
+
+export const fetchTranslationEntries = async (params) => {
+  try {
+    const { data } = await API.get("/ai/translation/entries", { params });
+    return data;
+  } catch (error) {
+    console.error("Fetch Translation Entries Error:", error);
+    throw error;
+  }
+};
+
+export const fetchTranslationLanguages = async () => {
+  try {
+    const { data } = await API.get("/ai/translation/languages");
+    return data;
+  } catch (error) {
+    console.error("Fetch Translation Languages Error:", error);
+    throw error;
+  }
+};
+
 export const fetchChatUsage = async () => {
   try {
     const { data } = await API.get("/ai/chat/usage");

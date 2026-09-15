@@ -117,6 +117,8 @@ function buildMenuItems(navigate) {
         { key: '/admin/ai/dictionary',         label: 'Batch Generation', icon: <PlusOutlined />,           onClick: go('/admin/ai/dictionary') },
         { key: '/admin/ai/test-series-dictionary', label: 'Test Series Batch Generation', icon: <PlusOutlined />, onClick: go('/admin/ai/test-series-dictionary') },
         { key: '/admin/ai/dictionary/entries', label: 'View Entries',    icon: <UnorderedListOutlined />, onClick: go('/admin/ai/dictionary/entries') },
+        { key: '/admin/ai/translation',        label: 'Translation (Hindi)', icon: <PlusOutlined />,      onClick: go('/admin/ai/translation') },
+        { key: '/admin/ai/translation/entries', label: 'Translation Entries', icon: <UnorderedListOutlined />, onClick: go('/admin/ai/translation/entries') },
         { key: '/admin/ai/chat-usage',         label: 'Chat Usage',      icon: <DollarCircleOutlined />,  onClick: go('/admin/ai/chat-usage') },
       ],
     },
@@ -164,7 +166,8 @@ function getOpenKey(pathname) {
   if (['/admin/free-materials','/admin/free-material-upload'].some(p => pathname.startsWith(p))) return 'free-group';
   if (['/admin/news','/admin/addnews'].some(p => pathname.startsWith(p))) return 'news-group';
   if (['/admin/banners','/admin/addbanners'].some(p => pathname.startsWith(p))) return 'banners-group';
-  if (['/admin/ai/dictionary', '/admin/ai/test-series-dictionary', '/admin/ai/chat-usage'].some(p => pathname.startsWith(p))) return 'ai-group';
+  if (['/admin/ai/dictionary', '/admin/ai/test-series-dictionary', '/admin/ai/translation', '/admin/ai/chat-usage'].some(p => pathname.startsWith(p))) return 'ai-group';
+  // (translation/entries is covered by the '/admin/ai/translation' prefix above)
   return null;
 }
 
@@ -195,6 +198,8 @@ const PAGE_LABELS = {
   '/admin/ai/dictionary':         { label: 'AI Dictionary — Batch', icon: <RobotOutlined /> },
   '/admin/ai/test-series-dictionary': { label: 'AI Dictionary — Test Series Batch', icon: <RobotOutlined /> },
   '/admin/ai/dictionary/entries': { label: 'AI Dictionary — Entries', icon: <UnorderedListOutlined /> },
+  '/admin/ai/translation':      { label: 'Regional Language Translation', icon: <RobotOutlined /> },
+  '/admin/ai/translation/entries': { label: 'Translation — Entries', icon: <UnorderedListOutlined /> },
   '/admin/ai/chat-usage':        { label: 'AI Chat — Usage & Cost',  icon: <DollarCircleOutlined /> },
   '/admin/test-series':         { label: 'Test Series — Packages',  icon: <SnippetsOutlined /> },
   '/admin/test-series/questions': { label: 'Test Series — Questions', icon: <QuestionCircleOutlined /> },

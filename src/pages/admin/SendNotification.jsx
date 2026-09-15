@@ -75,6 +75,7 @@ const SendNotification = () => {
     const [preview, setPreview] = useState({ title: "", message: "" });
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState({ type: "", text: "" });
+    const [forceResend, setForceResend] = useState(false);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -151,20 +152,35 @@ const SendNotification = () => {
     };
 
     // Compute users matching the date filter
+    // IST_OFFSET_MS anchors "today" to the India calendar day via pure UTC
+    // arithmetic, matching istTodayStart on the backend (utils/istDate.js)
+    // — rather than this browser's local timezone. Live 2026-09-15: the
+    // backend's date filter used to resolve "today" against the server
+    // process's own OS timezone (not IST), so this preview count (computed
+    // in the admin's browser, usually already IST) silently disagreed with
+    // what the server actually sent to. Anchoring both ends to the same
+    // fixed IST offset keeps this preview accurate for any admin,
+    // regardless of their browser's local timezone.
+    const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000;
+    const istDayStart = (d) => {
+        const ist = new Date(d.getTime() + IST_OFFSET_MS);
+        ist.setUTCHours(0, 0, 0, 0);
+        return ist.getTime() - IST_OFFSET_MS;
+    };
+
     const getDateFilteredUserIds = () => {
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
+        const now = istDayStart(new Date());
         const { field, condition, days } = dateFilter;
         return users
             .filter(u => {
                 const raw = u[field];
                 if (!raw) return false;
-                const d = new Date(raw);
-                d.setHours(0, 0, 0, 0);
+                const d = istDayStart(new Date(raw));
                 const diffDays = Math.round((d - now) / 86400000); // positive = future
                 if (condition === 'in_next') return diffDays >= 0 && diffDays <= days;
                 if (condition === 'expired_within') return diffDays < 0 && diffDays >= -days;
                 if (condition === 'today') return diffDays === 0;
+                if (condition === 'exactly_days_ago') return diffDays === -days;
                 return false;
             })
             .map(u => u.id);
@@ -200,6 +216,7 @@ const SendNotification = () => {
                 title,
                 message,
                 ...(deepLinkScreen ? { deepLinkScreen } : {}),
+                ...(forceResend ? { forceResend: true } : {}),
             };
 
             if (sendType === 'all') {
@@ -221,8 +238,8 @@ const SendNotification = () => {
                 // Tells the backend this is a recurring-style campaign — it
                 // now always skips anyone who already received this exact
                 // same title+message before (not just for date-mode sends),
-                // plus a daily per-user cap, regardless of recipientMode. Kept
-                // here for backward-compat clarity in request logs.
+                // regardless of recipientMode. Kept here for backward-compat
+                // clarity in request logs.
                 payload.recipientMode = 'date';
             } else {
                 payload.userIds = selectedUsers;
@@ -232,13 +249,25 @@ const SendNotification = () => {
 
             const skippedParts = [];
             if (result?.skippedAlreadyNotified) skippedParts.push(`${result.skippedAlreadyNotified} already notified`);
-            if (result?.skippedDailyCap) skippedParts.push(`${result.skippedDailyCap} hit today's cap`);
             const skippedNote = skippedParts.length ? ` (skipped: ${skippedParts.join(", ")})` : "";
+
+            // Real device-delivery outcome, not just "a notification row was
+            // created" — a matched user can have no FCM token saved (never
+            // granted permission / hasn't opened the app recently) or a
+            // stale one (uninstalled/reinstalled), in which case no push
+            // ever reaches their device even though they're counted as
+            // "matched". Surfacing this breaks down what actually happened.
+            const deliveryParts = [];
+            if (result?.delivered != null) deliveryParts.push(`${result.delivered} delivered`);
+            if (result?.noToken) deliveryParts.push(`${result.noToken} no device registered`);
+            if (result?.invalidToken) deliveryParts.push(`${result.invalidToken} stale token`);
+            if (result?.failedOther) deliveryParts.push(`${result.failedOther} failed`);
+            const deliveryNote = deliveryParts.length ? ` (${deliveryParts.join(", ")})` : "";
 
             setAlert({
                 type: "success",
                 text: result?.totalUsers > 0
-                    ? `Notification sent to ${result.totalUsers} user${result.totalUsers !== 1 ? 's' : ''}${skippedNote}.`
+                    ? `Notification sent to ${result.totalUsers} user${result.totalUsers !== 1 ? 's' : ''}${deliveryNote}${skippedNote}.`
                     : (result?.message || "Nothing to send — everyone matching already received this.") + skippedNote,
             });
             setTitle("");
@@ -249,6 +278,7 @@ const SendNotification = () => {
             setPreview({ title: "", message: "" });
             setSelectedUsers([]);
             setSearchQuery("");
+            setForceResend(false);
         } catch (error) {
             setAlert({
                 type: "error",
@@ -316,6 +346,18 @@ const SendNotification = () => {
                             Preview
                         </button>
                     </div>
+                    <label className="flex items-start gap-2 mt-3 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            checked={forceResend}
+                            onChange={(e) => setForceResend(e.target.checked)}
+                            className="mt-0.5 w-4 h-4 text-[#51216E] border-2 border-gray-300 rounded focus:ring-2 focus:ring-purple-200 cursor-pointer"
+                        />
+                        <span className="text-sm text-gray-700">
+                            <span className="font-semibold">Resend anyway</span>
+                            <span className="text-gray-500"> — normally a user is skipped if they already got this exact title+message recently. Check this to send it to them again right now.</span>
+                        </span>
+                    </label>
                 </div>
 
                 {/* Deep Link */}
@@ -532,6 +574,16 @@ const SendNotification = () => {
                                         { label: '⏰ Premium expiring in 3 days', field: 'premiumExpiry',  condition: 'in_next',        days: 3 },
                                         { label: '💔 Trial expired today',        field: 'trialEndsAt',    condition: 'expired_within', days: 1 },
                                         { label: '💔 Premium expired today',      field: 'premiumExpiry',  condition: 'expired_within', days: 1 },
+                                        // exactly_days_ago matches ONE calendar day (days ago, 0 = today)
+                                        // — unlike in_next/expired_within's rolling range, this isolates just
+                                        // the cohort currently on that exact day of their trial, so a staged
+                                        // 10-day drip hits each user once per stage instead of the whole
+                                        // active-trial pool every time it's resent (see 2026-09-15 fix).
+                                        { label: '🎯 Day 1 of trial (today)',     field: 'trialStartedAt', condition: 'exactly_days_ago', days: 0 },
+                                        { label: '🎯 Day 3 of trial',             field: 'trialStartedAt', condition: 'exactly_days_ago', days: 2 },
+                                        { label: '🎯 Day 5 of trial',             field: 'trialStartedAt', condition: 'exactly_days_ago', days: 4 },
+                                        { label: '🎯 Day 7 of trial',             field: 'trialStartedAt', condition: 'exactly_days_ago', days: 6 },
+                                        { label: '🎯 Day 9 of trial',             field: 'trialStartedAt', condition: 'exactly_days_ago', days: 8 },
                                     ].map((p) => {
                                         const active = dateFilter.field === p.field && dateFilter.condition === p.condition && dateFilter.days === p.days;
                                         return (
@@ -578,12 +630,14 @@ const SendNotification = () => {
                                                     <option value="in_next">Starts in next N days</option>
                                                     <option value="expired_within">Started within last N days</option>
                                                     <option value="today">Is today</option>
+                                                    <option value="exactly_days_ago">Exactly on Day N of trial (single day, not a range)</option>
                                                 </>
                                             ) : (
                                                 <>
                                                     <option value="in_next">Expires in next N days</option>
                                                     <option value="expired_within">Expired within last N days</option>
                                                     <option value="today">Is today</option>
+                                                    <option value="exactly_days_ago">Exactly N days ago (single day, not a range)</option>
                                                 </>
                                             )}
                                         </select>
@@ -591,15 +645,20 @@ const SendNotification = () => {
                                     {/* Days */}
                                     {dateFilter.condition !== 'today' && (
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-600 mb-1">Days (N)</label>
+                                            <label className="block text-xs font-semibold text-gray-600 mb-1">
+                                                {dateFilter.condition === 'exactly_days_ago' && dateFilter.field === 'trialStartedAt' ? 'Days since trial start (0 = today = Day 1)' : dateFilter.condition === 'exactly_days_ago' ? 'Days ago (0 = today)' : 'Days (N)'}
+                                            </label>
                                             <input
                                                 type="number"
-                                                min={1}
+                                                min={dateFilter.condition === 'exactly_days_ago' ? 0 : 1}
                                                 max={365}
                                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400"
                                                 value={dateFilter.days}
-                                                onChange={e => setDateFilter(f => ({ ...f, days: Math.max(1, Number(e.target.value)) }))}
+                                                onChange={e => setDateFilter(f => ({ ...f, days: Math.max(dateFilter.condition === 'exactly_days_ago' ? 0 : 1, Number(e.target.value)) }))}
                                             />
+                                            {dateFilter.condition === 'exactly_days_ago' && dateFilter.field === 'trialStartedAt' && (
+                                                <p className="text-xs text-gray-400 mt-1">= Day {dateFilter.days + 1} of trial</p>
+                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -630,6 +689,13 @@ const SendNotification = () => {
                                                     : `Trial expired within the last ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''}`
                                         )}
                                         {dateFilter.condition === 'today' && `${dateFilter.field === 'trialStartedAt' ? 'Trial started' : dateFilter.field === 'trialEndsAt' ? 'Trial ends' : 'Premium expires'} today`}
+                                        {dateFilter.condition === 'exactly_days_ago' && (
+                                            dateFilter.field === 'trialStartedAt'
+                                                ? `Exactly Day ${dateFilter.days + 1} of trial — one day only, not a range`
+                                                : dateFilter.field === 'premiumExpiry'
+                                                    ? `Premium expired exactly ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''} ago — one day only, not a range`
+                                                    : `Trial ended exactly ${dateFilter.days} day${dateFilter.days !== 1 ? 's' : ''} ago — one day only, not a range`
+                                        )}
                                     </p>
                                 </div>
                             </div>

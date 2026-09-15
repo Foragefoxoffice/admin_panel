@@ -54,6 +54,8 @@ import AiDictionary from './pages/admin/AiDictionary';
 import TestSeriesAiDictionary from './pages/admin/TestSeriesAiDictionary';
 import AiDictionaryEntries from './pages/admin/AiDictionaryEntries';
 import AiChatUsage from './pages/admin/AiChatUsage';
+import Translation from './pages/admin/Translation';
+import TranslationEntries from './pages/admin/TranslationEntries';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -172,6 +174,8 @@ function App() {
             <Route path="ai/dictionary" element={<AiDictionary />} />
             <Route path="ai/test-series-dictionary" element={<TestSeriesAiDictionary />} />
             <Route path="ai/dictionary/entries" element={<AiDictionaryEntries />} />
+            <Route path="ai/translation" element={<Translation />} />
+            <Route path="ai/translation/entries" element={<TranslationEntries />} />
             <Route path="ai/chat-usage" element={<AiChatUsage />} />
           </Route>
 

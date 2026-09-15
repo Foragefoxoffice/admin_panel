@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Trash2, Globe, Smartphone, Monitor, Filter, AlertCircle, Check, Loader2 } from 'lucide-react';
+import { FaAndroid, FaApple } from 'react-icons/fa';
 import { API_BASE_URL } from '@/utils/config';
 
 const SEGMENT_LABELS = {
@@ -94,9 +95,19 @@ export default function BannerListPage() {
         switch (platform) {
             case 'WEB_DESKTOP': return <Monitor size={14} />;
             case 'WEB_MOBILE': return <Globe size={14} />;
-            case 'MOBILE_APP': return <Smartphone size={14} />;
+            case 'MOBILE_APP': return <Smartphone size={14} />; // legacy "both platforms" banners
+            case 'MOBILE_APP_ANDROID': return <FaAndroid size={14} />;
+            case 'MOBILE_APP_IOS': return <FaApple size={14} />;
             default: return null;
         }
+    };
+
+    const PLATFORM_FILTER_LABELS = {
+        WEB_DESKTOP: 'Desktop',
+        WEB_MOBILE: 'Mobile Web',
+        MOBILE_APP: 'Legacy App',
+        MOBILE_APP_ANDROID: 'Android',
+        MOBILE_APP_IOS: 'iOS',
     };
 
     return (
@@ -160,14 +171,14 @@ export default function BannerListPage() {
                         />
                     </div>
                     <div className="flex gap-2 bg-gray-50 p-1 rounded-xl">
-                        {['ALL', 'WEB_DESKTOP', 'WEB_MOBILE', 'MOBILE_APP'].map((f) => (
+                        {['ALL', 'WEB_DESKTOP', 'WEB_MOBILE', 'MOBILE_APP_ANDROID', 'MOBILE_APP_IOS', 'MOBILE_APP'].map((f) => (
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
                                 className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${filter === f ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
-                                {f === 'ALL' ? 'All' : f.split('_')[1] || f}
+                                {f === 'ALL' ? 'All' : PLATFORM_FILTER_LABELS[f] || f}
                             </button>
                         ))}
                     </div>

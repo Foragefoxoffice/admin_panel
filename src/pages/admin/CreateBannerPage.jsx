@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, X, Layout, Smartphone, Globe, CheckCircle, ArrowRight, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Upload, X, Layout, Globe, CheckCircle, ArrowRight, Loader2, Image as ImageIcon } from 'lucide-react';
+import { FaAndroid, FaApple } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_BASE_URL } from '@/utils/config';
 
@@ -18,6 +19,14 @@ const PlatformCard = ({ icon: Icon, label, value, selected, onClick }) => (
         <span className="text-sm font-medium">{label}</span>
     </motion.div>
 );
+
+const PLATFORM_LABELS = {
+    WEB_DESKTOP: 'DESKTOP',
+    WEB_MOBILE: 'MOBILE WEB',
+    MOBILE_APP: 'NATIVE APP (LEGACY)',
+    MOBILE_APP_ANDROID: 'ANDROID',
+    MOBILE_APP_IOS: 'IOS',
+};
 
 const UserTargetCard = ({ label, value, checked, onChange }) => (
     <div
@@ -49,7 +58,7 @@ export default function CreateBannerPage() {
         title: '',
         redirectUrl: '',
         isActive: true,
-        platform: 'MOBILE_APP',
+        platform: 'WEB_DESKTOP',
         targetUsers: ['ALL'],
         priority: 0,
         section: defaultSection,
@@ -194,7 +203,11 @@ export default function CreateBannerPage() {
                             {/* Platform Selection */}
                             <div className="space-y-3">
                                 <label className="text-sm font-semibold text-gray-700">Display Platform</label>
-                                <div className="grid grid-cols-3 gap-3">
+                                {/* "Native App" (MOBILE_APP, shows on both) replaced with separate
+                                    Android/iOS options — existing banners already saved with the
+                                    old value keep working (mobile app's filter still recognizes
+                                    it), this just changes what NEW banners can target. */}
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                     <PlatformCard
                                         icon={Layout}
                                         label="Desktop"
@@ -210,10 +223,17 @@ export default function CreateBannerPage() {
                                         onClick={(v) => setForm({ ...form, platform: v })}
                                     />
                                     <PlatformCard
-                                        icon={Smartphone}
-                                        label="Native App"
-                                        value="MOBILE_APP"
-                                        selected={form.platform === 'MOBILE_APP'}
+                                        icon={FaAndroid}
+                                        label="Android"
+                                        value="MOBILE_APP_ANDROID"
+                                        selected={form.platform === 'MOBILE_APP_ANDROID'}
+                                        onClick={(v) => setForm({ ...form, platform: v })}
+                                    />
+                                    <PlatformCard
+                                        icon={FaApple}
+                                        label="iOS"
+                                        value="MOBILE_APP_IOS"
+                                        selected={form.platform === 'MOBILE_APP_IOS'}
                                         onClick={(v) => setForm({ ...form, platform: v })}
                                     />
                                 </div>
@@ -371,7 +391,7 @@ export default function CreateBannerPage() {
                             </div>
 
                             <div className="text-center mt-6 text-gray-400 text-sm">
-                                Previewing for <span className="text-gray-600 font-medium">{form.platform.replace('_', ' ')}</span>
+                                Previewing for <span className="text-gray-600 font-medium">{PLATFORM_LABELS[form.platform] || form.platform}</span>
                             </div>
                         </div>
                     </div>
