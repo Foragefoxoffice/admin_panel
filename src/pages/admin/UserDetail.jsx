@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchUserById } from '@/utils/api';
+import { fetchUserById, fetchSalesConversations } from '@/utils/api';
 
 export default function UserDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [salesConversation, setSalesConversation] = useState(null);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -21,6 +22,19 @@ export default function UserDetailsPage() {
     };
 
     if (id) loadUser();
+  }, [id]);
+
+  useEffect(() => {
+    const loadSalesConversation = async () => {
+      try {
+        const data = await fetchSalesConversations({ userId: id, pageSize: 1 });
+        setSalesConversation(data.conversations?.[0] || null);
+      } catch (err) {
+        console.error('Failed to check WhatsApp sales conversation:', err);
+      }
+    };
+
+    if (id) loadSalesConversation();
   }, [id]);
 
   if (loading) return <div className="flex flex-col items-center gap-4">
@@ -81,6 +95,22 @@ export default function UserDetailsPage() {
           />
         </div>
       </div>
+
+      {salesConversation && (
+        <button
+          type="button"
+          onClick={() => navigate(`/admin/sales-agent/conversations/${salesConversation.id}`)}
+          className="mt-6 w-full text-left bg-white shadow rounded-xl p-4 flex items-center justify-between hover:bg-purple-50"
+        >
+          <div>
+            <p className="font-semibold text-[#35095E]">WhatsApp Sales Conversation</p>
+            <p className="text-sm text-gray-500">
+              Stage: {salesConversation.lead?.stage || '—'} · {salesConversation.lastMessagePreview || 'No messages yet'}
+            </p>
+          </div>
+          <span className="text-[#51216E]">View →</span>
+        </button>
+      )}
     </div>
   );
 }

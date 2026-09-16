@@ -53,6 +53,10 @@ import AppSettings from './pages/admin/AppSettings';
 import AiDictionary from './pages/admin/AiDictionary';
 import TestSeriesAiDictionary from './pages/admin/TestSeriesAiDictionary';
 import AiDictionaryEntries from './pages/admin/AiDictionaryEntries';
+import SalesAgentConversations from './pages/admin/SalesAgentConversations';
+import SalesAgentConversationDetail from './pages/admin/SalesAgentConversationDetail';
+import SalesAgentCampaigns from './pages/admin/SalesAgentCampaigns';
+import SalesAgentCampaignNew from './pages/admin/SalesAgentCampaignNew';
 import AiChatUsage from './pages/admin/AiChatUsage';
 import Translation from './pages/admin/Translation';
 import TranslationEntries from './pages/admin/TranslationEntries';
@@ -177,6 +181,10 @@ function App() {
             <Route path="ai/translation" element={<Translation />} />
             <Route path="ai/translation/entries" element={<TranslationEntries />} />
             <Route path="ai/chat-usage" element={<AiChatUsage />} />
+            <Route path="sales-agent/conversations" element={<SalesAgentConversations />} />
+            <Route path="sales-agent/conversations/:id" element={<SalesAgentConversationDetail />} />
+            <Route path="sales-agent/campaigns" element={<SalesAgentCampaigns />} />
+            <Route path="sales-agent/campaigns/new" element={<SalesAgentCampaignNew />} />
           </Route>
 
           {/* Redirect root to login */}

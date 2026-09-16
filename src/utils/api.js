@@ -927,5 +927,85 @@ export const updateSetting = async (key, value) => {
   return data;
 };
 
+export const fetchSalesConversations = async (params) => {
+  try {
+    const { data } = await API.get("/sales-agent/admin/conversations", { params });
+    return data;
+  } catch (error) {
+    console.error("Fetch Sales Conversations Error:", error);
+    throw error;
+  }
+};
+
+export const fetchSalesConversationDetail = async (id) => {
+  try {
+    const { data } = await API.get(`/sales-agent/admin/conversations/${id}`);
+    return data;
+  } catch (error) {
+    console.error("Fetch Sales Conversation Detail Error:", error);
+    throw error;
+  }
+};
+
+export const setSalesConversationTakeover = async (id, takeover) => {
+  try {
+    const { data } = await API.post(`/sales-agent/admin/conversations/${id}/takeover`, { takeover });
+    return data;
+  } catch (error) {
+    console.error("Set Sales Conversation Takeover Error:", error);
+    throw error;
+  }
+};
+
+export const fetchSalesTemplates = async () => {
+  try {
+    const { data } = await API.get("/sales-agent/admin/templates");
+    return data;
+  } catch (error) {
+    console.error("Fetch Sales Templates Error:", error);
+    throw error;
+  }
+};
+
+export const searchSalesRecipientUsers = async (q) => {
+  try {
+    const { data } = await API.get("/sales-agent/admin/user-search", { params: { q } });
+    return data;
+  } catch (error) {
+    console.error("Search Sales Recipient Users Error:", error);
+    throw error;
+  }
+};
+
+export const createSalesCampaign = async (payload) => {
+  try {
+    const { data } = await API.post("/sales-agent/admin/campaigns", payload);
+    return data;
+  } catch (error) {
+    console.error("Create Sales Campaign Error:", error);
+    throw error;
+  }
+};
+
+export const fetchSalesCampaigns = async () => {
+  try {
+    const { data } = await API.get("/sales-agent/admin/campaigns");
+    return data;
+  } catch (error) {
+    console.error("Fetch Sales Campaigns Error:", error);
+    throw error;
+  }
+};
+
+export const fetchRecipientCandidates = async (params) => {
+  try {
+    const { data } = await API.get("/sales-agent/admin/recipient-candidates", { params });
+    return data;
+  } catch (error) {
+    console.error("Fetch Recipient Candidates Error:", error);
+    throw error;
+  }
+};
+
 export default API;
 

@@ -29,6 +29,7 @@ import {
   SettingOutlined,
   RobotOutlined,
   DollarCircleOutlined,
+  MessageOutlined,
 } from '@ant-design/icons';
 import useAuth from '@/contexts/useAuth.jsx';
 
@@ -120,6 +121,8 @@ function buildMenuItems(navigate) {
         { key: '/admin/ai/translation',        label: 'Translation (Hindi)', icon: <PlusOutlined />,      onClick: go('/admin/ai/translation') },
         { key: '/admin/ai/translation/entries', label: 'Translation Entries', icon: <UnorderedListOutlined />, onClick: go('/admin/ai/translation/entries') },
         { key: '/admin/ai/chat-usage',         label: 'Chat Usage',      icon: <DollarCircleOutlined />,  onClick: go('/admin/ai/chat-usage') },
+        { key: '/admin/sales-agent/conversations', label: 'WhatsApp Sales Conversations', icon: <MessageOutlined />, onClick: go('/admin/sales-agent/conversations') },
+        { key: '/admin/sales-agent/campaigns', label: 'WhatsApp Sales Campaigns', icon: <SendOutlined />, onClick: go('/admin/sales-agent/campaigns') },
       ],
     },
     { key: '/admin/reports',           icon: <BarChartOutlined />, label: 'Reports',       onClick: go('/admin/reports') },
@@ -166,7 +169,7 @@ function getOpenKey(pathname) {
   if (['/admin/free-materials','/admin/free-material-upload'].some(p => pathname.startsWith(p))) return 'free-group';
   if (['/admin/news','/admin/addnews'].some(p => pathname.startsWith(p))) return 'news-group';
   if (['/admin/banners','/admin/addbanners'].some(p => pathname.startsWith(p))) return 'banners-group';
-  if (['/admin/ai/dictionary', '/admin/ai/test-series-dictionary', '/admin/ai/translation', '/admin/ai/chat-usage'].some(p => pathname.startsWith(p))) return 'ai-group';
+  if (['/admin/ai/dictionary', '/admin/ai/test-series-dictionary', '/admin/ai/translation', '/admin/ai/chat-usage', '/admin/sales-agent'].some(p => pathname.startsWith(p))) return 'ai-group';
   // (translation/entries is covered by the '/admin/ai/translation' prefix above)
   return null;
 }
@@ -201,6 +204,9 @@ const PAGE_LABELS = {
   '/admin/ai/translation':      { label: 'Regional Language Translation', icon: <RobotOutlined /> },
   '/admin/ai/translation/entries': { label: 'Translation — Entries', icon: <UnorderedListOutlined /> },
   '/admin/ai/chat-usage':        { label: 'AI Chat — Usage & Cost',  icon: <DollarCircleOutlined /> },
+  '/admin/sales-agent/conversations': { label: 'WhatsApp Sales Conversations', icon: <MessageOutlined /> },
+  '/admin/sales-agent/campaigns': { label: 'WhatsApp Sales Campaigns', icon: <SendOutlined /> },
+  '/admin/sales-agent/campaigns/new': { label: 'WhatsApp Sales — New Campaign', icon: <SendOutlined /> },
   '/admin/test-series':         { label: 'Test Series — Packages',  icon: <SnippetsOutlined /> },
   '/admin/test-series/questions': { label: 'Test Series — Questions', icon: <QuestionCircleOutlined /> },
   '/admin/test-series/purchases':{ label: 'Test Series — Purchases', icon: <ShoppingOutlined /> },
@@ -214,6 +220,7 @@ function getPageInfo(pathname) {
   if (pathname.includes('/test-series/') && pathname.includes('/edit'))  return { label: 'Test Series — Edit Package', icon: <SnippetsOutlined /> };
   if (pathname.includes('/neet-plans/edit')) return { label: 'Edit NEET Plan', icon: <CrownOutlined /> };
   if (pathname.includes('/user/'))           return { label: 'User Detail', icon: <UserOutlined /> };
+  if (pathname.startsWith('/admin/sales-agent/conversations/')) return { label: 'WhatsApp Sales — Conversation', icon: <MessageOutlined /> };
   return { label: 'Dashboard', icon: <AppstoreOutlined /> };
 }
 
@@ -260,8 +267,13 @@ export default function AdminLayout() {
           flexDirection: 'column',
           boxShadow: '6px 0 32px rgba(61,26,92,0.28)',
           transition: 'width 0.22s cubic-bezier(0.4,0,0.2,1)',
+          overflow: 'hidden',
         }}
       >
+        {/* Flex wrapper — antd inserts a plain block wrapper (.ant-layout-sider-children)
+            between Sider and its children, so flex styles must start here, not on Sider itself. */}
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+
         {/* Decorative blur orb */}
         <div style={{
           position: 'absolute', top: -60, right: -60,
@@ -313,7 +325,7 @@ export default function AdminLayout() {
         </div>
 
         {/* Scrollable menu */}
-        <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', paddingTop: 8, paddingBottom: 8 }}>
+        <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', overflowX: 'hidden', paddingTop: 8, paddingBottom: 8 }}>
           <Menu
             mode="inline"
             selectedKeys={[selectedKey]}
@@ -351,6 +363,7 @@ export default function AdminLayout() {
           >
             {!collapsed && <span style={{ fontSize: 12, fontWeight: 500 }}>Collapse sidebar</span>}
           </Button>
+        </div>
         </div>
       </Sider>
 
